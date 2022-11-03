@@ -36,7 +36,7 @@
 
 
 // ******* Tron *******
-import TronWeb from 'tronweb/dist/TronWeb.js';
+// import TronWeb from 'tronweb/dist/TronWeb.js';
 // import createKeccakHash from 'keccak';
 // import TronWeb from 'tronweb';
 // const TronWeb = require('tronweb')
@@ -44,7 +44,8 @@ import TronWeb from 'tronweb/dist/TronWeb.js';
 
 import React, {useEffect, useState, useContext } from 'react';
 import { StyleSheet, View, Platform } from "react-native";
-// import { GovProvider } from "./src/context/GovContext";
+
+import { GovProvider } from "./src/context/GovContext";
 
 import { Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
@@ -95,28 +96,21 @@ const BottomTab = createBottomTabNavigator();
 
 // ******* Tron *******
 //Smart Contracts
-import Library_raw from './src/Abis/Library.json';     
-const library_ABI = Library_raw.abi;
-const libraryContractAddress = 'TFP7zZiz9NFKxoXUCGLG7tXfHT5GzqZnyC' // Paste Contract address here
+// import Library_raw from './src/Abis/Library.json';     
+// const library_ABI = Library_raw.abi;
+// const libraryContractAddress = 'TFP7zZiz9NFKxoXUCGLG7tXfHT5GzqZnyC' // Paste Contract address here
 // const sc_channels  =  new ethers.Contract( SC_NTT54_CHANNELS_ADDRESS  , channels_raw.abi , newSigner);
 
 // ****************************************************************************
-import TronGovernance_raw from './src/Abis/tronGovernance.json';     
-const tronGovernance_ABI = TronGovernance_raw.abi;
-const tronGovernanceContractAddress = "TBHLsbmX2mhSyWjXdh1fciCmHNbXHca8Yy";
+// import TronGovernance_raw from './src/Abis/tronGovernance.json';     
+// const tronGovernance_ABI = TronGovernance_raw.abi;
+// const tronGovernanceContractAddress = "TBHLsbmX2mhSyWjXdh1fciCmHNbXHca8Yy";
+// let tronGovernanceContract;
 
 // ****************************************************************************
-let account = null;
-let libraryContract;
-let bookRentContract = null
-
-
-
-
-
-
-
-
+// let account = null;
+// let libraryContract;
+// let bookRentContract = null
 
 
 
@@ -125,11 +119,11 @@ let bookRentContract = null
 export default function App() {
   // export default () => {
     
-    const [tronWeb_server, setTronWeb_server]   = useState();
+    //#region TRON    
+    // const [tronWeb_server, setTronWeb_server]   = useState();
     // const [tronWalletConnected, setTronWalletConnected]   = useState(false);
     
     
-    //#region TRON    
         // //Source: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
         // const toChecksumAddress = (address) => {
         //   address = address.toLowerCase().replace('0x', '')
@@ -180,16 +174,16 @@ export default function App() {
         //   bookRentContract = await window.tronWeb.contract().at(libraryContractAddress);
         // }
     
-        const postBookInfo = async (name, description, price) => {
-          // feeLimit:100_000_000,
-          const result = await bookRentContract.addBook(name,description,price).send({
-            feeLimit:100000000,
-            callValue:0,
-            shouldPollResponse:true
-          });
+        // const postBookInfo = async (name, description, price) => {
+        //   // feeLimit:100_000_000,
+        //   const result = await bookRentContract.addBook(name,description,price).send({
+        //     feeLimit:100000000,
+        //     callValue:0,
+        //     shouldPollResponse:true
+        //   });
         
-          alert('Book Posted Successfully')
-        }
+        //   alert('Book Posted Successfully')
+        // }
     
         // const borrowBook = async (spaceId, checkInDate, checkOutDate, totalPrice) => {
         //   // TODO: call borrowBook func of library contract
@@ -203,116 +197,130 @@ export default function App() {
         //   alert('Property Booked Successfully')
         // }
     
-        const fetchAllBooks = async () => {
-          const books = [];
+        // const fetchAllBooks = async () => {
+        //   const books = [];
         
-          const bookId  = await bookRentContract.bookId().call();
-          for (let i = 0; i < bookId; i++){
-            const book = await bookRentContract.books(i).call()
-            if(book.name!="") // filter the deleted books
-            {
-              books.push(
-                {id: i,name: book.name,description: book.description,price: tronWeb_server.fromSun(book.price)}
-              )
-            }
+        //   const bookId  = await bookRentContract.bookId().call();
+        //   for (let i = 0; i < bookId; i++){
+        //     const book = await bookRentContract.books(i).call()
+        //     if(book.name!="") // filter the deleted books
+        //     {
+        //       books.push(
+        //         {id: i,name: book.name,description: book.description,price: tronWeb_server.fromSun(book.price)}
+        //       )
+        //     }
             
-          }
-          return books
-        }
-    //#endregion TRON    
+        //   }
+        //   return books
+        // }
     
     // useEffect(() => {
       //   getTronWeb();
       // },[]);
       
-    useEffect(() => {
+    // useEffect(() => {
         
-      const initiateTron = async () => {
-        // //TESTING Address Conversions
-        // const resultCheckSumAddress = toChecksumAddress('0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359');
-        // console.log(`*** resultCheckSumAddress *** : ${resultCheckSumAddress}`); //0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359
-        // const TronAddress = "TVm22VuHmhxAuxN9f1LfpmrJTWS8aAYG9R";
-        // const ethereum_Tronaddress = convertAddress_TronToEthereum(TronAddress);  
-        // const tron_Ethereumaddress = convertAddress_EthereumToTron(ethereum_Tronaddress);
-        // console.log(`TronAddress: ${TronAddress} ethereum_Tronaddress: ${ethereum_Tronaddress} tron_Ethereumaddress: ${tron_Ethereumaddress}`);
+    //   const initiateTron = async () => {
+    //     // //TESTING Address Conversions
+    //     // const resultCheckSumAddress = toChecksumAddress('0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359');
+    //     // console.log(`*** resultCheckSumAddress *** : ${resultCheckSumAddress}`); //0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359
+    //     // const TronAddress = "TVm22VuHmhxAuxN9f1LfpmrJTWS8aAYG9R";
+    //     // const ethereum_Tronaddress = convertAddress_TronToEthereum(TronAddress);  
+    //     // const tron_Ethereumaddress = convertAddress_EthereumToTron(ethereum_Tronaddress);
+    //     // console.log(`TronAddress: ${TronAddress} ethereum_Tronaddress: ${ethereum_Tronaddress} tron_Ethereumaddress: ${tron_Ethereumaddress}`);
         
         
-        // ***** THE SECTION BELOW IS FOR THE SERVER TO BE RUN ***** START //
-        console.log(`Setting Up HttpProvider`);
-        const HttpProvider = TronWeb.providers.HttpProvider;
-        const fullNode = new HttpProvider("https://api.nileex.io");
-        const solidityNode = new HttpProvider("https://api.nileex.io");
-        const eventServer = new HttpProvider("https://api.nileex.io");
-        console.log(`Setting Up privateKey`);
-        //SERVER public key = "TCWNqQsbojjsey8jTEJgsC2RiPGyRzA5GA"
-        //SERVER private key = "bb4a09b98dfa5e263011c4023a2075c16c0a0ef961d32e7f28bd1eb1d4ad377b"
-        const privateKey = "bb4a09b98dfa5e263011c4023a2075c16c0a0ef961d32e7f28bd1eb1d4ad377b";
+    //     // ***** THE SECTION BELOW IS FOR THE SERVER TO BE RUN ***** START //
+    //     console.log(`Setting Up HttpProvider`);
+    //     const HttpProvider = TronWeb.providers.HttpProvider;
+    //     const fullNode = new HttpProvider("https://api.nileex.io");
+    //     const solidityNode = new HttpProvider("https://api.nileex.io");
+    //     const eventServer = new HttpProvider("https://api.nileex.io");
+    //     console.log(`Setting Up privateKey`);
+    //     //SERVER public key = "TCWNqQsbojjsey8jTEJgsC2RiPGyRzA5GA"
+    //     //SERVER private key = "bb4a09b98dfa5e263011c4023a2075c16c0a0ef961d32e7f28bd1eb1d4ad377b"
+    //     const privateKey = "bb4a09b98dfa5e263011c4023a2075c16c0a0ef961d32e7f28bd1eb1d4ad377b";
         
-        console.log(`Setting Up fullHost`);
-        setTronWeb_server(new TronWeb(fullNode,solidityNode,eventServer,privateKey));
-        // tronWeb_server = new TronWeb(fullNode,solidityNode,eventServer,privateKey);
-        // tronWeb.setHeader({"TRON-PRO-API-KEY": 'your api key'});
-      }
+    //     console.log(`Setting Up fullHost`);
+    //     setTronWeb_server(new TronWeb(fullNode,solidityNode,eventServer,privateKey));
+    //     // tronWeb_server = new TronWeb(fullNode,solidityNode,eventServer,privateKey);
+    //     // tronWeb.setHeader({"TRON-PRO-API-KEY": 'your api key'});
+    //   }
       
-      initiateTron();
-      // if (tronWalletConnected) getBooks();
-    // },[tronWalletConnected]);
-    },[]);
+    //   initiateTron();
+    //   // if (tronWalletConnected) getBooks();
+    // // },[tronWalletConnected]);
+    // },[]);
   
   
-    useEffect(() => {
+    // useEffect(() => {
   
-      const performTronWebActions = async () => {
+    //   const performTronWebActions = async () => {
         
-        // bookRentContract = await tronWeb_server.contract().at(libraryContractAddress);
-        //ALTERNATIVELY USING ABI
-        bookRentContract = await tronWeb_server.contract(library_ABI, libraryContractAddress);
+    //     // bookRentContract = await tronWeb_server.contract().at(libraryContractAddress);
+    //     //ALTERNATIVELY USING ABI
+    //     // bookRentContract = await tronWeb_server.contract(library_ABI, libraryContractAddress);
 
 
-        const bookId  = await bookRentContract.bookId().call();
-        console.log(`||||>>>>>> bookId: ${bookId} `);
+    //     // const bookId  = await bookRentContract.bookId().call();
+    //     // console.log(`||||>>>>>> bookId: ${bookId} `);
         
-        // fetch all books
-        console.log("Begin to obtain the books information");
-        const books = await fetchAllBooks();
-        console.log("The total number of Books: "+ books.length);
-        console.log("Books: "+ JSON.stringify(books,null,"\t"));
+    //     // fetch all books
+    //     // console.log("Begin to obtain the books information");
+    //     // const books = await fetchAllBooks();
+    //     // console.log("The total number of Books: "+ books.length);
+    //     // console.log("Books: "+ JSON.stringify(books,null,"\t"));
   
-        // //Add new Book
-        // const price ="19.99";   //1200000     6 decimals
-        // await postBookInfo("Hello Porsche World", "Descriiiibes a world with piece and serenity", tronWeb_server.toSun(price) );
+    //     // //Add new Book
+    //     // const price ="19.99";   //1200000     6 decimals
+    //     // await postBookInfo("Hello Porsche World", "Descriiiibes a world with piece and serenity", tronWeb_server.toSun(price) );
         
 
-        // const tronGovernance_ABI = TronGovernance_raw.abi;
-        // const tronGovernanceContractAddress = "TBHLsbmX2mhSyWjXdh1fciCmHNbXHca8Yy";
-        // const tronGovernanceContract = await tronWeb_server.contract().at(tronGovernanceContractAddress);
+    //     // const tronGovernance_ABI = TronGovernance_raw.abi;
+    //     // const tronGovernanceContractAddress = "TBHLsbmX2mhSyWjXdh1fciCmHNbXHca8Yy";
+    //     // const tronGovernanceContract = await tronWeb_server.contract().at(tronGovernanceContractAddress);
 
-        const tronGovernanceContract = await tronWeb_server.contract(tronGovernance_ABI, tronGovernanceContractAddress);
-        const admin  = await tronGovernanceContract.admin().call();
-        console.log(`||||>>>>>> tron Governance admin: ${admin} `);  //||||>>>>>> tron Governance admin: 41da7b7457b4e71796cee8a466a1a3a635fad45451 
+    //     tronGovernanceContract = await tronWeb_server.contract(tronGovernance_ABI, tronGovernanceContractAddress);
+    //     const admin  = await tronGovernanceContract.admin().call();
+    //     console.log(`||||>>>>>> tron Governance admin: ${admin} `);  //||||>>>>>> tron Governance admin: 41da7b7457b4e71796cee8a466a1a3a635fad45451 
 
+    //     const activeReferendaIDarrayUint  = await tronGovernanceContract.getActiveReferenda().call();
+    //     const activeReferendaIDarray = activeReferendaIDarrayUint.map(itm => `${itm}`);
+    //     console.log(`activeReferendaIDarray: `,activeReferendaIDarray);
 
+    //     const referendumDetails  = await tronGovernanceContract.referendumDetails(1).call();
+    //     // console.log(`referendumDetails: `,referendumDetails);
+    //     console.log(`referendumDetails=> Referendum_Id ${referendumDetails[0]}`);
+    //     console.log(`referendumDetails=> Referendum_Beneficiary ${referendumDetails[1]}`);
+    //     console.log(`referendumDetails=> Referendum_Treasury ${referendumDetails[2]}`);
+    //     console.log(`referendumDetails=> Referendum_Amount ${referendumDetails[3]}`);
+    //     console.log(`referendumDetails=> Referendum_CID ${referendumDetails[4]}`);
 
-      }
+    //     console.log(`referendumDetails=> Referendum_startBlock ${referendumDetails[5]}`);
+    //     console.log(`referendumDetails=> Referendum_endBlock ${referendumDetails[6]}`);
+    //     console.log(`referendumDetails=> Referendum_ScoreBlock ${referendumDetails[7]}`);
+    //     console.log(`referendumDetails=> Referendum_Ayes ${referendumDetails[8]}`);
+    //     console.log(`referendumDetails=> Referendum_Nays ${referendumDetails[9]}`);
+    //     console.log(`referendumDetails=> Referendum_Turnout ${referendumDetails[10]}`);
+    //     console.log(`referendumDetails=> Referendum_Passed ${referendumDetails[11]}`); //false
+    //   }
   
   
-      if (tronWeb_server) {
-        console.log(`==> tronWeb_server is now defined`);
-        performTronWebActions();
-      }
+    //   if (tronWeb_server) {
+    //     console.log(`==> tronWeb_server is now defined`);
+    //     performTronWebActions();
+    //   }
   
-    },[tronWeb_server]);
+    // },[tronWeb_server]);
   
     //#endregion TRON
   
   
   
   
-  
-  
     return (
       
-      // <GovProvider>
+      <GovProvider>
   
             <NavigationContainer>
               <BottomTab.Navigator screenOptions={{
@@ -381,7 +389,7 @@ export default function App() {
           </NavigationContainer>
   
         
-      //  </GovProvider> 
+      </GovProvider> 
   
     );
   }

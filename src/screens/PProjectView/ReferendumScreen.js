@@ -15,7 +15,7 @@ import { ScrollView, TouchableOpacity, View, Button, Header, Text, TextInput, St
 
 // import { ethers } from 'ethers';  
 // import WalletConnectExperience from "../../../WalletConnectExperience";
-// import GovContext from '../../context/GovContext';
+import GovContext from '../../context/GovContext';
 
 
 //dark blue theme
@@ -42,7 +42,7 @@ const colors = {
     border: "#c7c7cc",
   };
 
-
+//#region PProject array
 const PProject = [
     {
         id: 2,
@@ -226,7 +226,7 @@ const PProject = [
         ],
     },
 ];
-
+//#endregion
 
 
 
@@ -240,37 +240,54 @@ const TAGS = [
 
 const PProjectView = ({navigation}) => {
 
-    // const passedParamsObject = navigation.getState().routes[1].params;
-    // console.log(`==============> passedParamsObject: `,passedParamsObject);
-    // console.log(` ${typeof passedParamsObject} KEYS: `,Object.keys(passedParamsObject));
-    // const id = passedParamsObject.id;
-    // console.log(`==============> id: `,id);
-
     const [refIndex, setRefIndex] = useState("");
-    const [refHash, setRefHash] = useState("");
     const [refTitle, setRefTitle] = useState("");
     const [refBody, setRefBody] = useState("");
     const [refAye, setRefAye] = useState("80");
     const [refNay, setRefNay] = useState("20");
+
+    const [refBeneficiary, setRefBeneficiary] = useState("");
+    const [refTreasury, setRefTreasury] = useState("");
+    const [refAmount, setRefAmount] = useState("");
+    const [refCID, setRefCID] = useState("");
+
+    const [refStartBlock, setRefStartBlock] = useState("");
+    const [refEndBlock, setRefEndBlock] = useState("");
+    const [refScoreBlock, setRefScoreBlock] = useState("");
+
+    const [refTurnout, setRefTurnout] = useState("");
+    const [refPassed, setRefPassed] = useState("");
+
+
+    // const [refHash, setRefHash] = useState("");
     const [percentOne, setPercentOne] = useState("80");
     const [percentTwo, setPercentTwo] = useState("20");
     const [percent, setPercent] = useState("80");
     const [voteTokens, setVoteTokens] = useState("");
     const [conviction, setConviction] = useState("");
 
+    // const {wallet, scComs, scGov, updateSignerElements} = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, updateCurrentBlockNumber, currentBlockNumber } = useContext(GovContext);
 
-    const {wallet, scComs, scGov, updateSignerElements} = useContext(GovContext);
-    const standardVote = async (refIndex, isAye, amount, convictionNum = 0 ) => {
-        if (scGov)
+    const voteReferendum = async (refIndex, isAye, amount, convictionNum = 0 ) => {
+        if (tronGovernanceSC && tronWeb)
         {
-          const amountWEI = ethers.utils.parseUnits(amount,18);
-          const tx = await scGov.standardVote(refIndex, isAye, amountWEI, convictionNum) ;
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to standardVote a proposal is mined resolveMsg : `,reslveMsg);
-          });
+            const amountSUN =  tronWeb.toSun(amount)  //123456789; //ethers.utils.parseUnits(amount,18);
+            console.log(`voteReferendum=> amountSUN: ${amountSUN}`);
+            let result = await tronGovernanceSC.voteReferendum(refIndex, isAye, convictionNum).send({
+                feeLimit:100000000,
+                callValue: amountSUN,
+                shouldPollResponse:true
+            });
+            console.log(`voteReferendum=> result: `,JSON.stringify(result));
+
+        //   const tx = await scGov.voteReferendum(refIndex, isAye, amountWEI, convictionNum) ;
+        //   tx.wait().then( async reslveMsg => {
+        //     console.log(`tx to voteReferendum a proposal is mined resolveMsg : `,reslveMsg);
+        //   });
     
         }
-        else console.log(`****** standardVote is run but scGov does not exist *******`);
+        else console.log(`****** voteReferendum is run but tronGovernanceSC does not exist *******`);
     }
 
     const removeVote = async (refIndex) => {
@@ -292,147 +309,91 @@ const PProjectView = ({navigation}) => {
         if(passedParamsObject)
         {
             setRefIndex(passedParamsObject.refIndex);
-            setRefHash(passedParamsObject.refrendumProposalHash);
-            const aye = `${ethers.utils.formatUnits(passedParamsObject.refrendumTallyAye)}`;
-            const nay = `${ethers.utils.formatUnits(passedParamsObject.refrendumTallyNay)}`;
             setRefTitle(`Referendum ${passedParamsObject.refIndex}`);
             setRefBody(`${passedParamsObject.description}`);
-            setRefAye(aye);
-            setRefNay(nay);
-            // const total = Number(aye) + Number(nay);
-            // if (total===0) {
-            //     setPercentOne("0%");   setPercentTwo("0%"); setPercent("0"); 
-            // }
-            // else {
-            //     const ayePercent = 100 * Number(aye) / total;
-            //     setPercentOne(`${ayePercent}%`);   
-            //     setPercentTwo(`${100-ayePercent}%`);   
-            //     setPercent(`${ayePercent}`); 
-            // }
+
+            setRefBeneficiary(passedParamsObject.refBeneficiary);
+            setRefTreasury(passedParamsObject.refTreasury);
+            setRefAmount(passedParamsObject.refAmount);
+            setRefCID(passedParamsObject.refCID);
+            setRefStartBlock(passedParamsObject.refStartBlock);
+            setRefEndBlock(passedParamsObject.refEndBlock);
+            setRefScoreBlock(passedParamsObject.refScoreBlock);
+            setRefAye(passedParamsObject.refAyes);
+            setRefNay(passedParamsObject.refNays);
+
+            setRefTurnout(passedParamsObject.refTrunout);
+            setRefPassed(passedParamsObject.refPassed);
+
+            const total = Number(passedParamsObject.refAyes) + Number(passedParamsObject.refNays);
+            if (total===0) {
+                setPercentOne("0%");   setPercentTwo("0%"); setPercent("0"); 
+            }
+            else {
+                const ayePercent = 100 * Number(passedParamsObject.refAyes) / total;
+                setPercentOne(`${ayePercent}%`);   
+                setPercentTwo(`${100-ayePercent}%`);   
+                setPercent(`${ayePercent}`); 
+            }
+
+            
+            // setRefHash(passedParamsObject.refrendumProposalHash);
+            // const aye = "112233"; //`${ethers.utils.formatUnits(passedParamsObject.refrendumTallyAye)}`;
+            // const nay = "001133"; //`${ethers.utils.formatUnits(passedParamsObject.refrendumTallyNay)}`;
+            // setRefAye(aye);
+            // setRefNay(nay);
         }
     }, [navigation]);
 
     return (
-        <SafeAreaView
-            style={[BaseStyle.safeAreaView, { flex: 1 }]}
-            edges={["right", "top", "left"]}
-        >
+        <SafeAreaView  style={[BaseStyle.safeAreaView, { flex: 1 }]}  edges={["right", "top", "left"]} >
          {/* <WalletConnectExperience /> */}
 
-            <ScrollView
-                contentContainerStyle={styles.container}
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
-            >
+            <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
                 <View>
                     <Text title3>{refTitle}</Text>
                     <Text body2 light style={{ paddingVertical: 10 }}>
                         {refBody}
                     </Text>
                     <View style={styles.specifications}>
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"0xFaCf…B63d8e"}
-                            description={"Creator"}
-                            
-                        />
+                        <ProductSpecGrid style={{ flex: 1 }} title={"0xFaCf…B63d8e"} description={"Creator"} />
                             {/* // description={t("Creator")} */}
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"0x7369…000000"}
-                            description={"Owner"}
-                            
-                        />
+                        <ProductSpecGrid style={{ flex: 1 }} title={"0x7369…000000"} description={"Owner"} />
                             {/* // description={t("Owner")} */}
                     </View>
                     <View style={styles.specifications}>
                         <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"129"}
-                            description={"Referenda #"}
-                            
+                            style={{ flex: 1 }} title={"129"} description={"Referenda #"}
                         />
                             {/* // description={t("Referenda #")} */}
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
+                        <ProductSpecGrid style={{ flex: 1 }}
                             title={
-                                <Tag
-                                    light
-                                    style={{
-                                        backgroundColor: BaseColor.grayColor,
-                                        borderRadius: 5,
-                                        paddingHorizontal: 5,
-                                    }}
-                                    textStyle={{ color: BaseColor.whiteColor }}
-                                >
+                                <Tag  light  style={{ backgroundColor: BaseColor.grayColor,  borderRadius: 5, paddingHorizontal: 5, }} textStyle={{ color: BaseColor.whiteColor }} >
                                     On Going
                                 </Tag>
                             }
                             description={"status"}
-                            
                         />
                     </View>
                 </View>
 
-                <Text
-                    headline
-                    style={{
-                        paddingTop: 20,
-                        paddingBottom: 5,
-                        marginTop: -50 
-                    }}
-                >
-                    {"Referenda Details"}
-
+                <Text headline style={{ paddingTop: 20,  paddingBottom: 5, marginTop: -50 }} >
+                    {`refCID: ${refCID}  refBeneficiary: ${refBeneficiary} refTreasury: ${refTreasury} refAmount: ${refAmount}  refStartBlock: ${refStartBlock} refEndBlock: ${refEndBlock} refScoreBlock: ${refScoreBlock} refTurnout: ${refTurnout} refPassed: ${refPassed} REMAINING BLOCKs: ${refEndBlock - currentBlockNumber}`}
                 </Text>
                     {/* {t("Referenda Details")} */}
                 <View style={{ flexDirection: "row", marginTop: 0}}>
                     <View style={{ flex: 1, paddingRight: 7 }}>
-                        <CardReport03
-                            style={{ marginTop: 7 }}
-                            icon="chart-line"
-                            title="Remaining"
-                            price="3 Days 45mins"
-                            time="Time"
-                            blocks="Blocks"
-                            percent="21,827"
-                            onPress={() => navigation.navigate("FCryptol02")}
-                        />
-                        <CardReport03
-                            style={{ marginTop: 7 }}
-                            icon="chart-line"
-                            title="Activate"
-                            price="4 Days 1hr"
-                            time="Time"
-                            blocks="Block"
-                            percent="#2,923,500"
-                            onPress={() => navigation.navigate("FCryptol02")}
-                        />
+                        <CardReport03 style={{ marginTop: 7 }}  icon="chart-line" title="Remaining" price="3 Days 45mins" time="Time" blocks="Blocks" percent="21,827" onPress={() => navigation.navigate("FCryptol02")}/>
+                        <CardReport03 style={{ marginTop: 7 }} icon="chart-line" title="Activate" price="4 Days 1hr" time="Time" blocks="Block" percent="#2,923,500" onPress={() => navigation.navigate("FCryptol02")} />
                         {/* 5 */}
-                        <CardReport05
-                            style={{ marginTop: 7 }}
-                            title = "Turnout"
-                            price = "2.3%"
-                            icon = "user-friends"
-                            onPress={() => navigation.navigate("FCryptol02")}
-                        />
-
+                        <CardReport05 style={{ marginTop: 7 }} title = "Turnout" price = "2.3%" icon = "user-friends" onPress={() => navigation.navigate("FCryptol02")}/>
                     </View>
                     <View style={{ flex: 1, paddingLeft: 7 }}>
                         {/* 4 */}
-                        <CardReport04
-                            contentStyle={{ paddingBottom: 35, marginBottom: 20, marginTop: 7 }}
-                            icon="credit-card"
-                            title="Status"
-                            title2="Support"
-                            price="412"
-                            aye="Aye"
-                            ayeamount= {`${refAye} DEV`}
-                            nayamount=  {`${refNay} DEV`}
-                            percent1= "80%"
-                            nay="Nay"
-                            percent2= "20%"
-                            percent= "80"
+                        <CardReport04 contentStyle={{ paddingBottom: 35, marginBottom: 20, marginTop: 7 }}
+                            icon="credit-card" title="Status" title2="Support" price="412" aye="Aye"
+                            ayeamount= {`${refAye} TRX`} nayamount=  {`${refNay} TRX`}
+                            percent1= "80%" nay="Nay" percent2= "20%" percent= "80"
                             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
                             onPress={() => navigation.navigate("Dashboard4")}
                         />
@@ -440,16 +401,16 @@ const PProjectView = ({navigation}) => {
                 </View>
 
                 <View style={newStyles.backgroundStyle}>
-                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Nummber of DEV'  style={newStyles.inputStyle} value={voteTokens} onChangeText={(newValue) => setVoteTokens(newValue)} />
-                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Conviction (0 to 6)'  style={newStyles.inputStyle} value={conviction} onChangeText={(newValue) => setConviction(newValue)} />
+                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Nummber of TRX'  style={newStyles.inputStyle} value={voteTokens} onChangeText={(newValue) => setVoteTokens(newValue)} />
+                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Conviction (0 to 3)'  style={newStyles.inputStyle} value={conviction} onChangeText={(newValue) => setConviction(newValue)} />
                 </View>
 
 
 
                 <View style={newStyles.votingbackgroundStyle}>
-                    <Button style={newStyles.voteButtonStyleAye}     title="Vote Aye" onPress={() => standardVote(refIndex, true, voteTokens, conviction) } />
-                    <Button style={newStyles.voteButtonStyleUnvote}  title="Unvote"   onPress={() => removeVote(refIndex) } />
-                    <Button style={newStyles.voteButtonStyleNay}     title="Vote Nay" onPress={() => standardVote(refIndex, false, voteTokens, conviction ) } />
+                    <Button style={newStyles.voteButtonStyleAye}     title="Vote Aye" onPress={() => voteReferendum(refIndex, true, voteTokens, conviction) } />
+                    {/* <Button style={newStyles.voteButtonStyleUnvote}  title="Unvote"   onPress={() => removeVote(refIndex) } /> */}
+                    <Button style={newStyles.voteButtonStyleNay}     title="Vote Nay" onPress={() => voteReferendum(refIndex, false, voteTokens, conviction ) } />
 
 
                     {/* <Button

@@ -1,9 +1,11 @@
-import React, { useMemo, useEffect, useContext, useState } from "react";
+import TronWeb from 'tronweb/dist/TronWeb.js';
+
+import React, { useMemo, useEffect, useContext, useState, Children } from "react";
 import { Text, FlatList, StyleSheet, View, Button, TouchableOpacity, StatusBar, TextInput, ScrollView,  Alert, Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 
 // import WalletConnectExperience from "../../../WalletConnectExperience";
-// import GovContext from '../../context/GovContext';
+import GovContext from '../../context/GovContext';
 // import { ethers } from 'ethers';  
 import axios from 'axios';
 
@@ -55,70 +57,70 @@ const colors = {
 
 
 
-const url = 'https://api.subquery.network/sq/Entity54/governancemoonbasealpha' ;
+// const url = 'https://api.subquery.network/sq/Entity54/governancemoonbasealpha' ;
 // const url = 'https://api.subquery.network/sq/Entity54/MoonbaseAlphaGov' ;
 // const url = 'https://api.subquery.network/sq/Entity54/MoonbaseAlphaGovernance' ;
 
 //#region sendGraphQLRequestFromNum
 // const query = query_AllAfterBlockNum(blockNum);
-const _sendGraphQLRequestFromNum = async () => {	 
-    console.log(`====> SENDING  A SUBQUERY for active Referenda adn Proposals`);
+// const _sendGraphQLRequestFromNum = async () => {	 
+//     console.log(`====> SENDING  A SUBQUERY for active Referenda adn Proposals`);
     
-    const query = query_LatestReferendaandProposals();
-    axios({ url: `${url}`, method: 'post', data: { query: query } })
-    .then( async (result) => {
+//     const query = query_LatestReferendaandProposals();
+//     axios({ url: `${url}`, method: 'post', data: { query: query } })
+//     .then( async (result) => {
 
-            //activeProposalsReferendaLists
-            const _activeProposalsReferendaLists_dataArray = result.data.data.activeProposalsReferendaLists.nodes;
-            const activeProposalsReferendaLists_dataArray = _activeProposalsReferendaLists_dataArray[0];
+//             //activeProposalsReferendaLists
+//             const _activeProposalsReferendaLists_dataArray = result.data.data.activeProposalsReferendaLists.nodes;
+//             const activeProposalsReferendaLists_dataArray = _activeProposalsReferendaLists_dataArray[0];
 
-            console.log(" ===========>>>>>> GRAPHQL activeProposalsReferendaLists_dataArray: ",activeProposalsReferendaLists_dataArray);
-            const referendaArray = JSON.parse(activeProposalsReferendaLists_dataArray.referendaArray)
+//             console.log(" ===========>>>>>> GRAPHQL activeProposalsReferendaLists_dataArray: ",activeProposalsReferendaLists_dataArray);
+//             const referendaArray = JSON.parse(activeProposalsReferendaLists_dataArray.referendaArray)
 
-            console.log(" ===========>>>>>> GRAPHQL referendaArray: ",referendaArray);
+//             console.log(" ===========>>>>>> GRAPHQL referendaArray: ",referendaArray);
 
-            // console.log("====> GRAPHQL activeProposalsReferendaLists_dataArray : ",JSON.stringify(activeProposalsReferendaLists_dataArray));
-            if (activeProposalsReferendaLists_dataArray.length>0)
-            {
-                activeProposalsReferendaLists_dataArray.forEach((elem) => {
-                    // console.log(`elem.id: ${elem.id} elem.blockNum: ${elem.blockNum} elem.timestamp: ${elem.timestamp} elem.now: ${elem.now} elem.lowestUnbaked: ${elem.lowestUnbaked} elem.referendumCount: ${elem.referendumCount} elem.publicPropsLength: ${elem.publicPropsLength}`);
-                    console.log(` ******************************************************************* `);
-                    console.log(` BlokcNumber: ${elem.blockNum} Timestmap: ${elem.timestamp} LowestUnbaked: ${elem.lowestUnbaked} ReferendumCount: ${elem.referendumCount} ProposalCount: ${elem.publicPropsLength}`);
-                    let referendaList = "", referendaArray=[];
-                    if (elem.referendaArray)
-                    {
-                        const referendaArray = JSON.parse(elem.referendaArray)
-                        // console.log(`|||||>>>> elem.referendaArray ${typeof referendaArray} <<<|||||: `,elem.referendaArray);
-                        const referendaHeaders = `Index\tEndBlock\tProposalHash\tEnactmentDelay\tAYES\tNAYS\tturnout\n`
-                        // referendaArray.forEach(referendum => referendaList +=`${referendum.referendumIndex}\t${referendum.refrendumEndBlock}\t${referendum.refrendumProposalHash}\t${referendum.refrendumDelay}\t${web3.utils.fromWei(referendum.refrendumTally.ayes)}\t${web3.utils.fromWei(referendum.refrendumTally.nays)}\t${web3.utils.fromWei(referendum.refrendumTally.turnout)}\n`);
-                        referendaArray.forEach(referendum => referendaList +=`${referendum.referendumIndex}\t${referendum.refrendumEndBlock}\t${referendum.refrendumProposalHash}\t${referendum.refrendumDelay}\t${ethers.utils.formatUnits(referendum.refrendumTally.ayes)}\t${ethers.utils.formatUnits(referendum.refrendumTally.nays)}\t${ethers.utils.formatUnits(referendum.refrendumTally.turnout)}\n`);
+//             // console.log("====> GRAPHQL activeProposalsReferendaLists_dataArray : ",JSON.stringify(activeProposalsReferendaLists_dataArray));
+//             if (activeProposalsReferendaLists_dataArray.length>0)
+//             {
+//                 activeProposalsReferendaLists_dataArray.forEach((elem) => {
+//                     // console.log(`elem.id: ${elem.id} elem.blockNum: ${elem.blockNum} elem.timestamp: ${elem.timestamp} elem.now: ${elem.now} elem.lowestUnbaked: ${elem.lowestUnbaked} elem.referendumCount: ${elem.referendumCount} elem.publicPropsLength: ${elem.publicPropsLength}`);
+//                     console.log(` ******************************************************************* `);
+//                     console.log(` BlokcNumber: ${elem.blockNum} Timestmap: ${elem.timestamp} LowestUnbaked: ${elem.lowestUnbaked} ReferendumCount: ${elem.referendumCount} ProposalCount: ${elem.publicPropsLength}`);
+//                     let referendaList = "", referendaArray=[];
+//                     if (elem.referendaArray)
+//                     {
+//                         const referendaArray = JSON.parse(elem.referendaArray)
+//                         // console.log(`|||||>>>> elem.referendaArray ${typeof referendaArray} <<<|||||: `,elem.referendaArray);
+//                         const referendaHeaders = `Index\tEndBlock\tProposalHash\tEnactmentDelay\tAYES\tNAYS\tturnout\n`
+//                         // referendaArray.forEach(referendum => referendaList +=`${referendum.referendumIndex}\t${referendum.refrendumEndBlock}\t${referendum.refrendumProposalHash}\t${referendum.refrendumDelay}\t${web3.utils.fromWei(referendum.refrendumTally.ayes)}\t${web3.utils.fromWei(referendum.refrendumTally.nays)}\t${web3.utils.fromWei(referendum.refrendumTally.turnout)}\n`);
+//                         referendaArray.forEach(referendum => referendaList +=`${referendum.referendumIndex}\t${referendum.refrendumEndBlock}\t${referendum.refrendumProposalHash}\t${referendum.refrendumDelay}\t${ethers.utils.formatUnits(referendum.refrendumTally.ayes)}\t${ethers.utils.formatUnits(referendum.refrendumTally.nays)}\t${ethers.utils.formatUnits(referendum.refrendumTally.turnout)}\n`);
 
-                    }
-                    console.log(referendaList);
+//                     }
+//                     console.log(referendaList);
 
-                    let proposaList = "";
-                    if (elem.proposalList)
-                    {
-                        const proposalArray = JSON.parse(elem.proposalList)
-                        console.log(`|||||>>>> elem.proposalList ${typeof  proposalArray} : `,elem.proposalList);
+//                     let proposaList = "";
+//                     if (elem.proposalList)
+//                     {
+//                         const proposalArray = JSON.parse(elem.proposalList)
+//                         console.log(`|||||>>>> elem.proposalList ${typeof  proposalArray} : `,elem.proposalList);
 
-                    }
-                    console.log(`proposaList: `,proposaList);
+//                     }
+//                     console.log(`proposaList: `,proposaList);
 
-                    console.log(` ******************************************************************* `);
+//                     console.log(` ******************************************************************* `);
 
-                    // lastBlockNumberIndexed = Math.max(lastBlockNumberIndexed, Number(elem.blockNum));
-                })
-            }
-            else console.log(`activeProposalsReferendaLists_dataArray is blank`);
+//                     // lastBlockNumberIndexed = Math.max(lastBlockNumberIndexed, Number(elem.blockNum));
+//                 })
+//             }
+//             else console.log(`activeProposalsReferendaLists_dataArray is blank`);
 
 
-            return activeProposalsReferendaLists_dataArray;
-            // return {voteds_dataArray, preImageNoteds_dataArray, proposeds_dataArray, secondeds_dataArray, tableds_dataArray, passeds_dataArray, notPasseds_dataArray, activeProposalsReferendaLists_dataArray};
-            // return {voteds_dataArray, preImageNoteds_dataArray, proposeds_dataArray, secondeds_dataArray, tableds_dataArray, passeds_dataArray, notPasseds_dataArray, removeVoteCalls_dataArray, unlockCalls_dataArray, activeProposalsReferendaLists_dataArray};
+//             return activeProposalsReferendaLists_dataArray;
+//             // return {voteds_dataArray, preImageNoteds_dataArray, proposeds_dataArray, secondeds_dataArray, tableds_dataArray, passeds_dataArray, notPasseds_dataArray, activeProposalsReferendaLists_dataArray};
+//             // return {voteds_dataArray, preImageNoteds_dataArray, proposeds_dataArray, secondeds_dataArray, tableds_dataArray, passeds_dataArray, notPasseds_dataArray, removeVoteCalls_dataArray, unlockCalls_dataArray, activeProposalsReferendaLists_dataArray};
 
-    });
-};
+//     });
+// };
 //#endregion sendGraphQLRequestFromNum
 
 
@@ -186,57 +188,165 @@ Some sort of description for the referendum`,
     status = "Moonbase",
 }) => {
     
+    // const [scNumber, setScNumber] = useState();
+    // const [proposalTokens, setProposalTokens] = useState();
+    // const [lowestUnbaked, setLowestUnbaked] = useState();
+    // const [numOfProposals, setNumOfProposals] = useState();
+
+    // const [propIndexToSecond, setPropIndexToSecond]  = useState();
+    // const [refIndex, setRefIndex]  = useState();
+    // const [voteAmount, setVoteAmount]  = useState();
+    // const [convictionIndex, setConvictionIndex]  = useState();
+
+    // const [proposalHash, setProposalHash]  = useState();
+    // const [proposalAmount, setProposalAmount]  = useState();
+    // const [encodedProposal, setEncodedProposal]  = useState();
+    // const [representativeAddress, setRepresentativeAddress]  = useState();
+    // const [unlockTargetAddress, setUnlockTargetAddress]  = useState();
+    // const {wallet, scComs, scGov, updateSignerElements} = useContext(GovContext);
+    // const scComs = null;
+    // const scGov = null;
     
-    const [scNumber, setScNumber] = useState();
-    const [proposalTokens, setProposalTokens] = useState();
-    const [lowestUnbaked, setLowestUnbaked] = useState();
-    const [numOfProposals, setNumOfProposals] = useState();
 
-
-    const [propIndexToSecond, setPropIndexToSecond]  = useState();
-    const [refIndex, setRefIndex]  = useState();
-    const [voteAmount, setVoteAmount]  = useState();
-    const [convictionIndex, setConvictionIndex]  = useState();
-
-    const [proposalHash, setProposalHash]  = useState();
-    const [proposalAmount, setProposalAmount]  = useState();
-    const [encodedProposal, setEncodedProposal]  = useState();
-    const [representativeAddress, setRepresentativeAddress]  = useState();
-    const [unlockTargetAddress, setUnlockTargetAddress]  = useState();
-
-
+    const {tronWeb, updateTronWeb, tronGovernanceSC, updateCurrentBlockNumber, currentBlockNumber } = useContext(GovContext);
     const [referendaArray, setReferendaArray]  = useState([]);
 
-    
-    // const {wallet, scComs, scGov, updateSignerElements} = useContext(GovContext);
-    const scComs = null;
-    const scGov = null;
+     
 
-    
 
-    // ===========>>>>>> GRAPHQL referendaArray:  Array [
-    //     Object {
-    //       "referendumIndex": 128,
-    //       "refrendumDelay": 7500,
-    //       "refrendumEndBlock": 2908800,
-    //       "refrendumProposalHash": "0xaa481a9aa96a037c3fe9a3155733ed7f5743f5ead387f68b4835a054f3d02a63",
-    //       "refrendumTally": Object {
-    //         "ayes": "10000000000000000",
-    //         "nays": "0",
-    //         "turnout": "100000000000000000",
-    //       },
-    //     },
-    //     Object {
-    //       "referendumIndex": 129,
-    //       "refrendumDelay": 7500,
-    //       "refrendumEndBlock": 2916000,
-    //       "refrendumProposalHash": "0x140f5bd9b41ec9a93389ea1c792365d348c695179fd61189117683f9575ff455",
-    //       "refrendumTally": Object {
-    //         "ayes": "15000000000000000000",
-    //         "nays": "0",
-    //         "turnout": "5000000000000000000",
-    //       },
-    
+
+    const getActiveRefrenda = async () => {
+        console.log("Getting ready to retrieve Active refrenda");
+
+        if (tronGovernanceSC) {
+
+            const band1  = await tronGovernanceSC.band1().call();
+            const band2  = await tronGovernanceSC.band2().call();
+            const band3  = await tronGovernanceSC.band3().call();
+            console.log(`band1: ${band1} band2: ${band2} band3: ${band3}`);
+
+
+            const activeReferendaIDarrayUint  = await tronGovernanceSC.getActiveReferenda().call();
+            const activeReferendaIDarray = activeReferendaIDarrayUint.map(itm => `${itm}`);
+            console.log(`activeReferendaIDarray: `,activeReferendaIDarray);
+            let activereferendarray=[];
+
+            for (let i=0; i<activeReferendaIDarray.length; i++)
+            {
+                const refID = activeReferendaIDarray[i];
+                const referendumDetails  = await tronGovernanceSC.referendumDetails(refID).call();
+
+                const refAmountSun = Number(`${referendumDetails[3]}`);
+                let tagColor,tagText; 
+                if (refAmountSun>=band3)
+                {
+                    tagColor   = "darkred",
+                    tagText    = "Band3"
+                }
+                else if (refAmountSun>=band2)
+                {
+                    tagColor   = "darkblue",
+                    tagText    = "Band2"
+                }
+                else
+                {
+                    tagColor   = "darkgreen",
+                    tagText    = "Band1"
+                }
+
+                const startBlock = Number(`${referendumDetails[5]}`);
+                const endBlock   = Number(`${referendumDetails[6]}`);
+                const currentBlock = await tronWeb.trx.getCurrentBlock();
+                const currentBlockNumber = Number(`${currentBlock.block_header.raw_data.number}`);
+                updateCurrentBlockNumber(currentBlockNumber);
+                // const currentBlockTimestamp = Number(`${currentBlock.block_header.raw_data.timestamp}`);
+                // console.log(`currentBlock: `,JSON.stringify(currentBlock));
+                // console.log(`currentBlock_Number: ${currentBlock.block_header.raw_data.number} currentBlock_Timestamp: ${currentBlock.block_header.raw_data.timestamp}`);
+                let progressBarPercent;
+                if (currentBlockNumber>=startBlock && currentBlockNumber<=endBlock)
+                {
+                    const diff = currentBlockNumber - startBlock;
+                    progressBarPercent = 100*(diff / (endBlock-startBlock));
+                } 
+                else if (currentBlockNumber > endBlock) progressBarPercent=100;
+                else if (currentBlockNumber < startBlock) progressBarPercent=0;
+                
+                activereferendarray.push({
+                    referendum_Index      : `${referendumDetails[0]}`,
+                    referendum_Beneficiary: `${referendumDetails[1]}`,
+                    referendum_Treasury   : `${referendumDetails[2]}`,
+                    referendum_Amount     : refAmountSun,
+                    referendum_CID        : `${referendumDetails[4]}`,
+                    referendum_startBlock : startBlock,
+                    referendum_endBlock   : endBlock,
+                    referendum_scoreBlock : `${referendumDetails[7]}`,
+                    referendum_Ayes       : `${tronWeb.fromSun(referendumDetails[8])}`,
+                    referendum_Nays       : `${tronWeb.fromSun(referendumDetails[9])}`,
+                    referendum_Turnout    : `${referendumDetails[10]}`,
+                    referendum_Passed     : Number(`${referendumDetails[8]}`) > Number(`${referendumDetails[9]}`)? "Passing" : "Not Passing",
+                    referendum_TagColor   : tagColor,
+                    referendum_TagText    : tagText,
+                    referendum_ProgressBarPercent : progressBarPercent
+                })
+                //  referendum_Passed     : `${referendumDetails[11]}`,
+
+
+          }
+
+          console.log(`activereferendarray: `,activereferendarray);
+          setReferendaArray(activereferendarray);
+
+        }
+
+    }
+
+
+    useEffect(() => {
+        
+      const initiateTron = async () => {
+        // ***** THE SECTION BELOW IS FOR THE SERVER TO BE RUN ***** START //
+        console.log(`Setting Up HttpProvider`);
+        const HttpProvider = TronWeb.providers.HttpProvider;
+        const fullNode = new HttpProvider("https://api.nileex.io");
+        const solidityNode = new HttpProvider("https://api.nileex.io");
+        const eventServer = new HttpProvider("https://api.nileex.io");
+        console.log(`Setting Up privateKey`);
+        //SERVER public key = "TCWNqQsbojjsey8jTEJgsC2RiPGyRzA5GA"
+        const privateKey = "bb4a09b98dfa5e263011c4023a2075c16c0a0ef961d32e7f28bd1eb1d4ad377b";
+        
+        console.log(`Setting Up fullHost`);
+        // setTronWeb_server(new TronWeb(fullNode,solidityNode,eventServer,privateKey));
+        updateTronWeb(new TronWeb(fullNode,solidityNode,eventServer,privateKey));
+      }
+      
+      initiateTron();
+    },[]);
+ 
+
+    useEffect(() => {
+        
+        // const initiateTron = async () => { 
+        //   const admin  = await tronGovernanceSC.admin().call();
+        //   console.log(`||||>>>>>> tron Governance admin: ${admin} `);  //||||>>>>>> tron Governance admin: 41da7b7457b4e71796cee8a466a1a3a635fad45451 
+  
+        //   const activeReferendaIDarrayUint  = await tronGovernanceSC.getActiveReferenda().call();
+        //   const activeReferendaIDarray = activeReferendaIDarrayUint.map(itm => `${itm}`);
+        //   console.log(`activeReferendaIDarray: `,activeReferendaIDarray);
+  
+        //   const referendumDetails  = await tronGovernanceSC.referendumDetails(1).call();
+        //   // console.log(`referendumDetails: `,referendumDetails);
+        // }
+        // initiateTron();
+
+        if (tronGovernanceSC)
+        {
+          getActiveRefrenda();
+        }
+      
+
+    },[tronGovernanceSC]);
+
+
     //#region sendGraphQLRequestFromNum
     const sendGraphQLRequestFromNum = async () => {	 
         console.log(`====> SENDING  A SUBQUERY for active Referenda adn Proposals`);
@@ -298,200 +408,200 @@ Some sort of description for the referendum`,
 
 
 
-    //#region PUSH NOTIFICATIONS SET UP PERMISSIONS AND GET DEVICE TOKEN
-    useEffect(() => {
-        // sendGraphQLRequestFromNum();
+    // //#region PUSH NOTIFICATIONS SET UP PERMISSIONS AND GET DEVICE TOKEN
+    // useEffect(() => {
+    //     // sendGraphQLRequestFromNum();
 
-        // setInterval( () => {
-        //     console.log(`*** Willl Run Queries ***`);
-        //     sendGraphQLRequestFromNum();
-        // },20000);
+    //     // setInterval( () => {
+    //     //     console.log(`*** Willl Run Queries ***`);
+    //     //     sendGraphQLRequestFromNum();
+    //     // },20000);
         
-    },[])
-    //#endregion
+    // },[])
+    // //#endregion
 
     
     //#region Read Governance Precompile
-    const getTokensDepositedFroProposal = async (proposalIndexNum) => {
-        if (scGov)
-        {
-          const tokensWEI= await scGov.depositOf(parseInt(proposalIndexNum));
-          console.log(` *****> tokensWEI.toString(): ${tokensWEI.toString()} `);
-          const tokens_DEV = ethers.utils.formatUnits(tokensWEI,18);
-          console.log(`tokens in DEV: ${tokens_DEV}`)
-          setProposalTokens(tokens_DEV);
-        }
-        else console.log(`****** getTokensDepositedFroProposal is run but scGov does not exist *******`);
+    // const getTokensDepositedFroProposal = async (proposalIndexNum) => {
+    //     if (scGov)
+    //     {
+    //       const tokensWEI= await scGov.depositOf(parseInt(proposalIndexNum));
+    //       console.log(` *****> tokensWEI.toString(): ${tokensWEI.toString()} `);
+    //       const tokens_DEV = ethers.utils.formatUnits(tokensWEI,18);
+    //       console.log(`tokens in DEV: ${tokens_DEV}`)
+    //       setProposalTokens(tokens_DEV);
+    //     }
+    //     else console.log(`****** getTokensDepositedFroProposal is run but scGov does not exist *******`);
   
-    }
+    // }
     
-    const getLowestUnbaked = async () => {
-        if (scGov)
-        {
-          const _lowestUnbaked= await scGov.lowestUnbaked();
-          console.log(` *****> _lowestUnbaked: ${_lowestUnbaked} `);
-          setLowestUnbaked(_lowestUnbaked.toString());
-        }
-        else console.log(`****** getLowestUnbaked is run but scGov does not exist *******`);
-    }
+    // const getLowestUnbaked = async () => {
+    //     if (scGov)
+    //     {
+    //       const _lowestUnbaked= await scGov.lowestUnbaked();
+    //       console.log(` *****> _lowestUnbaked: ${_lowestUnbaked} `);
+    //       setLowestUnbaked(_lowestUnbaked.toString());
+    //     }
+    //     else console.log(`****** getLowestUnbaked is run but scGov does not exist *******`);
+    // }
   
-    const getNumOfProposals = async () => {
-        if (scGov)
-        {
-          const _numOfProposals= await scGov.publicPropCount();
-          console.log(` *****> _numOfProposals: ${_numOfProposals} `);
-          setNumOfProposals(_numOfProposals.toString());
-        }
-        else console.log(`****** getNumOfProposals is run but scGov does not exist *******`);
-    }
+    // const getNumOfProposals = async () => {
+    //     if (scGov)
+    //     {
+    //       const _numOfProposals= await scGov.publicPropCount();
+    //       console.log(` *****> _numOfProposals: ${_numOfProposals} `);
+    //       setNumOfProposals(_numOfProposals.toString());
+    //     }
+    //     else console.log(`****** getNumOfProposals is run but scGov does not exist *******`);
+    // }
     //#endregion Read Governance Precompile
 
-    const second = async (propIndex, secondsUpperBound=100) => {
-        if (scGov)
-        {
-          //TODO propIndex is a valid Index
-          const proposalAmount = await getTokensDepositedFroProposal(propIndex);
-          //TODO THE WALLET HAS ENOUGH TOKENS TO SECOND THIS
+    // const second = async (propIndex, secondsUpperBound=100) => {
+    //     if (scGov)
+    //     {
+    //       //TODO propIndex is a valid Index
+    //       const proposalAmount = await getTokensDepositedFroProposal(propIndex);
+    //       //TODO THE WALLET HAS ENOUGH TOKENS TO SECOND THIS
           
-          const tx = await scGov.second(propIndex, secondsUpperBound);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to second a proposal is mined resolveMsg : `,reslveMsg);
-          });
+    //       const tx = await scGov.second(propIndex, secondsUpperBound);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to second a proposal is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** second is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** second is run but scGov does not exist *******`);
+    // }
   
-    const standardVote = async (refIndex, isAye, amount, convictionNum = 0 ) => {
-        if (scGov)
-        {
-          const amountWEI = ethers.utils.parseUnits(amount,18);
-          const tx = await scGov.standardVote(refIndex, isAye, amountWEI, convictionNum) ;
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to standardVote a proposal is mined resolveMsg : `,reslveMsg);
-          });
+    // const standardVote = async (refIndex, isAye, amount, convictionNum = 0 ) => {
+    //     if (scGov)
+    //     {
+    //       const amountWEI = ethers.utils.parseUnits(amount,18);
+    //       const tx = await scGov.standardVote(refIndex, isAye, amountWEI, convictionNum) ;
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to standardVote a proposal is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** standardVote is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** standardVote is run but scGov does not exist *******`);
+    // }
 
 
-    const propose = async (proposalHash, amount) => {
-        if (scGov)
-        {
-          const amountWEI = ethers.utils.parseUnits(amount,18);
-          const tx = await scGov.propose(proposalHash, amountWEI);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to propose a proposal is mined resolveMsg : `,reslveMsg);
-          });
+    // const propose = async (proposalHash, amount) => {
+    //     if (scGov)
+    //     {
+    //       const amountWEI = ethers.utils.parseUnits(amount,18);
+    //       const tx = await scGov.propose(proposalHash, amountWEI);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to propose a proposal is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** propose is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** propose is run but scGov does not exist *******`);
+    // }
   
-    const removeVote = async (refIndex) => {
-        if (scGov)
-        {
-          const tx = await scGov.removeVote(refIndex);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to removeVote from a referenum is mined resolveMsg : `,reslveMsg);
-          });
+    // const removeVote = async (refIndex) => {
+    //     if (scGov)
+    //     {
+    //       const tx = await scGov.removeVote(refIndex);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to removeVote from a referenum is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** removeVote is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** removeVote is run but scGov does not exist *******`);
+    // }
 
 
-    const delegate = async (_representativeAddress, convictionNum, amount) => {
-        if (scGov)
-        {
-          const amountWEI = ethers.utils.parseUnits(amount,18);
-          console.log(`_representativeAddress: ${_representativeAddress} convictionNum: ${convictionNum} amountWEI: ${amountWEI}`);
-          const tx = await scGov.delegate(_representativeAddress, convictionNum, amountWEI);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to delegate a votie to ${_representativeAddress} is mined resolveMsg : `,reslveMsg);
-          });
+    // const delegate = async (_representativeAddress, convictionNum, amount) => {
+    //     if (scGov)
+    //     {
+    //       const amountWEI = ethers.utils.parseUnits(amount,18);
+    //       console.log(`_representativeAddress: ${_representativeAddress} convictionNum: ${convictionNum} amountWEI: ${amountWEI}`);
+    //       const tx = await scGov.delegate(_representativeAddress, convictionNum, amountWEI);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to delegate a votie to ${_representativeAddress} is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** delegate is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** delegate is run but scGov does not exist *******`);
+    // }
   
-    const unDelegate = async () => {
-        if (scGov)
-        {
-          const tx = await scGov.unDelegate();
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to unDelegate is mined resolveMsg : `,reslveMsg);
-          });
+    // const unDelegate = async () => {
+    //     if (scGov)
+    //     {
+    //       const tx = await scGov.unDelegate();
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to unDelegate is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** unDelegate is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** unDelegate is run but scGov does not exist *******`);
+    // }
 
 
-    const unlock = async (_targetAddress) => {
-        if (scGov)
-        {
-          const tx = await scGov.unlock(_targetAddress);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to unlock from ${_targetAddress} is mined resolveMsg : `,reslveMsg);
-          });
+    // const unlock = async (_targetAddress) => {
+    //     if (scGov)
+    //     {
+    //       const tx = await scGov.unlock(_targetAddress);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to unlock from ${_targetAddress} is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** unlock is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** unlock is run but scGov does not exist *******`);
+    // }
   
-    const notePreimage = async (_encodedProposal) => {
-        if (scGov)
-        {
-          const tx = await scGov.notePreimage(_encodedProposal);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to notePreimage is mined resolveMsg : `,reslveMsg);
-          });
+    // const notePreimage = async (_encodedProposal) => {
+    //     if (scGov)
+    //     {
+    //       const tx = await scGov.notePreimage(_encodedProposal);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to notePreimage is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** notePreimage is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** notePreimage is run but scGov does not exist *******`);
+    // }
 
 
-    const noteImminentPreimage = async (_encodedProposal) => {
-        if (scGov)
-        {
-          const tx = await scGov.noteImminentPreimage(_encodedProposal);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to noteImminentPreimage is mined resolveMsg : `,reslveMsg);
-          });
+    // const noteImminentPreimage = async (_encodedProposal) => {
+    //     if (scGov)
+    //     {
+    //       const tx = await scGov.noteImminentPreimage(_encodedProposal);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to noteImminentPreimage is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** noteImminentPreimage is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** noteImminentPreimage is run but scGov does not exist *******`);
+    // }
   
       
 
 
-    //TEST
-    const getSCNumber = async () => {
-        if (scComs)
-        {
-          const ang_number2 = (await scComs.retrieve()).toString();
-          console.log(` *****> ang_number2: ${ang_number2} `);
-          setScNumber(ang_number2)
-        }
-        else console.log(`****** getSCNumber is run but scComs does not exist *******`);
+    // //TEST
+    // const getSCNumber = async () => {
+    //     if (scComs)
+    //     {
+    //       const ang_number2 = (await scComs.retrieve()).toString();
+    //       console.log(` *****> ang_number2: ${ang_number2} `);
+    //       setScNumber(ang_number2)
+    //     }
+    //     else console.log(`****** getSCNumber is run but scComs does not exist *******`);
 
-    }
-    const setSCNumber = async (newNum) => {
-        if (scComs)
-        {
-          const tx = await scComs.store(newNum);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx for transfer is mined resolveMsg : `,reslveMsg);
-          });
+    // }
+    // const setSCNumber = async (newNum) => {
+    //     if (scComs)
+    //     {
+    //       const tx = await scComs.store(newNum);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx for transfer is mined resolveMsg : `,reslveMsg);
+    //       });
 
-        }
-        else console.log(`****** setSCNumber is run but scComs does not exist *******`);
+    //     }
+    //     else console.log(`****** setSCNumber is run but scComs does not exist *******`);
 
-    }
+    
 
 
     //#region PUSH NOTIFICATIONS SET UP PERMISSIONS AND GET DEVICE TOKEN
@@ -595,40 +705,40 @@ Some sort of description for the referendum`,
 
 
     //#region 
-    //This part sends a Push notirfication and normally would be inside a server
-    const sendPushNotificationHandler = () => {
-        fetch('https://exp.host/--/api/v2/push/send',{
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-            to: "ExponentPushToken[pM5T3fG_V66hoJMZvn7VJO]",
-            title: 'Test sent from iPhone',
-            body: 'This is a test that was sent from an iPhone to my Adnroid phone. Has it worked?'
-            })
-        }
-        )
-    }
+    // //This part sends a Push notirfication and normally would be inside a server
+    // const sendPushNotificationHandler = () => {
+    //     fetch('https://exp.host/--/api/v2/push/send',{
+    //         method: 'POST',
+    //         headers: {
+    //         'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //         to: "ExponentPushToken[pM5T3fG_V66hoJMZvn7VJO]",
+    //         title: 'Test sent from iPhone',
+    //         body: 'This is a test that was sent from an iPhone to my Adnroid phone. Has it worked?'
+    //         })
+    //     }
+    //     )
+    // }
     //#endregion NTT54
         
     
-    
-    
-    const { remainder, usersLimit } = useMemo(() => {
-        const limitInt = parseInt(limit);
-        let remainder = 0;
-        let usersLimit = members;
-        if (limitInt != NaN && limitInt != 0) {
-            remainder = members.length - limitInt;
-            usersLimit = members.slice(0, limitInt);
-        }
 
-        return {
-            remainder,
-            usersLimit,
-        };
-    }, [members, limit]);
+    
+    // const { remainder, usersLimit } = useMemo(() => {
+    //     const limitInt = parseInt(limit);
+    //     let remainder = 0;
+    //     let usersLimit = members;
+    //     if (limitInt != NaN && limitInt != 0) {
+    //         remainder = members.length - limitInt;
+    //         usersLimit = members.slice(0, limitInt);
+    //     }
+
+    //     return {
+    //         remainder,
+    //         usersLimit,
+    //     };
+    // }, [members, limit]);
 
     const percent = useMemo(() => {
         try {
@@ -663,7 +773,7 @@ Some sort of description for the referendum`,
 
 
    
-    
+
 
     // <Text style={styles.textStyle}>#{referendaArray[0].referendumIndex} </Text>
 
@@ -676,25 +786,38 @@ Some sort of description for the referendum`,
             referendaArray.length===0 ?
             <Text style={styles.textStyle}>Loading123 </Text> :
             <FlatList 
-                    keyExtractor={(item) => item.referendumIndex}
+                    keyExtractor={(item) => item.referendum_Index}
                     data={referendaArray} 
                     renderItem={({item, index}) => {
                         return  (
                         // <Text style={styles.textStyle}>#{item.referendumIndex} </Text>
 
-                        <TouchableOpacity  onPress={() => navigation.navigate("Referendum", { refIndex: "item.referendumIndex",
-                             refIndex: item.referendumIndex, delay: item.refrendumDelay, refrendumEndBlock: item.refrendumEndBlock,
-                             refrendumProposalHash: item.refrendumProposalHash, refrendumTallyAye: item.refrendumTally.ayes, 
-                             refrendumTallyNay: item.refrendumTally.nays, refrendumTallyTurnout: item.refrendumTally.turnout,
-                             description: `Referendum with preImage Hash ${item.refrendumProposalHash} \nwill end at block ${item.refrendumEndBlock} and an enactment delay of ${ item.refrendumDelay} blocks will follow.`,
-                        })} >
+                        <TouchableOpacity  onPress={() => navigation.navigate("Referendum", { 
+                             refIndex: item.referendum_Index, 
+                             refBeneficiary: item.referendum_Beneficiary,
+                             refTreasury: item.referendum_Treasury,
+                             refAmount: tronWeb.fromSun(item.referendum_Amount),
+                             refCID: item.referendum_CID,
+                             refStartBlock: item.referendum_startBlock,
+                             refEndBlock: item.referendum_endBlock,
+                             refScoreBlock: item.referendum_scoreBlock,
+                             refAyes: item.referendum_Ayes,
+                             refNays: item.referendum_Nays,
+                             refTrunout: item.referendum_Turnout,
+                             refPassed: item.referendum_Passed,
+                             description: `Referendum with ID  ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock} and the scoring block is ${ item.referendum_scoreBlock}.`,
+
+                            //  delay: "item.refrendumDelay", refrendumEndBlock: "item.referendum_endBlock", refrendumProposalHash: "item.refrendumProposalHash", refrendumTallyAye: "item.refrendumTally.ayes", 
+                            //  refrendumTallyNay: "item.refrendumTally.nays", refrendumTallyTurnout: "item.refrendumTally.turnout",
+                        }
+                        )} >
 
                         <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
                             <View style={{ flex: 1 }}>
                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                     <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
                                         <Text title3 numberOfLines={1}>
-                                            {`Referendum:${item.referendumIndex}`}
+                                            {`Referendum:${item.referendum_Index}`}
                                         </Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
@@ -718,74 +841,61 @@ Some sort of description for the referendum`,
                                             color: BaseColor.whiteColor,
                                         }}
                                         style={{
-                                            backgroundColor: statusColor,
+                                            backgroundColor: `${item.referendum_TagColor}`,
                                             paddingHorizontal: 10,
                                             minWidth: 80,
                                         }}
                                     >
-                                        {statusName}
+                                        {`${item.referendum_TagText}`}
                                     </Tag>
                                 </View>
                                 <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        paddingBottom: 20,
-                                    }}
-                                >
+                                    style={{ flexDirection: "row",  alignItems: "center", paddingBottom: 20, }} >
                                     <Icon name="tasks" size={14} color={colors.text} />
-                                    <Text
-                                        caption1
-                                        style={{
-                                            paddingLeft: 5,
-                                            paddingRight: 20,
-                                        }}
-                                    >
+                                    <Text caption1 style={{  paddingLeft: 5, paddingRight: 20, }} >
                                         {tasks} {"tasks"}
                                     </Text>
                 
                                     <Icon solid name="comment" size={14} color={colors.text} />
-                                    <Text
-                                        caption1
-                                        style={{
-                                            paddingHorizontal: 5,
-                                        }}
-                                    >
+                                    <Text caption1 style={{ paddingHorizontal: 5, }} >
                                         {comments} {"comments"}
                                     </Text>
                                 </View>
-                                <Text caption2 light>
-                                    {`Referendum with preImage Hash ${item.refrendumProposalHash} \nwill end at block ${item.refrendumEndBlock} and an enactment delay of ${ item.refrendumDelay} blocks will follow.`}
-                                </Text>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        paddingTop: 20,
-                                    }}
-                                >
-                             
-                                </View>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        paddingTop: 0,
-                                        paddingBottom: 5,
-                                        justifyContent: "space-between",
-                                    }}
-                                >
-                                    <Text overline>
-                                        {("Vote Progress")} {`AYES: ${ethers.utils.formatUnits(item.refrendumTally.ayes)} NAYS: ${ethers.utils.formatUnits(item.refrendumTally.nays)} TURNOUT: ${ethers.utils.formatUnits(item.refrendumTally.turnout)}`}
-                
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                    <Text caption2 light>
+                                        {`Referendum with ID ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock}  and the scoring block is ${ item.referendum_scoreBlock}.`}
                                     </Text>
-                                
                                 </View>
-                                <ProgressBar
-                                    style={{ flex: 1, paddingRight: 20 }}
-                                    color={BaseColor.accentColor}
-                                    percent={percent}
-                                />
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                    <Text caption2 light>
+                                        {`Referendum with IPFS CID ${item.referendum_CID} \n has the following TITLE: and DESCRIPTION \n`}
+                                    </Text>
+                                </View>
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                    <Text caption2 light>
+                                        {`Title:  ${"Funding for promoting Tron ecosystem to the UK market"}`}
+                                    </Text>
+                                </View>
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                    <Text caption2 light>
+                                        {`Description:  ${"Wtih this referendum we apply requesting 1000000 to promote the Tron ecosystem to the UK market \nMore precisely we will organise a conference in London, Edinburgh, Glasgow, Manchester with promotional material and speeches of startups in the ecosystem explaining the differences of Tron and advantages compare to toehr blockchains"}`}
+                                    </Text>
+                                </View>
+
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                </View>
+
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
+                                        <Text overline>
+                                            {("Vote Progress")} {`Beneficiary: ${item.referendum_Beneficiary} Treasury: ${item.referendum_Treasury} Amount: ${item.referendum_Amount}`}
+                                        </Text>
+                                </View>
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
+                                    <Text overline>
+                                        {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout} State:${item.referendum_Passed}`}
+                                    </Text>
+                                </View>
+                                <ProgressBar style={{ flex: 1, paddingRight: 20 }} color={BaseColor.accentColor} percent={`${item.referendum_ProgressBarPercent}`} />
                             </View>
                         </View>
                        </TouchableOpacity>
