@@ -814,9 +814,9 @@ Some sort of description for the referendum`,
 
                         <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
                             <View style={{ flex: 1 }}>
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                <View style={{ flexDirection: "row", alignItems: "center", fontWeight:"bold"}}>
                                     <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
-                                        <Text title3 numberOfLines={1}>
+                                        <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>
                                             {`Referendum:${item.referendum_Index}`}
                                         </Text>
                                     </TouchableOpacity>
@@ -832,7 +832,7 @@ Some sort of description for the referendum`,
                                     style={{
                                         flexDirection: "row",
                                         paddingTop: 5,
-                                        paddingBottom: 10,
+                                        paddingBottom: 0,
                                     }}
                                 >
                                     <Tag
@@ -848,8 +848,12 @@ Some sort of description for the referendum`,
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
+                                    <Text overline style={{ alignItems: "center", paddingTop: 2, paddingBottom: 0, paddingLeft: 15, justifyContent: "space-between", fontWeight:"bold" }}>
+                                        {`Amount: ${item.referendum_Amount}`}
+                                    </Text>
                                 </View>
-                                <View
+
+                                {/* <View
                                     style={{ flexDirection: "row",  alignItems: "center", paddingBottom: 20, }} >
                                     <Icon name="tasks" size={14} color={colors.text} />
                                     <Text caption1 style={{  paddingLeft: 5, paddingRight: 20, }} >
@@ -860,8 +864,8 @@ Some sort of description for the referendum`,
                                     <Text caption1 style={{ paddingHorizontal: 5, }} >
                                         {comments} {"comments"}
                                     </Text>
-                                </View>
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                </View> */}
+                                {/* <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
                                     <Text caption2 light>
                                         {`Referendum with ID ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock}  and the scoring block is ${ item.referendum_scoreBlock}.`}
                                     </Text>
@@ -870,29 +874,30 @@ Some sort of description for the referendum`,
                                     <Text caption2 light>
                                         {`Referendum with IPFS CID ${item.referendum_CID} \n has the following TITLE: and DESCRIPTION \n`}
                                     </Text>
-                                </View>
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                </View> */}
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
                                     <Text caption2 light>
-                                        {`Title:  ${"Funding for promoting Tron ecosystem to the UK market"}`}
+                                        {`${"Funding for promoting Tron ecosystem to the European market."}`}
                                     </Text>
                                 </View>
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                {/* <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
                                     <Text caption2 light>
                                         {`Description:  ${"Wtih this referendum we apply requesting 1000000 to promote the Tron ecosystem to the UK market \nMore precisely we will organise a conference in London, Edinburgh, Glasgow, Manchester with promotional material and speeches of startups in the ecosystem explaining the differences of Tron and advantages compare to toehr blockchains"}`}
                                     </Text>
                                 </View>
 
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
-                                </View>
+                                </View> */}
 
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
+                                {/* <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
                                         <Text overline>
-                                            {("Vote Progress")} {`Beneficiary: ${item.referendum_Beneficiary} Treasury: ${item.referendum_Treasury} Amount: ${item.referendum_Amount}`}
+                                            {("Vote Progress")} {`Beneficiary: ${item.referendum_Beneficiary} Treasury: ${item.referendum_Treasury}} Amount: ${item.referendum_Amount}`}
                                         </Text>
-                                </View>
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
-                                    <Text overline>
-                                        {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout} State:${item.referendum_Passed}`}
+                                </View> */}
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between"}} >
+                                    <Text overline style={{fontSize: 14, fontWeight:'bold', color:"blue" }}>
+                                        {/* {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout} State:${item.referendum_Passed}`} */}
+                                        {`State:${item.referendum_Passed}`}
                                     </Text>
                                 </View>
                                 <ProgressBar style={{ flex: 1, paddingRight: 20 }} color={BaseColor.accentColor} percent={`${item.referendum_ProgressBarPercent}`} />

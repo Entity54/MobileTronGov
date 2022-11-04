@@ -329,30 +329,30 @@ export default function App() {
                   tabBarActiveTintColor: '#3c0a6b'
               }} >
   
-                  <BottomTab.Screen name="Referenda" component={ReferendaStackScreen} options={{
+                  <BottomTab.Screen name="Current" component={ReferendaStackScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
                     // <Ionicons name="poll" color={color} size={size} /> 
-                    <FontAwesome5 name="poll" size={24} color={color} />
-                    ),
-                  }}
-                  />
-                  <BottomTab.Screen name="Proposals" component={ProposalsStackScreen} options={{
-                    tabBarIcon: ({color, size}) => ( 
                     <FontAwesome5 name="vote-yea" size={24} color={color} />
                     ),
                   }}
                   />
-                  <BottomTab.Screen name="History" component={HistoryScreen} options={{
+                  <BottomTab.Screen name="Queued" component={ProposalsStackScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
-                    <FontAwesome5 name="person-booth" size={24} color={color} />
+                    <FontAwesome5 name="pause-circle" size={24} color={color} />
+                    ),
+                  }}
+                  />
+                  <BottomTab.Screen name="Historical" component={HistoryScreen} options={{
+                    tabBarIcon: ({color, size}) => ( 
+                    <FontAwesome5 name="history" size={24} color={color} />
                     ),
                   }}
                   />
   
-                  <BottomTab.Screen name="Notifications" component={NotificationScreen} options={{
+                  <BottomTab.Screen name="Treasuries" component={NotificationScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
                     <View>
-                        <FontAwesome5 name="exclamation-triangle" size={24} color={color} />
+                        <FontAwesome5 name="piggy-bank" size={24} color={color} />
                         <View
                             style={{
                                 borderWidth: 1,
