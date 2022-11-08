@@ -728,7 +728,7 @@ const ReferendaScreen = ({ navigation,
                             <View style={{ flex: 1 }}>
                                 <View style={{ flexDirection: "row", alignItems: "center", fontWeight:"bold" }}>
                                     <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
-                                        <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>
+                                        <Text style={{fontWeight:"bold"}} style={{fontWeight:"bold"}} title3 numberOfLines={1}>
                                             {`Referendum:${item.referendum_Index}`}
                                         </Text>
                                     </TouchableOpacity>
@@ -760,6 +760,9 @@ const ReferendaScreen = ({ navigation,
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
+                                    <Text overline style={{ alignItems: "center", paddingTop: 2, paddingBottom: 0, paddingLeft: 15, justifyContent: "space-between", fontWeight:"bold" }}>
+                                        {`Amount: ${item.referendum_Amount}`}
+                                    </Text>
                                 </View>
                            
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >

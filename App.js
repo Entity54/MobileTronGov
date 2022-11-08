@@ -368,14 +368,13 @@ export default function App() {
                     ),
                   }}
                   />
-
-
-                  <BottomTab.Screen name="Treasuries" component={TreasuriesStackScreen} options={{
+  
+                  {/* <BottomTab.Screen name="Treasuries" component={NotificationScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
                       <FontAwesome5 name="piggy-bank" size={24} color={color} />
                     ),
                   }}
-                  />
+                  /> */}
   
                   {/* <BottomTab.Screen name="Treasuries" component={TreasuriesScreen} options={{
                     tabBarIcon: ({color, size}) => ( 

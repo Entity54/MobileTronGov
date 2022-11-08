@@ -11,7 +11,9 @@ import { Images } from "../../config/images";
 import styles from "./styles";
 
 import React, { useEffect, useState, useContext } from "react";
-import { ScrollView, TouchableOpacity, View, Button, Header, Text, TextInput, StyleSheet } from "react-native";
+import { ScrollView, TouchableOpacity, View, Header, Text, Button, TextInput, StyleSheet } from "react-native";
+// import { ScrollView, TouchableOpacity, View, Header, Text, TextInput, StyleSheet } from "react-native";
+
 
 // import { ethers } from 'ethers';  
 // import WalletConnectExperience from "../../../WalletConnectExperience";
@@ -302,8 +304,6 @@ const PProjectView = ({navigation}) => {
     //     else console.log(`****** removeVote is run but scGov does not exist *******`);
     // }
 
-
-
     useEffect(() => {
         const passedParamsObject = navigation.getState().routes[1].params;
         if(passedParamsObject)
@@ -357,9 +357,9 @@ const PProjectView = ({navigation}) => {
 
             <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
                 <View>
-                    <Text title3>{refTitle}</Text>
+                    <Text style={{fontWeight:"bold"}} titel3>{refTitle}</Text>
                     <Text body2 light style={{ paddingVertical: 10 }}>
-                        {refBody}
+                        {"refBody - This needs to be the main description."}
                     </Text>
                     <View style={styles.specifications}>
                         <ProductSpecGrid style={{ flex: 1 }} title={"0xFaCf…B63d8e"} description={"Creator"} />
@@ -384,39 +384,54 @@ const PProjectView = ({navigation}) => {
                 </View>
 
                 <Text headline style={{ paddingTop: 20,  paddingBottom: 5, marginTop: -50 }} >
-                    {`refCID: ${refCID}  refBeneficiary: ${refBeneficiary} refTreasury: ${refTreasury} refAmount: ${refAmount}  refStartBlock: ${refStartBlock} refEndBlock: ${refEndBlock} refScoreBlock: ${refScoreBlock} refTurnout: ${refTurnout} refPassed: ${refPassed} REMAINING BLOCKs: ${refEndBlock - currentBlockNumber}`}
+                    {/* {`refCID: ${refCID}  refBeneficiary: ${refBeneficiary} refTreasury: ${refTreasury} refAmount: ${refAmount}  refStartBlock: ${refStartBlock} refEndBlock: ${refEndBlock} refScoreBlock: ${refScoreBlock} refTurnout: ${refTurnout} refPassed: ${refPassed} REMAINING BLOCKs: ${refEndBlock - currentBlockNumber}`} */}
+                    {`Beneficiary: ${refBeneficiary}`}
                 </Text>
+                <Text>
+                    {`Treasury: ${refTreasury}`}
+                </Text>
+           
                     {/* {t("Referenda Details")} */}
                 <View style={{ flexDirection: "row", marginTop: 0}}>
                     <View style={{ flex: 1, paddingRight: 7 }}>
-                        <CardReport03 style={{ marginTop: 7 }}  icon="chart-line" title="Remaining" price="3 Days 45mins" time="Time" blocks="Blocks" percent="21,827" onPress={() => navigation.navigate("FCryptol02")}/>
-                        <CardReport03 style={{ marginTop: 7 }} icon="chart-line" title="Activate" price="4 Days 1hr" time="Time" blocks="Block" percent="#2,923,500" onPress={() => navigation.navigate("FCryptol02")} />
-                        {/* 5 */}
-                        <CardReport05 style={{ marginTop: 7 }} title = "Turnout" price = "2.3%" icon = "user-friends" onPress={() => navigation.navigate("FCryptol02")}/>
+                        <CardReport05 style={{ marginTop: 7 }} title="Finish Countdown" price={`${currentBlockNumber? refEndBlock - currentBlockNumber : refEndBlock}`} icon = "clock" onPress={() => navigation.navigate("FCryptol02")}/>
+                        <CardReport05 style={{ marginTop: 10 }} title="Scoring Countdown" price={`${currentBlockNumber? refScoreBlock - currentBlockNumber : refScoreBlock}`} icon = "clock" onPress={() => navigation.navigate("FCryptol02")} />
+                        <CardReport05 style={{ marginTop: 10, paddingBottom: 5, height:"auto" }} title = "Turnout" price ={refTurnout} icon = "user-friends" onPress={() => navigation.navigate("FCryptol02")}/>
                     </View>
                     <View style={{ flex: 1, paddingLeft: 7 }}>
-                        {/* 4 */}
-                        <CardReport04 contentStyle={{ paddingBottom: 35, marginBottom: 20, marginTop: 7 }}
-                            icon="credit-card" title="Status" title2="Support" price="412" aye="Aye"
+                        <CardReport04 contentStyle={{ paddingBottom: 15, marginBottom: 7, marginTop: 7 }}
+                            icon="credit-card" title="Status" title2="Aye Dominance" price="412" aye="AYE - "
                             ayeamount= {`${refAye} TRX`} nayamount=  {`${refNay} TRX`}
-                            percent1= "80%" nay="Nay" percent2= "20%" percent= "80"
+                            // percent1= "80%" nay="Nay" percent2= "20%" percent= "80"
+                            percent1= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100 : 0}`} nay="Nay" percent2= {`${(refAye + refNay)>0?(refNay / (refAye + refNay))*100:0}`} percent= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100:0}`}
                             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-                            onPress={() => navigation.navigate("Dashboard4")}
+                            // onPress={() => navigation.navigate("Dashboard4")}
                         />
                     </View>
                 </View>
 
                 <View style={newStyles.backgroundStyle}>
-                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Nummber of TRX'  style={newStyles.inputStyle} value={voteTokens} onChangeText={(newValue) => setVoteTokens(newValue)} />
-                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Conviction (0 to 3)'  style={newStyles.inputStyle} value={conviction} onChangeText={(newValue) => setConviction(newValue)} />
+                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Number of TRX'  style={newStyles.inputStyle} value={voteTokens} onChangeText={(newValue) => setVoteTokens(newValue)} />
+                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Conviction (0 - 3)'  style={newStyles.inputStyle} value={conviction} onChangeText={(newValue) => setConviction(newValue)} />
                 </View>
 
 
-
                 <View style={newStyles.votingbackgroundStyle}>
-                    <Button style={newStyles.voteButtonStyleAye}     title="Vote Aye" onPress={() => voteReferendum(refIndex, true, voteTokens, conviction) } />
+                    <Button style={newStyles.voteButtonStyleAye}  title="Vote Aye" onPress={() => voteReferendum(refIndex, true, voteTokens, conviction) } />
                     {/* <Button style={newStyles.voteButtonStyleUnvote}  title="Unvote"   onPress={() => removeVote(refIndex) } /> */}
                     <Button style={newStyles.voteButtonStyleNay}     title="Vote Nay" onPress={() => voteReferendum(refIndex, false, voteTokens, conviction ) } />
+
+
+
+                    {/* <Button type="button" className="btn btn-primary">Test</Button> */}
+                        {/* style={{ marginTop: 10, marginBottom: 20 }}
+                        onPress={() => voteReferendum(refIndex, true, voteTokens, conviction) }
+                        >hello
+                    </Button> */}
+
+
+
+
 
 
                     {/* <Button
@@ -453,86 +468,83 @@ const PProjectView = ({navigation}) => {
     );
 };
 
-
-
-
 const newStyles = StyleSheet.create({
     backgroundStyle: {
-        marginTop: 10,
-        // backgroundColor: '#93D9FF',
+        marginTop: 0,
+        // backgroundColor: ,
         height: 50,
         borderRadius: 5,
-        marginHorizontal: 15,
+        marginHorizontal: 35,
         flexDirection: 'row',
-        marginBottom: 10,
+        marginBottom: 20,
         justifyContent: 'center' 
-
     },
+
     votingbackgroundStyle: {
         marginTop: 10,
-        // backgroundColor: '#93D9FF',
-        height: 60,
+        height: 50,
         borderRadius: 5,
-        marginHorizontal: 15,
+        marginHorizontal: 35,
         flexDirection: 'row',
         marginBottom: 10,
-        flex: 1,     
-        
-        // justifyContent: 'center' ,
-    justifyContent: 'space-between'
-        
+        justifyContent: 'space-between',     
 
     },
     voteButtonStyleAye: {
         borderColor: '#087CBA',
         borderWidth: 2,
-        // flex: 1,     
+        margin: 15,
+        padding: 15,
+        flex: 0,    
         fontSize: 15,  //default is 14
-        backgroundColor: '#D3E5DD',
-        width: 85,
-        alignSelf: 'center',    //center the element
+        backgroundColor: '#ffffff',
+        width: 150,
+        height: 50,
+        borderRadius: 15,
+        alignSelf: 'auto',    //center the element
         justifyContent: 'center' ,
-    // justifyContent: 'space-between'
-    // alignItems: 'center'
 
     },
     voteButtonStyleNay: {
         borderColor: '#087CBA',
         borderWidth: 2,
-        // flex: 1,     
+        margin: 15,
+        padding: 15,
+        flex: 0,    
         fontSize: 15,  //default is 14
-        backgroundColor: '#EA6C09',
-        width: 85,
-        alignSelf: 'center',    //center the element
+        backgroundColor: '#ffffff',
+        width: 150,
+        height: 50,
+        borderRadius: 15,
+        alignSelf: 'auto',    //center the element
         justifyContent: 'center' ,
-        backgroundColor: '#93D9FF',
-
-    // justifyContent: 'space-between'
-    // alignItems: 'center'
-
     },
-    voteButtonStyleUnvote: {
-        borderColor: '#087CBA',
-        borderWidth: 7,
-        // flex: 1,     
-        fontSize: 15,  //default is 14
-        backgroundColor: '#D3E5DD',
-        width: 85,
-        alignSelf: 'center',    //center the element
-        justifyContent: 'center' ,
-    // justifyContent: 'space-between'
-    // alignItems: 'center'
+    // voteButtonStyleUnvote: {
+    //     borderColor: '#087CBA',
+    //     borderWidth: 7,
+    //     // flex: 1,     
+    //     fontSize: 15,  //default is 14
+    //     backgroundColor: '#D3E5DD',
+    //     width: 85,
+    //     alignSelf: 'center',    //center the element
+    //     justifyContent: 'center' ,
+    // // justifyContent: 'space-between'
+    // // alignItems: 'center'
 
-    },
+    // },
     
     inputStyle: {
         borderColor: '#087CBA',
         borderWidth: 2,
-        flex: 1,    
+        margin: 15,
+        padding: 15,
+        flex: 0,    
         fontSize: 15,  //default is 14
-        backgroundColor: '#D3E5DD',
-        width: 55,
-        alignSelf: 'center',    //center the element
+        backgroundColor: '#ffffff',
+        width: 150,
+        height: 50,
+        borderRadius: 15,
+        alignSelf: 'auto',    //center the element
         justifyContent: 'center' ,
 
     },
