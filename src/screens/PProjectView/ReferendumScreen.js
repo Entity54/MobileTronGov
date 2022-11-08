@@ -1,11 +1,14 @@
-import { default as ProductSpecGrid } from "../../components/Icon";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { default as CardReport03 } from "../../components/Report03";
+// import { default as ProductSpecGrid } from "../../components/Icon";
+import { default as ProductSpecGrid } from "@components/Icon";
+// import { default as CardReport03 } from "../../components/Report03";
 // import { default as CardReport04 } from "../../components/Report04";
 import { default as CardReport04 } from "@components/Report04";
 
-import { default as CardReport05 } from "../../components/Report05";
-import Icon from "../../components/Icon";
+// import { default as CardReport05 } from "../../components/Report05";
+import { default as CardReport05 } from "@components/Report05";
+
+// import Icon from "../../components/Icon";
 import Tag from "../../components/Tag";
 import { BaseColor } from "../../config/theme";
 import { BaseStyle } from "../../config/styles";
