@@ -113,10 +113,10 @@ const CardReport04 = ({
                         borderRadius: 3,
                         backgroundColor: colors.accent,
                         marginTop: 5,
-                        width:`${percent2}%`,
+                        width: `${percent2}%`,
                     }}
                 />
-                <Text headline style={{ marginTop: 15, textAlign: "center", width: "100%"}}>
+                <Text headline style={{ marginTop: 20, textAlign: "center", width: "100%"}}>
                     {title2}
                 </Text>
                 <View style={styles.viewProgress}>

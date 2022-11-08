@@ -79,12 +79,12 @@ const CardReport05 = ({
                     >
                         <Icon
                             name={icon}
-                            size={14}
+                            size={12}
                             style={{ color: BaseColor.blackColor }}
                             solid
                         />
                     </View>
-                {/* <Text headline style={{  textAlign: "center", width: "80%", marginTop: 0 }}>
+                {/* <Text headline style={{  textAlign: "center", width: "60%", marginTop: 0 }}>
                     {title}
                 </Text> */}
                 </View>
@@ -94,7 +94,7 @@ const CardReport05 = ({
                     </Text>
                 </View >
 
-                <Text headline style={{ textAlign: "center", width: "100%", marginTop: 2, paddingLeft:20, paddingBottom:0, fontSize:16, }}>
+                <Text headline style={{ textAlign: "center", width: "100%", marginTop: 5 }}>
                     {price}
                 </Text>
             </View>
