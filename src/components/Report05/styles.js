@@ -4,7 +4,7 @@ export default StyleSheet.create({
     content: {
         padding: 10,
         width: "100%",
-        height: 75,
+        // height: 75,
         borderRadius: 8,
         marginBottom: 0,
         borderWidth: StyleSheet.hairlineWidth,

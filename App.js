@@ -36,7 +36,7 @@
 
 
 // ******* Tron *******
-// import TronWeb from 'tronweb/dist/TronWeb.js';
+import TronWeb from 'tronweb/dist/TronWeb.js';
 // import createKeccakHash from 'keccak';
 // import TronWeb from 'tronweb';
 // const TronWeb = require('tronweb')
@@ -56,14 +56,22 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 
 // import SquareScreen from "./src/screens/SquareScreen";
-import AccountScreen from "./src/screens/AccountScreen";
-import HistoryScreen from "./src/screens/HistoryScreen";
+
 import ReferendaScreen from "./src/screens/Referenda/ReferendaScreen";
 import ReferendumScreen from "./src/screens/PProjectView/ReferendumScreen";
-// import ProposalsScreen from "./src/screens/Proposals/ProposalsScreen";
-// import ProposalScreen from "./src/screens/Proposal/ProposalScreen";
-import NotificationScreen from "./src/screens/Notification";
 
+import ProposalsScreen from "./src/screens/Proposals/ProposalsScreen";
+import ProposalScreen from "./src/screens/Proposal/ProposalScreen";
+
+import HistoryScreen from "./src/screens/HistoryScreen";
+
+import TreasuriesScreen from "./src/screens/Treasuries/TreasuriesScreen";
+import TreasuryScreen from "./src/screens/Treasury/TreasuryScreen";
+
+
+// import NotificationScreen from "./src/screens/Notification";
+
+import AccountScreen from "./src/screens/AccountScreen";
 
 
 //#region Screens NAvigators
@@ -81,11 +89,23 @@ const ProposalsStack = createNativeStackNavigator();
 const ProposalsStackScreen = () => {
   return (
     <ProposalsStack.Navigator>
-      {/* <ProposalsStack.Screen name="Proposals" component={ProposalsScreen} /> */}
-      <ReferendaStack.Screen name="Referenda" component={ReferendaScreen} />
+      <ProposalsStack.Screen name="Pending" component={ProposalsScreen} />
+      <ProposalsStack.Screen name="Create New Referendum" component={ProposalScreen} />
 
+      {/* <ProposalsStack.Screen name="Proposals" component={ProposalsScreen} /> */}
       {/* <ProposalsStack.Screen name="Proposal" component={ProposalScreen} /> */}
+      {/* <ReferendaStack.Screen name="Referenda" component={ReferendaScreen} /> */}
     </ProposalsStack.Navigator>
+  )
+}
+
+const TreasuriesStack = createNativeStackNavigator();
+const TreasuriesStackScreen = () => {
+  return (
+    <TreasuriesStack.Navigator>
+      <TreasuriesStack.Screen name="Treasuries" component={TreasuriesScreen} />
+      <TreasuriesStack.Screen name="Treasury Details" component={TreasuryScreen} />
+    </TreasuriesStack.Navigator>
   )
 }
 
@@ -329,44 +349,42 @@ export default function App() {
                   tabBarActiveTintColor: '#3c0a6b'
               }} >
   
-                  <BottomTab.Screen name="Referenda" component={ReferendaStackScreen} options={{
+                  <BottomTab.Screen name="Current" component={ReferendaStackScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
                     // <Ionicons name="poll" color={color} size={size} /> 
-                    <FontAwesome5 name="poll" size={24} color={color} />
-                    ),
-                  }}
-                  />
-                  <BottomTab.Screen name="Proposals" component={ProposalsStackScreen} options={{
-                    tabBarIcon: ({color, size}) => ( 
                     <FontAwesome5 name="vote-yea" size={24} color={color} />
                     ),
                   }}
                   />
-                  <BottomTab.Screen name="History" component={HistoryScreen} options={{
+                  <BottomTab.Screen name="Queued" component={ProposalsStackScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
-                    <FontAwesome5 name="person-booth" size={24} color={color} />
+                    <FontAwesome5 name="pause-circle" size={24} color={color} />
+                    ),
+                  }}
+                  />
+                  <BottomTab.Screen name="Historical" component={HistoryScreen} options={{
+                    tabBarIcon: ({color, size}) => ( 
+                    <FontAwesome5 name="history" size={24} color={color} />
+                    ),
+                  }}
+                  />
+
+
+                  <BottomTab.Screen name="Treasuries" component={TreasuriesStackScreen} options={{
+                    tabBarIcon: ({color, size}) => ( 
+                      <FontAwesome5 name="piggy-bank" size={24} color={color} />
                     ),
                   }}
                   />
   
-                  <BottomTab.Screen name="Notifications" component={NotificationScreen} options={{
+                  {/* <BottomTab.Screen name="Treasuries" component={TreasuriesScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
+                      <FontAwesome5 name="piggy-bank" size={24} color={color} />
+
                     <View>
-                        <FontAwesome5 name="exclamation-triangle" size={24} color={color} />
+                        <FontAwesome5 name="piggy-bank" size={24} color={color} />
                         <View
-                            style={{
-                                borderWidth: 1,
-                                borderColor: "white",  
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "absolute",
-                                width: 20,
-                                height: 20,
-                                backgroundColor: "red",
-                                top: -5,
-                                right: -12,
-                                borderRadius: 10,
-                            }}
+                            style={{ borderWidth: 1,  borderColor: "white", justifyContent: "center",  alignItems: "center", position: "absolute",  width: 20, right: -12, borderRadius: 10, }}
                         >
                             <Text  style={{color:"white"}}  >
                                 5
@@ -376,7 +394,7 @@ export default function App() {
   
                     ),
                   }}
-                  />
+                  /> */}
   
                   <BottomTab.Screen name="Account" component={AccountScreen} options={{
                     tabBarIcon: ({color, size}) => ( 

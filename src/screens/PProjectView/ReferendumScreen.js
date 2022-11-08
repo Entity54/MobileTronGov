@@ -43,189 +43,189 @@ const colors = {
   };
 
 //#region PProject array
-const PProject = [
-    {
-        id: 2,
-        title: "assetManager.registerLocalAsset",
-        description:
-            "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets ",
-        tasks: 105,
-        tickets: 100,
-        completedTickets: 90,
-        comments: 200,
-        status: "Moonbase",
-        statusName: "Moonbase",
-        members: [
-            {
-                id: 1,
-                name: "Stevie Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-            {
-                id: 3,
-                name: "Quinten Kortum",
-                total: "@quinten.kortum",
-                image: Images.avata3,
-            },
-            {
-                id: 4,
-                name: "Monica Ribeiro",
-                total: "@monica.ribeiro",
-                image: Images.avata4,
-            },
-            {
-                id: 5,
-                name: "Steve Kute",
-                total: "@steve.kute",
-                image: Images.profile1,
-            }
-        ],
-    },
-    {
-        id: 1,
-        title: "assetManager.registerLocalAsset",
-        description:
-            "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets",
-        tasks: 102,
-        tickets: 124,
-        completedTickets: 98,
-        comments: 300,
-        status: "Moonriver",
-        statusName: "Moonriver",
-        members: [
-            {
-                id: 4,
-                name: "Monica Ribeiro",
-                total: "@monica.ribeiro",
-                image: Images.avata4,
-            },
-            {
-                id: 5,
-                name: "Steve Kute",
-                total: "@steve.kute",
-                image: Images.profile1,
-            },
-            {
-                id: 6,
-                name: "Lakshmana Dongerkerry",
-                total: "@lakshmana.dongerkerry",
-                image: Images.profile2,
-            },
-            {
-                id: 1,
-                name: "Steve Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-            {
-                id: 3,
-                name: "Quinten Kortum",
-                total: "@quinten.kortum",
-                image: Images.avata3,
-            },
-        ],
-    },
-    {
-        id: 3,
-        title: "system.remark",
-        description: "Make some on-chain remark.",
-        tasks: 102,
-        tickets: 100,
-        completedTickets: 100,
-        comments: 300,
-        status: "Moonbase",
-        statusName: "Moonbase",
-        members: [
-            {
-                id: 6,
-                name: "Lakshmana Dongerkerry",
-                total: "@lakshmana.dongerkerry",
-                image: Images.profile2,
-            },
-            {
-                id: 7,
-                name: "Chioke Okonkwo",
-                total: "@chioke.okonkwo",
-                image: Images.profile3,
-            },
-            {
-                id: 8,
-                name: "Lacara Jones",
-                total: "@lacara.jones",
-                image: Images.profile4,
-            },
-            {
-                id: 1,
-                name: "Steve Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-        ],
-    },
-    {
-        id: 4,
-        title: "system.remark",
-        description:
-            "Make some on-chain remark.",
-        tasks: 50,
-        tickets: 90,
-        completedTickets: 40,
-        comments: 200,
-        status: "Moonbase",
-        statusName: "Moonbase",
-        members: [
-            {
-                id: 8,
-                name: "Lacara Jones",
-                total: "@lacara.jones",
-                image: Images.profile4,
-            },
-            {
-                id: 1,
-                name: "Steve Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 6,
-                name: "Lakshmana Dongerkerry",
-                total: "@lakshmana.dongerkerry",
-                image: Images.profile2,
-            },
-            {
-                id: 7,
-                name: "Chioke Okonkwo",
-                total: "@chioke.okonkwo",
-                image: Images.profile3,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-        ],
-    },
-];
+// const PProject = [
+//     {
+//         id: 2,
+//         title: "assetManager.registerLocalAsset",
+//         description:
+//             "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets ",
+//         tasks: 105,
+//         tickets: 100,
+//         completedTickets: 90,
+//         comments: 200,
+//         status: "Moonbase",
+//         statusName: "Moonbase",
+//         members: [
+//             {
+//                 id: 1,
+//                 name: "Stevie Grarrett",
+//                 total: "@steave.grarrent",
+//                 image: Images.avata1,
+//             },
+//             {
+//                 id: 2,
+//                 name: "Kondo leyasu",
+//                 total: "@kondo.leyasu",
+//                 image: Images.avata2,
+//             },
+//             {
+//                 id: 3,
+//                 name: "Quinten Kortum",
+//                 total: "@quinten.kortum",
+//                 image: Images.avata3,
+//             },
+//             {
+//                 id: 4,
+//                 name: "Monica Ribeiro",
+//                 total: "@monica.ribeiro",
+//                 image: Images.avata4,
+//             },
+//             {
+//                 id: 5,
+//                 name: "Steve Kute",
+//                 total: "@steve.kute",
+//                 image: Images.profile1,
+//             }
+//         ],
+//     },
+//     {
+//         id: 1,
+//         title: "assetManager.registerLocalAsset",
+//         description:
+//             "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets",
+//         tasks: 102,
+//         tickets: 124,
+//         completedTickets: 98,
+//         comments: 300,
+//         status: "Moonriver",
+//         statusName: "Moonriver",
+//         members: [
+//             {
+//                 id: 4,
+//                 name: "Monica Ribeiro",
+//                 total: "@monica.ribeiro",
+//                 image: Images.avata4,
+//             },
+//             {
+//                 id: 5,
+//                 name: "Steve Kute",
+//                 total: "@steve.kute",
+//                 image: Images.profile1,
+//             },
+//             {
+//                 id: 6,
+//                 name: "Lakshmana Dongerkerry",
+//                 total: "@lakshmana.dongerkerry",
+//                 image: Images.profile2,
+//             },
+//             {
+//                 id: 1,
+//                 name: "Steve Grarrett",
+//                 total: "@steave.grarrent",
+//                 image: Images.avata1,
+//             },
+//             {
+//                 id: 2,
+//                 name: "Kondo leyasu",
+//                 total: "@kondo.leyasu",
+//                 image: Images.avata2,
+//             },
+//             {
+//                 id: 3,
+//                 name: "Quinten Kortum",
+//                 total: "@quinten.kortum",
+//                 image: Images.avata3,
+//             },
+//         ],
+//     },
+//     {
+//         id: 3,
+//         title: "system.remark",
+//         description: "Make some on-chain remark.",
+//         tasks: 102,
+//         tickets: 100,
+//         completedTickets: 100,
+//         comments: 300,
+//         status: "Moonbase",
+//         statusName: "Moonbase",
+//         members: [
+//             {
+//                 id: 6,
+//                 name: "Lakshmana Dongerkerry",
+//                 total: "@lakshmana.dongerkerry",
+//                 image: Images.profile2,
+//             },
+//             {
+//                 id: 7,
+//                 name: "Chioke Okonkwo",
+//                 total: "@chioke.okonkwo",
+//                 image: Images.profile3,
+//             },
+//             {
+//                 id: 8,
+//                 name: "Lacara Jones",
+//                 total: "@lacara.jones",
+//                 image: Images.profile4,
+//             },
+//             {
+//                 id: 1,
+//                 name: "Steve Grarrett",
+//                 total: "@steave.grarrent",
+//                 image: Images.avata1,
+//             },
+//             {
+//                 id: 2,
+//                 name: "Kondo leyasu",
+//                 total: "@kondo.leyasu",
+//                 image: Images.avata2,
+//             },
+//         ],
+//     },
+//     {
+//         id: 4,
+//         title: "system.remark",
+//         description:
+//             "Make some on-chain remark.",
+//         tasks: 50,
+//         tickets: 90,
+//         completedTickets: 40,
+//         comments: 200,
+//         status: "Moonbase",
+//         statusName: "Moonbase",
+//         members: [
+//             {
+//                 id: 8,
+//                 name: "Lacara Jones",
+//                 total: "@lacara.jones",
+//                 image: Images.profile4,
+//             },
+//             {
+//                 id: 1,
+//                 name: "Steve Grarrett",
+//                 total: "@steave.grarrent",
+//                 image: Images.avata1,
+//             },
+//             {
+//                 id: 6,
+//                 name: "Lakshmana Dongerkerry",
+//                 total: "@lakshmana.dongerkerry",
+//                 image: Images.profile2,
+//             },
+//             {
+//                 id: 7,
+//                 name: "Chioke Okonkwo",
+//                 total: "@chioke.okonkwo",
+//                 image: Images.profile3,
+//             },
+//             {
+//                 id: 2,
+//                 name: "Kondo leyasu",
+//                 total: "@kondo.leyasu",
+//                 image: Images.avata2,
+//             },
+//         ],
+//     },
+// ];
 //#endregion
 
 
@@ -267,7 +267,7 @@ const PProjectView = ({navigation}) => {
     const [conviction, setConviction] = useState("");
 
     // const {wallet, scComs, scGov, updateSignerElements} = useContext(GovContext);
-    const {tronWeb, updateTronWeb, tronGovernanceSC, updateCurrentBlockNumber, currentBlockNumber } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter  } = useContext(GovContext);
 
     const voteReferendum = async (refIndex, isAye, amount, convictionNum = 0 ) => {
         if (tronGovernanceSC && tronWeb)
@@ -290,17 +290,17 @@ const PProjectView = ({navigation}) => {
         else console.log(`****** voteReferendum is run but tronGovernanceSC does not exist *******`);
     }
 
-    const removeVote = async (refIndex) => {
-        if (scGov)
-        {
-          const tx = await scGov.removeVote(refIndex);
-          tx.wait().then( async reslveMsg => {
-            console.log(`tx to removeVote from a referenum is mined resolveMsg : `,reslveMsg);
-          });
+    // const removeVote = async (refIndex) => {
+    //     if (scGov)
+    //     {
+    //       const tx = await scGov.removeVote(refIndex);
+    //       tx.wait().then( async reslveMsg => {
+    //         console.log(`tx to removeVote from a referenum is mined resolveMsg : `,reslveMsg);
+    //       });
   
-        }
-        else console.log(`****** removeVote is run but scGov does not exist *******`);
-    }
+    //     }
+    //     else console.log(`****** removeVote is run but scGov does not exist *******`);
+    // }
 
 
 
@@ -344,6 +344,12 @@ const PProjectView = ({navigation}) => {
             // setRefNay(nay);
         }
     }, [navigation]);
+
+
+    // useEffect(() => {
+    //     console.log(`refreshCounter for Referendum Screen ${refreshCounter}`);
+    //     // getActiveRefrenda();
+    // },[refreshCounter])
 
     return (
         <SafeAreaView  style={[BaseStyle.safeAreaView, { flex: 1 }]}  edges={["right", "top", "left"]} >

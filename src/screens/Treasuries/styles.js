@@ -8,8 +8,4 @@ export default StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10,
     },
-    container: {
-        padding: 20,
-        paddingTop: 0,
-    },
 });

@@ -84,10 +84,15 @@ const CardReport05 = ({
                             solid
                         />
                     </View>
-                <Text headline style={{  textAlign: "center", width: "60%", marginTop: 0 }}>
+                {/* <Text headline style={{  textAlign: "center", width: "60%", marginTop: 0 }}>
                     {title}
-                </Text>
+                </Text> */}
                 </View>
+                <View style={[styles.header]}>
+                    <Text headline style={{ textAlign: "center", width: "100%"}}>
+                        {title}
+                    </Text>
+                </View >
 
                 <Text headline style={{ textAlign: "center", width: "100%", marginTop: 5 }}>
                     {price}

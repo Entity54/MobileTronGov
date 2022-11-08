@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import styles from "./styles";
-import { parseHexTransparency } from "@utils";
+// import { parseHexTransparency } from "@utils";
 
 // import ProgressCircle from "@components/Progress/Circle";
 import ProgressCircle from "../Progress/Circle";

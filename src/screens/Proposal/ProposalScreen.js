@@ -14,14 +14,15 @@
 //     // Text,
 // } from "@components";
 
-// import WalletConnectExperience from "../../../WalletConnectExperience";
+
+import React, { useEffect, useState, useContext } from "react";
+import { ScrollView, TouchableOpacity, View, Button, Header, Text, TextInput } from "react-native";
+import GovContext from '../../context/GovContext';
 
 
 import { default as ProductSpecGrid } from "../../components/Icon";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { default as CardReport03 } from "../../components/Report03";
-// import { default as CardReport04 } from "./Card/Report04";
-// import { default as CardReport05 } from "./Card/Report05";
 import { default as CardReport04 } from "../../components/Report04";
 import { default as CardReport05 } from "../../components/Report05";
 
@@ -29,18 +30,11 @@ import { default as CardReport05 } from "../../components/Report05";
 import Icon from "../../components/Icon";
 import Tag from "../../components/Tag";
 
-
 // import { BaseColor, BaseStyle, useTheme } from "@config";
 import { BaseColor } from "../../config/theme";
 import { BaseStyle } from "../../config/styles";
 import { Images } from "../../config/images";
 
-
-// import { PProject } from "@data";
-// import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-// import { useTranslation } from "react-i18next";
-import { ScrollView, TouchableOpacity, View, Button, Header, Text } from "react-native";
 import styles from "./styles";
 
 
@@ -70,224 +64,14 @@ const colors = {
   };
 
 
-const PProject = [
-    {
-        id: 2,
-        title: "assetManager.registerLocalAsset",
-        description:
-            "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets ",
-        tasks: 105,
-        tickets: 100,
-        completedTickets: 90,
-        comments: 200,
-        status: "Moonbase",
-        statusName: "Moonbase",
-        members: [
-            {
-                id: 1,
-                name: "Stevie Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-            {
-                id: 3,
-                name: "Quinten Kortum",
-                total: "@quinten.kortum",
-                image: Images.avata3,
-            },
-            {
-                id: 4,
-                name: "Monica Ribeiro",
-                total: "@monica.ribeiro",
-                image: Images.avata4,
-            },
-            {
-                id: 5,
-                name: "Steve Kute",
-                total: "@steve.kute",
-                image: Images.profile1,
-            }
-        ],
-    },
-    {
-        id: 1,
-        title: "assetManager.registerLocalAsset",
-        description:
-            "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets",
-        tasks: 102,
-        tickets: 124,
-        completedTickets: 98,
-        comments: 300,
-        status: "Moonriver",
-        statusName: "Moonriver",
-        members: [
-            {
-                id: 4,
-                name: "Monica Ribeiro",
-                total: "@monica.ribeiro",
-                image: Images.avata4,
-            },
-            {
-                id: 5,
-                name: "Steve Kute",
-                total: "@steve.kute",
-                image: Images.profile1,
-            },
-            {
-                id: 6,
-                name: "Lakshmana Dongerkerry",
-                total: "@lakshmana.dongerkerry",
-                image: Images.profile2,
-            },
-            {
-                id: 1,
-                name: "Steve Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-            {
-                id: 3,
-                name: "Quinten Kortum",
-                total: "@quinten.kortum",
-                image: Images.avata3,
-            },
-        ],
-    },
-    {
-        id: 3,
-        title: "system.remark",
-        description: "Make some on-chain remark.",
-        tasks: 102,
-        tickets: 100,
-        completedTickets: 100,
-        comments: 300,
-        status: "Moonbase",
-        statusName: "Moonbase",
-        members: [
-            {
-                id: 6,
-                name: "Lakshmana Dongerkerry",
-                total: "@lakshmana.dongerkerry",
-                image: Images.profile2,
-            },
-            {
-                id: 7,
-                name: "Chioke Okonkwo",
-                total: "@chioke.okonkwo",
-                image: Images.profile3,
-            },
-            {
-                id: 8,
-                name: "Lacara Jones",
-                total: "@lacara.jones",
-                image: Images.profile4,
-            },
-            {
-                id: 1,
-                name: "Steve Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-        ],
-    },
-    {
-        id: 4,
-        title: "system.remark",
-        description:
-            "Make some on-chain remark.",
-        tasks: 50,
-        tickets: 90,
-        completedTickets: 40,
-        comments: 200,
-        status: "Moonbase",
-        statusName: "Moonbase",
-        members: [
-            {
-                id: 8,
-                name: "Lacara Jones",
-                total: "@lacara.jones",
-                image: Images.profile4,
-            },
-            {
-                id: 1,
-                name: "Steve Grarrett",
-                total: "@steave.grarrent",
-                image: Images.avata1,
-            },
-            {
-                id: 6,
-                name: "Lakshmana Dongerkerry",
-                total: "@lakshmana.dongerkerry",
-                image: Images.profile2,
-            },
-            {
-                id: 7,
-                name: "Chioke Okonkwo",
-                total: "@chioke.okonkwo",
-                image: Images.profile3,
-            },
-            {
-                id: 2,
-                name: "Kondo leyasu",
-                total: "@kondo.leyasu",
-                image: Images.avata2,
-            },
-        ],
-    },
-];
-
-
-
-
-
-
-const TAGS = [
-    { id: "1", icon: "wifi", name: "HTML", checked: true },
-    { id: "2", icon: "bath", name: "Bootstrap" },
-    { id: "3", icon: "paw", name: "CSS3" },
-    { id: "4", icon: "bus", name: "Jquery" },
-];
 
 const ProposalScreen = ({navigation}) => {
-
-    const passedParamsObject = navigation.getState().routes[1].params;
-    console.log(`==============> passedParamsObject: `,passedParamsObject);
-    console.log(` ${typeof passedParamsObject} KEYS: `,Object.keys(passedParamsObject));
-    const id = passedParamsObject.id;
-    const name = passedParamsObject.name;
-    console.log(`==============> id: `,id);
-    console.log(`==============> name: `,name);
-
-
-
-
-
-
-
     // const { t } = useTranslation();
     // const { colors } = useTheme();
     // const navigation = useNavigation();
     // const route = useRoute();
-    const [members, setMembers] = useState(PProject[0].members);
-    const [item, setItem] = useState(PProject[0]);
+    // const [members, setMembers] = useState(PProject[0].members);
+    // const [item, setItem] = useState(PProject[0]);
 
     // useEffect(() => {
     //     if (route?.params?.members) {
@@ -301,43 +85,51 @@ const ProposalScreen = ({navigation}) => {
     //     }
     // }, [route?.params?.item]);
 
+
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
+    const [treasuryAddress, setTreasuryAddress] = useState("");
+    const [requestAmount, setRequestAmount] = useState("");
+    const [startInNumBlocks, setStartInNumBlocks] = useState("");
+    const [duration, setDuration] = useState("");
+    const [scoringInNumBlocks, setScoringInNumBlocks] = useState("");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [cid, setCID] = useState("");
+
+
+    const createNewReferedum = async () => {
+        console.log(`createNewReferedum has been tapped`)
+        if (tronGovernanceSC && tronWeb && requestAmount>=100 
+            && startInNumBlocks<=20 && duration>=20 && duration<=201600 && scoringInNumBlocks>0 
+            && title!=="" && description!="")
+        {
+          const amountSUN =  tronWeb.toSun(requestAmount);   
+          const CID = "Hello IPFS World";
+          const referendumFee = tronWeb.toSun(10);   
+
+          let result = await tronGovernanceSC.createNewReferendum(treasuryAddress, amountSUN, CID, startInNumBlocks, duration, scoringInNumBlocks ).send({
+            feeLimit:2100000000,
+            callValue: referendumFee,
+            shouldPollResponse:true
+          });
+          console.log(` ***** New Refenredum has been submitted with CID: ${CID} and title: ${title} for treasury: ${treasuryAddress} *****`);
+         
+        } else console.log(`It was not possible to submit a New Referendum`);
+    }
+
+    useEffect(() => {
+        if (tronGovernanceSC) 
+        {
+            console.log(`Proposal Screeb tronGovernanceSC is set.`);
+        }
+    },[tronGovernanceSC]);
+
+
     return (
         <SafeAreaView
             style={[BaseStyle.safeAreaView, { flex: 1 }]}
             edges={["right", "top", "left"]}
         >
-         {/* <WalletConnectExperience /> */}
-
-            {/* // title={t("Referenda Overview")} */}
-            {/* <Header
-                title={"Referenda Overview"}
-
-                renderLeft={() => {
-                    return (
-                        <Icon
-                            name="angle-left"
-                            size={20}
-                            color={colors.text}
-                            enableRTL={true}
-                        />
-                    );
-                }}
-                onPressLeft={() => {
-                    navigation.goBack();
-                }}
-                renderRight={() => {
-                    return (
-                        <Text headline primaryColor>
-                            {"edit"}
-
-                        </Text>
-                    );
-                }}
-                onPressRight={() => {
-                    navigation.navigate("PProjectCreate", { item: item });
-                }}
-            /> */}
-                {/* {t("edit")} */}
 
             <ScrollView
                 contentContainerStyle={styles.container}
@@ -345,12 +137,80 @@ const ProposalScreen = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
             >
                 <View>
-                    <Text title3>{item.title}</Text>
-                    <Text body2 light style={{ paddingVertical: 10 }}>
-                        {
-                            "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets."
-                        }
-                    </Text>
+                    <View style={styles.backgroundStyle}>
+                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Title</Text>
+                    </View>
+                    <View style={styles.backgroundStyle}>
+                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder=''  style={styles.inputStyle} value={title} 
+                            onChangeText={(newValue) => setTitle(newValue)} 
+                        />
+                    </View>
+                    
+
+                    <View style={styles.backgroundStyle}>
+                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Treasury Address</Text>
+                    </View>
+                    <View style={styles.backgroundStyle}>
+                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be valid Treasury Address'  style={styles.inputStyle} value={treasuryAddress} 
+                            onChangeText={(newValue) => setTreasuryAddress(newValue)} 
+                        />
+                    </View>
+
+                    <View style={styles.backgroundStyle}>
+                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Requested Amount</Text>
+                    </View>
+                    <View style={styles.backgroundStyle}>
+                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be >= 100 TRX'  style={styles.inputStyle} value={requestAmount} 
+                            onChangeText={(newValue) => setRequestAmount(newValue)} 
+                        />
+                    </View>
+
+                    <View style={styles.backgroundStyle}>
+                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Start in Number Blocks</Text>
+                    </View>
+                    <View style={styles.backgroundStyle}>
+                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be <=20'  style={styles.inputStyle} value={startInNumBlocks} 
+                            onChangeText={(newValue) => setStartInNumBlocks(newValue)} 
+                        />
+                    </View>
+
+
+                    <View style={styles.backgroundStyle}>
+                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Referendum duration</Text>
+                    </View>
+                    <View style={styles.backgroundStyle}>
+                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='>= 20 && <= 201600'  style={styles.inputStyle} value={duration} 
+                            onChangeText={(newValue) => setDuration(newValue)} 
+                        />
+                    </View>
+
+                    <View style={styles.backgroundStyle}>
+                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Scoring number of Blocks after expiration</Text>
+                    </View>
+                    <View style={styles.backgroundStyle}>
+                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='>0'  style={styles.inputStyle} value={scoringInNumBlocks} 
+                            onChangeText={(newValue) => setScoringInNumBlocks(newValue)} 
+                        />
+                    </View>
+
+
+                    <View style={styles.backgroundStyle}>
+                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Description</Text>
+                    </View>
+                    <View style={styles.descriptionStyle}>
+                        <TextInput autoCapitalize='sentences' autoCorrect={true} placeholder="Describe what you are planning to do with the funds if the referednum passes \n. Treasury will score your performance based on actual versus expected performance as described here"
+                            style={styles.descriptionInputStyle} value={description} multiline={true}
+                            onChangeText={(newValue) => setDescription(newValue)} 
+                        />
+                    </View>
+
+                    <View>
+                        <Button style={styles.specifications}  title="SUBMIT" onPress={() => createNewReferedum() } />
+                    </View>
+                    <View></View>
+
+
+
                     <View style={styles.specifications}>
                         <ProductSpecGrid
                             style={{ flex: 1 }}
@@ -365,16 +225,13 @@ const ProposalScreen = ({navigation}) => {
                             description={"Owner"}
                             
                         />
-                            {/* // description={t("Owner")} */}
                     </View>
-                    <View style={styles.specifications}>
+                    {/* <View style={styles.specifications}>
                         <ProductSpecGrid
                             style={{ flex: 1 }}
                             title={"129"}
                             description={"Referenda #"}
-                            
                         />
-                            {/* // description={t("Referenda #")} */}
                         <ProductSpecGrid
                             style={{ flex: 1 }}
                             title={
@@ -391,72 +248,11 @@ const ProposalScreen = ({navigation}) => {
                                 </Tag>
                             }
                             description={"status"}
-                            
                         />
-                            {/* // description={t("status")} */}
-                    </View>
-                    {/* <Text
-                        headline
-                        style={{
-                            paddingTop: 10,
-                            paddingBottom: 5,
-                        }}
-                    >
-                        {t("tags")}
-                    </Text>
-                    <View style={styles.wrapContent}>
-                        {TAGS.map((item) => {
-                            return (
-                                <Tag
-                                    chip
-                                    key={item.id}
-                                    style={{
-                                        marginTop: 10,
-                                        marginRight: 10,
-                                        paddingHorizontal: 10,
-                                        borderColor: colors.card,
-                                    }}
-                                >
-                                    {item.name}
-                                </Tag>
-                            );
-                        })}
-                    </View>
-                    <View
-                        style={[
-                            styles.specifications,
-                            { justifyContent: "space-between" },
-                        ]}
-                    >
-                        <Text headline>{t("team_members")}</Text>
-                        <TouchableOpacity
-                            onPress={() =>
-                                navigation.navigate("PSelectAssignee", {
-                                    members: members,
-                                })
-                            }
-                        >
-                            <Text body2 accentColor>
-                                {t("view_all")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.specifications}>
-                        <Avatars users={members} limit={3} isShowMore={false} />
-                        <PButtonAddUser
-                            onPress={() =>
-                                navigation.navigate("PSelectAssignee", {
-                                    members: members,
-                                })
-                            }
-                        />
-                    </View>
-                    <Text caption1 grayColor>{`and ${
-                        members.length <= 3 ? 0 : members.length - 3
-                    } other members`}</Text> */}
+                    </View> */}
                 </View>
 
-                <Text
+                {/* <Text
                     headline
                     style={{
                         paddingTop: 20,
@@ -464,9 +260,8 @@ const ProposalScreen = ({navigation}) => {
                     }}
                 >
                     {"Referenda Details"}
+                </Text> */}
 
-                </Text>
-                    {/* {t("Referenda Details")} */}
                 <View style={{ flexDirection: "row", marginTop: 5 }}>
                     <View style={{ flex: 1, paddingRight: 7 }}>
                         <CardReport03
@@ -489,18 +284,16 @@ const ProposalScreen = ({navigation}) => {
                             percent="#2,923,500"
                             onPress={() => navigation.navigate("FCryptol02")}
                         />
-                        {/* 5 */}
-                        <CardReport05
+                        {/* <CardReport05
                             style={{ marginTop: 7 }}
                             title = "Turnout"
                             price = "2.3%"
                             icon = "user-friends"
                             onPress={() => navigation.navigate("FCryptol02")}
-                        />
+                        /> */}
 
                     </View>
-                    <View style={{ flex: 1, paddingLeft: 7 }}>
-                        {/* 4 */}
+                    {/* <View style={{ flex: 1, paddingLeft: 7 }}>
                         <CardReport04
                             contentStyle={{ paddingBottom: 35, marginBottom: 20, marginTop: 7 }}
                             icon="credit-card"
@@ -517,9 +310,9 @@ const ProposalScreen = ({navigation}) => {
                             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
                             onPress={() => navigation.navigate("Dashboard4")}
                         />
-                    </View>
+                    </View> */}
                 </View>
-                <View style={{ flex: 1, paddingLeft: 7 }}>
+                {/* <View style={{ flex: 1, paddingLeft: 7 }}>
                     <Button
                         title="VOTE"
                         style={{ backgroundColor: colors.primaryLight }}
@@ -530,28 +323,16 @@ const ProposalScreen = ({navigation}) => {
                         {"VOTE1"}
 
                     </Button>
-                        {/* {t("VOTE")} */}
-                </View>
+                </View> */}
 
                 <View style={{ flex: 1, paddingLeft: 7,  marginTop: 7 }}>
                 </View>
-
-                <View style={{ flex: 1, paddingLeft: 7 }}>
-                    <Button
-                        title="UNVOTE"
-                        style={{ marginTop: 7 }}
-                        onPress={() => {
-                        navigation.goBack();
-                        }}
-                    >
-                        {"UNVOTE1"}
-
-                    </Button>
-                        {/* {t("UNVOTE")} */}
-                </View>
+           
             </ScrollView>
         </SafeAreaView>
     );
 };
+
+
 
 export default ProposalScreen;
