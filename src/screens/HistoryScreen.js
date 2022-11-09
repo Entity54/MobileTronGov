@@ -39,7 +39,7 @@ const HistoryScreen = ({
     // status = "Moonbase",
 }) => {
 
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter, retrieveContentfromIPFS, pinJSONToIPFS  } = useContext(GovContext);
     const [expiredReferendaArray, setExpiredReferendaArray]  = useState([]);
 
 
@@ -92,13 +92,25 @@ const HistoryScreen = ({
                 } 
                 else if (currentBlockNumber > endBlock) progressBarPercent=100;
                 else if (currentBlockNumber < startBlock) progressBarPercent=0;
+
+                let res, titel="A Title", descrpt="A Description";
+                const referendumCID = `${referendumDetails[4]}`;
+                try {
+                    res = JSON.parse(await retrieveContentfromIPFS( referendumCID ));
+                    titel = res.title;
+                    descrpt = res.description;
+                } catch (e) 
+                {
+                    console.log(`Error in retireving IPFS data`);
+                }
+
                 
                 expiredreferendarray.push({
                     referendum_Index      : `${referendumDetails[0]}`,
                     referendum_Beneficiary: `${referendumDetails[1]}`,
                     referendum_Treasury   : `${referendumDetails[2]}`,
                     referendum_Amount     : refAmountSun,
-                    referendum_CID        : `${referendumDetails[4]}`,
+                    referendum_CID        : referendumCID,
                     referendum_startBlock : startBlock,
                     referendum_endBlock   : endBlock,
                     referendum_scoreBlock : `${referendumDetails[7]}`,
@@ -108,7 +120,9 @@ const HistoryScreen = ({
                     referendum_Passed     : Number(`${referendumDetails[8]}`) > Number(`${referendumDetails[9]}`)? "Passed" : "Not Passed",
                     referendum_TagColor   : tagColor,
                     referendum_TagText    : tagText,
-                    referendum_ProgressBarPercent : progressBarPercent
+                    referendum_ProgressBarPercent : progressBarPercent,
+                    referendum_Title          : titel,
+                    referendum_Description    : descrpt,
                 })
 
           }
@@ -182,7 +196,8 @@ const HistoryScreen = ({
                                
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
                                     <Text caption2 light>
-                                        {`${"Funding for promoting Tron ecosystem to the European market"}`}
+                                        {/* {`${"Funding for promoting Tron ecosystem to the European market"}`} */}
+                                        {`Title: ${item.referendum_Title}`}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >

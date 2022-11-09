@@ -1,6 +1,8 @@
 import TronWeb from 'tronweb/dist/TronWeb.js';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
 
 
 import TronGovernance_raw from '../Abis/tronGovernance.json';     
@@ -11,6 +13,11 @@ const tronGovernanceContractAddress = "TBHLsbmX2mhSyWjXdh1fciCmHNbXHca8Yy";
 
 
 const TronGridApiKey = "2a285484-2e03-4082-af1a-389b53879ec3";
+
+//IPFS Key
+const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyZTMzMzA0My0xZmZjLTQxNGQtYjFmMC0yZGQ2MThjZjlhY2QiLCJlbWFpbCI6ImFuZ2RpYW1kMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZTI3ZmMyMDI0NjVmNDM3MTJiM2EiLCJzY29wZWRLZXlTZWNyZXQiOiI4NmVhMWFkMWNhZWMwYTI4NWRhMzY2ZmY4YzI0ODgwODU2NGY4ZTcwNmM0YWNkMmVlNGFmMmFmOWZmYWU1NDM2IiwiaWF0IjoxNjY2MjcwNTU1fQ.RN7MVo1NdUxcVEgwl5g0ZUChERr2iyzmA0-Eb4V7oLQ";
+
+
 
 const GovContext = React.createContext();
 
@@ -190,6 +197,76 @@ export const GovProvider = ({children}) => {
     }
     //#endregion
 
+
+    //#region IPFS PINNING
+    //#region ***** Uploading and Pinning JSON **********
+    const pinJSONToIPFS = async (title, treasuryAddress, requestedAmount, startInNumBlocks, durationNumBlocks, scoringNumberOfBlocks, description) => {
+        //IPFS Key
+        const adminJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyZTMzMzA0My0xZmZjLTQxNGQtYjFmMC0yZGQ2MThjZjlhY2QiLCJlbWFpbCI6ImFuZ2RpYW1kMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZTI3ZmMyMDI0NjVmNDM3MTJiM2EiLCJzY29wZWRLZXlTZWNyZXQiOiI4NmVhMWFkMWNhZWMwYTI4NWRhMzY2ZmY4YzI0ODgwODU2NGY4ZTcwNmM0YWNkMmVlNGFmMmFmOWZmYWU1NDM2IiwiaWF0IjoxNjY2MjcwNTU1fQ.RN7MVo1NdUxcVEgwl5g0ZUChERr2iyzmA0-Eb4V7oLQ";
+
+        const metadataJSON = JSON.stringify({name: title});
+        const myData = { title, treasuryAddress, requestedAmount, startInNumBlocks, durationNumBlocks, scoringNumberOfBlocks, description, };
+        const jsonToStore = JSON.stringify(myData);
+        
+        const data = JSON.stringify({
+                "pinataOptions": {
+                    "cidVersion": 1
+                },
+                "pinataMetadata": metadataJSON,
+                "pinataContent" : jsonToStore
+        });
+
+        const config = {
+            method: 'post',
+            url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${adminJWT}`,
+            },
+            data : data
+        };
+
+        const result = await axios(config);
+        console.log("We have successfully PINNED a JSON",result.data);
+        // We have successfully PINNED a JSON Object {
+        //     "IpfsHash": "bafkreiesv6qdwmo4qqbtjsjsm2k2ygxy2jgb6qrpsffoqle3gyejp7xa6q",
+        //     "PinSize": 889,
+        //     "Timestamp": "2022-11-09T17:11:28.552Z",
+        //     "isDuplicate": true,
+        // }
+        return result.data;
+    }
+
+    // const descript = `We want to promote Tron Ecosystem in Europe. Physical conferences will be held in major cities like Berlin, London, Paris, Stockholm,
+    // Brussels, Madrid, Rome. These conference will be broadcasted. We will bring key speakers to explain the huge advantages of the Tron Blockchain.
+    // There will also be a second stage for Ecosystem Projects to Pitch their projects.
+    // Furthermore we will organise a mini hackathon both physical and virtual to promote buildign on Tron.
+    // Marketing material will be prepared and distributed both in social media such as twitter but also leaflets in central points of the aforementioned cities
+    // `;
+    // pinJSONToIPFS("Promoting Tron in Europe", "TP41sdljfhsldfssdfsdfjsdfjsldf", "12345", "20", "69000", "25000", descript);
+    //#endregion ***** Uploading and Pinning JSON **********
+
+
+    //#region ***** Retrieving Content from IPFS **********
+    const retrieveContentfromIPFS = async (CID) => {
+        const config = {
+            method: 'get',
+            url: `https://gateway.pinata.cloud/ipfs/${CID}`,
+        };
+
+        const result = await axios(config);
+        console.log(` ************************************ `);
+        console.log(`retrieveContent for CID: ${CID} : `,result.data);
+        console.log(` ************************************ `);
+        // retrieveContent for CID: bafkreiesv6qdwmo4qqbtjsjsm2k2ygxy2jgb6qrpsffoqle3gyejp7xa6q :  
+        // {"title":"Promoting Tron in Europe","treasuryAddress":"TP41sdljfhsldfssdfsdfjsdfjsldf","requestedAmount":"12345","startInNumBlocks":"20","durationNumBlocks":"69000","scoringNumberOfBlocks":"25000","description":"We want to promote Tron Ecosystem in Europe. Physical conferences will be held in major cities like Berlin, London, Paris, Stockholm,\n    Brussels, Madrid, Rome. These conference will be broadcasted. We will bring key speakers to explain the huge advantages of the Tron Blockchain.\n    There will also be a second stage for Ecosystem Projects to Pitch their projects.\n    Furthermore we will organise a mini hackathon both physical and virtual to promote buildign on Tron.\n    Marketing material will be prepared and distributed both in social media such as twitter but also leaflets in central points of the aforementioned cities\n    "}
+        return result.data;
+    }
+
+    // const CID_ = "bafkreiesv6qdwmo4qqbtjsjsm2k2ygxy2jgb6qrpsffoqle3gyejp7xa6q";
+    // retrieveContentfromIPFS(CID_);
+    //#endregion ***** Retrieving Content from IPFS **********
+    //#endregion IPFS PINNING
     
 
             
@@ -221,7 +298,7 @@ export const GovProvider = ({children}) => {
 
 
     // return <GovContext.Provider value={{wallet, scComs, scGov, updateSignerElements, scChannels, tronWeb, updateTronWeb, tronGovernanceSC, updateTronGovSC  }} >
-    return <GovContext.Provider value={{ tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3,  updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter }} >
+    return <GovContext.Provider value={{ tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3,  updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter, retrieveContentfromIPFS, pinJSONToIPFS }} >
         {children}
     </GovContext.Provider>;
 };

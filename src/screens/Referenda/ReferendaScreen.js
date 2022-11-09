@@ -141,7 +141,7 @@ const ReferendaScreen = ({ navigation,
 }) => {
     
 
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter, retrieveContentfromIPFS, pinJSONToIPFS  } = useContext(GovContext);
     const [referendaArray, setReferendaArray]  = useState([]);
 
 
@@ -195,13 +195,27 @@ const ReferendaScreen = ({ navigation,
                 } 
                 else if (currentBlockNumber > endBlock) progressBarPercent=100;
                 else if (currentBlockNumber < startBlock) progressBarPercent=0;
+
+
+                let res, titel="A Title", descrpt="A Description";
+                const referendumCID = `${referendumDetails[4]}`;
+                try {
+                    res = JSON.parse(await retrieveContentfromIPFS( referendumCID ));
+                    // console.log(`|||||>>>> PROPOSAL SCREEN res: `,res);
+                    titel = res.title;
+                    descrpt = res.description;
+                } catch (e) 
+                {
+                    console.log(`Error in retireving IPFS data`);
+                }
+
                 
                 activereferendarray.push({
                     referendum_Index      : `${referendumDetails[0]}`,
-                    referendum_Beneficiary: `${referendumDetails[1]}`,
-                    referendum_Treasury   : `${referendumDetails[2]}`,
+                    referendum_Beneficiary: `${tronWeb.address.fromHex(referendumDetails[1])}`,
+                    referendum_Treasury   : `${tronWeb.address.fromHex(referendumDetails[2])}`,
                     referendum_Amount     : refAmountSun,
-                    referendum_CID        : `${referendumDetails[4]}`,
+                    referendum_CID        : referendumCID,
                     referendum_startBlock : startBlock,
                     referendum_endBlock   : endBlock,
                     referendum_scoreBlock : `${referendumDetails[7]}`,
@@ -211,7 +225,9 @@ const ReferendaScreen = ({ navigation,
                     referendum_Passed     : Number(`${referendumDetails[8]}`) > Number(`${referendumDetails[9]}`)? "Passing" : "Not Passing",
                     referendum_TagColor   : tagColor,
                     referendum_TagText    : tagText,
-                    referendum_ProgressBarPercent : progressBarPercent
+                    referendum_ProgressBarPercent : progressBarPercent,
+                    referendum_Title          : titel,
+                    referendum_Description    : descrpt,
                 })
                 //  referendum_Passed     : `${referendumDetails[11]}`,
 
@@ -720,7 +736,9 @@ const ReferendaScreen = ({ navigation,
                              refNays: item.referendum_Nays,
                              refTrunout: item.referendum_Turnout,
                              refPassed: item.referendum_Passed,
-                             description: `Referendum with ID  ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock} and the scoring block is ${ item.referendum_scoreBlock}.`,
+                             refTitle : item.referendum_Title,
+                             description      : item.referendum_Description,
+                            //  description: `Referendum with ID  ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock} and the scoring block is ${ item.referendum_scoreBlock}.`,
                         }
                         )} >
 
@@ -764,7 +782,8 @@ const ReferendaScreen = ({ navigation,
                            
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
                                     <Text caption2 light>
-                                        {`${"Funding for promoting Tron ecosystem to the European market"}`}
+                                        {/* {`${"Funding for promoting Tron ecosystem to the European market"}`} */}
+                                        {`Title: ${item.referendum_Title}`}
                                     </Text>
                                 </View>
                           

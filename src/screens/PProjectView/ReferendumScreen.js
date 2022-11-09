@@ -314,8 +314,8 @@ const PProjectView = ({navigation}) => {
         if(passedParamsObject)
         {
             setRefIndex(passedParamsObject.refIndex);
-            setRefTitle(`Referendum ${passedParamsObject.refIndex}`);
-            setRefBody(`${passedParamsObject.description}`);
+            setRefTitle(passedParamsObject.refTitle);
+            setRefBody(passedParamsObject.description);
 
             setRefBeneficiary(passedParamsObject.refBeneficiary);
             setRefTreasury(passedParamsObject.refTreasury);
