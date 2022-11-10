@@ -22,24 +22,9 @@ const colors = {
 
 
 
-const HistoryScreen = ({ 
-    // navigation,
-    style,
-    onPress,
-    // title = "assetManage This is a Test",
-    // description =
-    // `Some sort of description for the referendum Some sort of description for the referendum Some sort of description for the referendum`,
-    onOption,
-    // members = ["alpha","beta"],
-    // limit = 3,
-    // tasks = 100,
-    // comments = 0,
-    // tickets = 0,
-    // completedTickets = 0,
-    // status = "Moonbase",
-}) => {
+const HistoryScreen = ({ style, onPress, onOption, }) => {
 
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter, retrieveContentfromIPFS, pinJSONToIPFS  } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter  } = useContext(GovContext);
     const [expiredReferendaArray, setExpiredReferendaArray]  = useState([]);
 
 
@@ -50,7 +35,7 @@ const HistoryScreen = ({
         if (tronGovernanceSC && band3 && band2 ) {
             const prepearedReferendaIDarrayUint  = await tronGovernanceSC.getExpiredReferenda().call();
             const expiredReferendaIDarray = prepearedReferendaIDarrayUint.map(itm => `${itm}`);
-            console.log(`expiredReferendaIDarray: `,expiredReferendaIDarray);
+            // console.log(`expiredReferendaIDarray: `,expiredReferendaIDarray);
             let expiredreferendarray=[];
 
             for (let i=0; i<expiredReferendaIDarray.length; i++)
@@ -127,7 +112,7 @@ const HistoryScreen = ({
 
           }
 
-          console.log(`expiredreferendarray: `,expiredreferendarray);
+          // console.log(`expiredreferendarray: `,expiredreferendarray);
           setExpiredReferendaArray(expiredreferendarray);
         }
 
@@ -138,10 +123,10 @@ const HistoryScreen = ({
     useEffect(() => {
         if (tronGovernanceSC && band3 && band2) 
         {
-            console.log(`HistoryScreen tronGovernanceSC ban3 and band2 are set. Calling getExpiredRefrenda`);
+            console.log(`HistoryScreen refreshCounter: ${refreshCounter} tronGovernanceSC band3 and band2 are set. Calling getExpiredRefrenda`);
             getExpiredRefrenda();
         }
-    },[tronGovernanceSC,band3,band2]);
+    },[tronGovernanceSC,band3,band2, refreshCounter]);
 
 
     return (

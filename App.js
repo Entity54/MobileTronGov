@@ -58,7 +58,10 @@ import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 // import SquareScreen from "./src/screens/SquareScreen";
 
 import ReferendaScreen from "./src/screens/Referenda/ReferendaScreen";
-import ReferendumScreen from "./src/screens/PProjectView/ReferendumScreen";
+
+// import ReferendumScreen from "./src/screens/PProjectView/ReferendumScreen";
+import ReferendumScreen from "./src/screens/ReferendumView/ReferendumScreen";
+
 
 import ProposalsScreen from "./src/screens/Proposals/ProposalsScreen";
 import ProposalScreen from "./src/screens/Proposal/ProposalScreen";
@@ -103,8 +106,10 @@ const TreasuriesStack = createNativeStackNavigator();
 const TreasuriesStackScreen = () => {
   return (
     <TreasuriesStack.Navigator>
-      <TreasuriesStack.Screen name="Treasuries" component={TreasuriesScreen} />
+      <TreasuriesStack.Screen name="Active" component={TreasuriesScreen} />
       <TreasuriesStack.Screen name="Treasury Details" component={TreasuryScreen} />
+      {/* <TreasuriesStack.Screen name="Treasuries" component={TreasuriesScreen} /> */}
+
     </TreasuriesStack.Navigator>
   )
 }

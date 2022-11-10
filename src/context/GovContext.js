@@ -17,6 +17,8 @@ const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaW
 //TRONGov
 // const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyZTMzMzA0My0xZmZjLTQxNGQtYjFmMC0yZGQ2MThjZjlhY2QiLCJlbWFpbCI6ImFuZ2RpYW1kMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYmYzZGJlN2I0YTkwYzRkZTgwNTgiLCJzY29wZWRLZXlTZWNyZXQiOiJhN2FmZTc4YjI4OTI2NzM2YzAzNzA1MDY4MWUyYmZiMjRlNzVmYTEwMTlhNTA3N2Y3MTc3MTRmYjA1ZjAwNmZhIiwiaWF0IjoxNjY4MTExMzI4fQ.CQchH2ytw1_3pHTFgWcb-rFkL4mfP4DuFsS_-pt6grs";
 
+// const inittialCounterValue = 1;
+let counter = 0;
 
 const GovContext = React.createContext();
 
@@ -32,20 +34,28 @@ export const GovProvider = ({children}) => {
     const [band2, setBand2] = useState(0);
     const [band3, setBand3] = useState(0);
 
-    const [refreshCounter, setRefreshCounter] = useState(0);
+    const [refreshCounter, setRefreshCounter] = useState();
+    // const [refreshCount, setRefreshCount] = useState();
+
 
 
     let intevalId;
     const refreshValues = () => {
-        if(intevalId) {
-            console.log(`Clearing last interval and launching a first one`);
-            clearInterval(intevalId);
-            setRefreshCounter(0);
-        }
+        // if(intevalId) {
+        //     console.log(`Clearing last interval and launching a first one`);
+        //     clearInterval(intevalId);
+        //     setRefreshCounter(0);
+        // }
+
+        // intevalId = setInterval( () => {
+        //     console.log(`Context refreshCounter: ${refreshCounter}`);
+        //     setRefreshCounter(refreshCounter+1)
+        // },30000);
 
         intevalId = setInterval( () => {
-            console.log(`refreshCounter: ${refreshCounter}`);
-            setRefreshCounter(refreshCounter+1)
+            counter +=1;
+            console.log(`Context counter: ${counter} refreshCounter: ${refreshCounter}`);
+            setRefreshCounter(counter)
         },30000);
     }
 
@@ -98,18 +108,25 @@ export const GovProvider = ({children}) => {
 
     useEffect(() => {
         const performTronWebActions = async () => {
-          console.log(`GovContext Setting up tronGovernanceContract`); 
-          // const tronGovernanceContract = await tronWeb_server.contract().at(tronGovernanceContractAddress);
-          const tronGovernanceContract = await tronWeb.contract(tronGovernance_ABI, tronGovernanceContractAddress);
-          
-          console.log(`GovContext Initiating Values`);
-          const band_1  = await tronGovernanceContract.band1().call();
-          const band_2  = await tronGovernanceContract.band2().call();
-          const band_3  = await tronGovernanceContract.band3().call();
-          console.log(`GovContext band1: ${band_1} band2: ${band_2} band3: ${band_3}`);
-          setBand1(band_1); setBand2(band_2); setBand3(band_3);
-          setTronGovernanceSC(tronGovernanceContract);
-          refreshValues();
+            console.log(`GovContext Setting up tronGovernanceContract`); 
+            // const tronGovernanceContract = await tronWeb_server.contract().at(tronGovernanceContractAddress);
+            const tronGovernanceContract = await tronWeb.contract(tronGovernance_ABI, tronGovernanceContractAddress);
+            
+            console.log(`GovContext Initiating Values`);
+            const band_1  = await tronGovernanceContract.band1().call();
+            const band_2  = await tronGovernanceContract.band2().call();
+            const band_3  = await tronGovernanceContract.band3().call();
+            console.log(`GovContext band1: ${band_1} band2: ${band_2} band3: ${band_3}`);
+            setBand1(band_1); setBand2(band_2); setBand3(band_3);
+            setTronGovernanceSC(tronGovernanceContract);
+
+            if(intevalId) {
+                console.log(`Clearing last interval and launching a new one`);
+                clearInterval(intevalId);
+                counter = 0;
+                // setRefreshCounter(0);
+            }
+            refreshValues();
         }
     
         if (tronWeb) {
@@ -233,7 +250,7 @@ export const GovProvider = ({children}) => {
     },[]);
 
 
-    return <GovContext.Provider value={{ tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3,  updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter, retrieveContentfromIPFS, pinJSONToIPFS }} >
+    return <GovContext.Provider value={{ tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3,  updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter }} >
         {children}
     </GovContext.Provider>;
 };
