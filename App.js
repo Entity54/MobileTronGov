@@ -33,11 +33,11 @@
 
 // export default createAppContainer(navigator);
 //#endregion OLD TO BE DELETED
-
+import 'react-native-get-random-values'
 
 // ******* Tron *******
-import TronWeb from 'tronweb/dist/TronWeb.js';
 // import createKeccakHash from 'keccak';
+// import TronWeb from 'tronweb/dist/TronWeb.js';
 // import TronWeb from 'tronweb';
 // const TronWeb = require('tronweb')
 
