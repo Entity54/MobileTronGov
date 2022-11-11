@@ -48,7 +48,7 @@ const TreasuriesStack = createNativeStackNavigator();
 const TreasuriesStackScreen = () => {
   return (
     <TreasuriesStack.Navigator>
-      <TreasuriesStack.Screen name="Treasuries" component={TreasuriesScreen} />
+      <TreasuriesStack.Screen name="Active" component={TreasuriesScreen} />
       <TreasuriesStack.Screen name="Treasury Details" component={TreasuryScreen} />
     </TreasuriesStack.Navigator>
   )
