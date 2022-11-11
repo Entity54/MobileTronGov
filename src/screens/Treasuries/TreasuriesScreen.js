@@ -1,9 +1,7 @@
-import React, { useMemo, useEffect, useContext, useState, Children } from "react";
+import React, {  useEffect, useContext, useState } from "react";
 import { Text, FlatList, StyleSheet, View, Button, TouchableOpacity, StatusBar, TextInput, ScrollView,  Alert, Platform } from 'react-native';
 import GovContext from '../../context/GovContext';
 
-import Icon from "../../components/Icon";
-import Tag from "../../components/Tag";
 import { BaseColor } from "../../config/theme";
 import { BaseStyle } from "@config";
 import PropTypes from "prop-types";
@@ -24,34 +22,20 @@ const colors = {
 };
    
 
-const TreasursScreen = ({ navigation,
-    style,
-    onPress,
-    // title = "assetManage This is a Test",
-    // description =
-    // `Some sort of description for the referendum Some sort of description for the referendum Some sort of description for the referendum`,
-    onOption,
-    // members = ["alpha","beta"],
-    // limit = 3,
-    // tasks = 100,
-    // comments = 0,
-    // tickets = 0,
-    // completedTickets = 0,
-    // status = "Moonbase",
-}) => {
+const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
     
     const { t } = useTranslation();
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter } = useContext(GovContext);
     const [treasurArray, setTreasurArray]  = useState([]);
     const [depositTokens, setDepositTokens] = useState();
 
     //#region getTreasuries
     const getTreasuries = async () => {
-        console.log("Treasurs Screen Getting ready to retrieve Treasuries");
+        console.log("Treasuries Screen Getting ready to retrieve Treasuries");
 
         if (tronGovernanceSC && band3 && band2 ) {
             const registeredTreasuriesAddresses  = await tronGovernanceSC.getTreasurers().call();
-            console.log(`registeredTreasuriesAddresses: `,registeredTreasuriesAddresses);
+            // console.log(`registeredTreasuriesAddresses: `,registeredTreasuriesAddresses);
             let treasuriesArray=[];
 
             for (let i=0; i<registeredTreasuriesAddresses.length; i++)
@@ -66,14 +50,13 @@ const TreasursScreen = ({ navigation,
                 });
             }
 
-            console.log(`treasuriesArray: `,treasuriesArray);
+            // console.log(`treasuriesArray: `,treasuriesArray);
             setTreasurArray(treasuriesArray);
         }
 
     }
     //#endregion
 
-    
     const createTreasury = async () => {
 
         if (tronGovernanceSC && tronWeb && depositTokens>= 1100)
@@ -94,15 +77,13 @@ const TreasursScreen = ({ navigation,
     useEffect(() => {
         if (tronGovernanceSC) 
         {
-            console.log(`TreasursScreen tronGovernanceSC is set. Calling getTreasuries`);
+            console.log(`TreasursScreen refreshCounter: ${refreshCounter} tronGovernanceSC is set. Calling getTreasuries`);
             getTreasuries();
         }
-    },[tronGovernanceSC]);
+    },[tronGovernanceSC, refreshCounter]);
 
     return (
         <>
-
-        {/* <View style={{ flex: 1 }}> */}
         <View style={styles.container}>
             <TextInput
             style={styles.input}
@@ -113,31 +94,20 @@ const TreasursScreen = ({ navigation,
             value={depositTokens}
             selectionColor={colors.primary}
             />
-        {/* </View>
-        <View style={styles.container}> */}
+
             <TouchableOpacity 
                 style={styles.button} 
-                onPress={() => navigation.navigate("Create New Referendum")}
+                onPress={() => createTreasury()}
 
             >
                 <Text style={styles.buttonText}>Create Treasury</Text>
             </TouchableOpacity>
         </View>
 
-
-
-        {/* <View style={newStyles.createTrsbackgroundStyle}>
-            <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be > 1100TRX'  style={newStyles.inputStyle} value={depositTokens} onChangeText={(newValue) => setDepositTokens(newValue)} />
-        </View>
-        <View>
-            <Button style={newStyles.createNewTrsr}  title="SUBMIT" onPress={() => createTreasury() } />
-        </View> */}
-
-
         <View>
          {
             treasurArray.length===0 ?
-            <Text style={styles.textStyle}>Loading1000 </Text> :
+            <Text style={styles.textStyle}>Loading Treasuries </Text> :
             
             <FlatList 
             
@@ -184,44 +154,33 @@ const newStyles = StyleSheet.create({
         borderColor: '#087CBA',
         borderWidth: 2,
         flex: 1,    
-        fontSize: 15,  //default is 14
+        fontSize: 15,   
         backgroundColor: '#D3E5DD',
         width: 55,
-        alignSelf: 'center',    //center the element
+        alignSelf: 'center',     
         justifyContent: 'center' ,
 
     },
     createTrsbackgroundStyle: {
         marginTop: 10,
-        // backgroundColor: '#93D9FF',
         height: 60,
         borderRadius: 5,
         marginHorizontal: 15,
         flexDirection: 'row',
         marginBottom: 10,
-        // flex: 1,     
-        
-        // justifyContent: 'center' ,
-    justifyContent: 'space-between'
-        
-
+        justifyContent: 'space-between'
     },
     createNewTrsr: {
         borderColor: '#087CBA',
         borderWidth: 2,
-        // flex: 1,     
-        fontSize: 15,  //default is 14
+        fontSize: 15,  
         backgroundColor: '#D3E5DD',
         width: 85,
-        alignSelf: 'center',    //center the element
+        alignSelf: 'center',     
         justifyContent: 'center' ,
-    // justifyContent: 'space-between'
-    // alignItems: 'center'
-
     },
 
 });
 
 
 export default TreasursScreen;
-

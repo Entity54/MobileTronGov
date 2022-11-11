@@ -1,93 +1,20 @@
-// import {
-//     // Avatars,
-//     // CardReport02,
-//     // CardReport03,
-//     // CardReport04,
-//     // CardReport05,
-//     // Button,
-//     // Header,
-//     // Icon,
-//     // PButtonAddUser,
-//     // ProductSpecGrid,
-//     // SafeAreaView,
-//     // Tag,
-//     // Text,
-// } from "@components";
-
-
 import React, { useEffect, useState, useContext } from "react";
 import { ScrollView, TouchableOpacity, View, Button, Header, Text, TextInput } from "react-native";
 import GovContext from '../../context/GovContext';
 import { useTranslation } from "react-i18next";
-
-
-import { default as ProductSpecGrid } from "../../components/Icon";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { default as CardReport03 } from "../../components/Report03";
-import { default as CardReport04 } from "../../components/Report04";
-import { default as CardReport05 } from "../../components/Report05";
-
-
-import Icon from "../../components/Icon";
-import Tag from "../../components/Tag";
-
 import { useTheme } from "@config";
 import { BaseColor } from "../../config/theme";
 import { BaseStyle } from "../../config/styles";
-import { Images } from "../../config/images";
 
 import styles from "./styles";
-
-
-//ntt54
-//dark blue theme
-// const  colors = {
-//     primary: "#5DADE2",
-//     primaryDark: "#1281ac",
-//     primaryLight: "#68c9ef",
-//     accent: "#FF8A65",
-//     background: "#010101",
-//     card: "#121212",
-//     text: "#e5e5e7",
-//     border: "#272729",
-// }
-
-//light blue theme
-const colors = {
-    primary: "#5DADE2",
-    primaryDark: "#1281ac",
-    primaryLight: "#68c9ef",
-    accent: "#FF8A65",
-    background: "white",
-    card: "#F5F5F5",
-    text: "#212121",
-    border: "#c7c7cc",
-  };
-
 
 
 const ProposalScreen = ({navigation}) => {
     const { t } = useTranslation();
     const { colors } = useTheme();
-    // const navigation = useNavigation();
-    // const route = useRoute();
-    // const [members, setMembers] = useState(PProject[0].members);
-    // const [item, setItem] = useState(PProject[0]);
 
-    // useEffect(() => {
-    //     if (route?.params?.members) {
-    //         setMembers(route?.params?.members);
-    //     }
-    // }, [route?.params?.members]);
-
-    // useEffect(() => {
-    //     if (route?.params?.item) {
-    //         setItem(route?.params?.item);
-    //     }
-    // }, [route?.params?.item]);
-
-
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter, retrieveContentfromIPFS, pinJSONToIPFS  } = useContext(GovContext);
     const [treasuryAddress, setTreasuryAddress] = useState("");
     const [requestAmount, setRequestAmount] = useState("");
     const [startInNumBlocks, setStartInNumBlocks] = useState("");
@@ -104,8 +31,14 @@ const ProposalScreen = ({navigation}) => {
             && startInNumBlocks<=20 && duration>=20 && duration<=201600 && scoringInNumBlocks>0 
             && title!=="" && description!="")
         {
-          const amountSUN =  tronWeb.toSun(requestAmount);   
-          const CID = "Hello IPFS World";
+          const amountSUN =  tronWeb.toSun(requestAmount); 
+
+          const res = await pinJSONToIPFS(title, treasuryAddress, amountSUN, startInNumBlocks, scoringInNumBlocks, duration, description);
+          const CID = res.IpfsHash;
+          const CIDtimestamp = res.Timestamp;
+          console.log(`ProposalScreen CID: ${CID} CIDtimestamp: ${CIDtimestamp}`);
+          // const CID = "Hello IPFS World";
+
           const referendumFee = tronWeb.toSun(10);   
 
           let result = await tronGovernanceSC.createNewReferendum(treasuryAddress, amountSUN, CID, startInNumBlocks, duration, scoringInNumBlocks ).send({
@@ -121,7 +54,7 @@ const ProposalScreen = ({navigation}) => {
     useEffect(() => {
         if (tronGovernanceSC) 
         {
-            console.log(`Proposal Screeb tronGovernanceSC is set.`);
+            console.log(`Proposal Screen tronGovernanceSC is set.`);
         }
     },[tronGovernanceSC]);
 
@@ -262,7 +195,6 @@ const ProposalScreen = ({navigation}) => {
         </SafeAreaView>
     );
 };
-
 
 
 export default ProposalScreen;

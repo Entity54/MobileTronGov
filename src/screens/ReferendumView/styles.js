@@ -18,54 +18,32 @@ export default StyleSheet.create({
         borderColor: BaseColor.dividerColor,
         marginBottom: 20,
     },
-    title: {
-        marginBottom: 0,
-        marginLeft: 15,
-        fontWeight:"700",
-    },
-    container: {
+    contain: {
         flexDirection: "row",
-        marginHorizontal: 15,
-        paddingHorizontal: 10,
-        alignItems: "center",
-
+        justifyContent: "space-between",
+        paddingHorizontal: 5,
+        paddingVertical: 10,
     },
     input: {
-        height: 40,
-        width: "100%",
-        margin: 10,
-        marginLeft: "auto",
-        marginTop:5,
+        height: 50,
+        width: 120,
+        marginLeft: 20,
+        marginRight: 15,
+        marginTop: 15,
         borderWidth: 1,
-        backgroundColor:"white",
         padding: 10,
+        backgroundColor:"white",
         borderRadius: 5
     },
-    inputDesc: {
-        height: 160,
-        width: "100%",
-        margin: 10,
-        marginLeft: "auto",
-        borderWidth: 1,
-        backgroundColor:"white",
-        padding: 10,
-        borderRadius: 5
-    },
-
     button: {
-        alignItems: "center",
-        width: "auto",
-        height: "auto",
+        width: "40%",
         borderRadius: 10,
         backgroundColor: "#ff0000",
         padding: 10,
-        marginHorizontal:50,
-        marginBottom:20,
-        marginTop:10,
-
+        marginBottom:0
     },
     buttonText: {
-        fontSize: 16,
+        fontSize: 18,
         color: "#fff",
         fontWeight: "bold",
         alignSelf: "center",

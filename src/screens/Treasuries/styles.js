@@ -1,4 +1,3 @@
-// import * as Utils from "@utils";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -28,7 +27,6 @@ export default StyleSheet.create({
     button: {
         alignItems: "center",
         width: "auto",
-        // marginLeft: "auto",
         borderRadius: 10,
         backgroundColor: "#ff0000",
         padding: 10,
