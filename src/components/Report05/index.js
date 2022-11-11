@@ -42,6 +42,7 @@ const colors = {
 const CardReport05 = ({
     title = "",
     price = "",
+    price2 = "",
     icon = "",
     style = {},
     onPress = () => {},
@@ -65,7 +66,7 @@ const CardReport05 = ({
                     style,
                 ]}
             >
-                <View style={[styles.header]}>
+                {/* <View style={[styles.header]}>
                     <View
                         style={[
                             styles.viewIcon,
@@ -84,12 +85,9 @@ const CardReport05 = ({
                             solid
                         />
                     </View>
-                {/* <Text headline style={{  textAlign: "center", width: "60%", marginTop: 0 }}>
-                    {title}
-                </Text> */}
-                </View>
+                </View> */}
                 <View style={[styles.header]}>
-                    <Text headline style={{ textAlign: "center", width: "100%"}}>
+                    <Text headline style={{ textAlign: "center", fontWeight:"bold" }}>
                         {title}
                     </Text>
                 </View >
@@ -107,6 +105,7 @@ CardReport05.propTypes = {
     style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     title: PropTypes.string,
     price: PropTypes.string,
+    price2: PropTypes.string,
     icon: PropTypes.string,
 };
 

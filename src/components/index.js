@@ -65,7 +65,7 @@
 // export { default as ProductList } from "./Product/List";
 // export { default as ProductOrderItemList } from "./Product/OrderItemList";
 // export { default as ProductPaymentBankItem } from "./Product/PaymentBankItem";
-// export { default as ProductSize } from "./Product/Size";
+export { default as ProductSize } from "./Product/Size";
 // export { default as ProductSpecGrid } from "./Product/SpecGrid";
 // export { default as ProductCategory1 } from "./Product/Category1";
 // export { default as ProductCategory2 } from "./Product/Category2";

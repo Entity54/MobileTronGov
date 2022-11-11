@@ -45,6 +45,24 @@ import TronWeb from 'tronweb/dist/TronWeb.js';
 import React, {useEffect, useState, useContext } from 'react';
 import { StyleSheet, View, Platform } from "react-native";
 
+// import { persistor, store } from "./src/store";
+import { store } from "./src/store";
+
+
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+
+
+import * as Font from "expo-font";
+import { BaseSetting, useTheme } from "@config";
+// import { useDispatch, useSelector } from "react-redux";
+
+
+
+
+
+import { Provider } from "react-redux";
+
 import { GovProvider } from "./src/context/GovContext";
 
 import { Text, TouchableOpacity } from "react-native";
@@ -139,6 +157,28 @@ const BottomTab = createBottomTabNavigator();
 export default function App() {
   // export default () => {
     
+
+    useEffect(() => {
+      const loadFonts = async () => {
+        await Font.loadAsync(BaseSetting.resourcesFont);
+        let language;
+
+        // // const languageCode = language ?? BaseSetting.defaultLanguage;
+        // const languageCode = BaseSetting.defaultLanguage;
+
+
+        // await i18n.use(initReactI18next).init({
+        //   resources: BaseSetting.resourcesLanguage,
+        //   lng: languageCode,
+        //   fallbackLng: languageCode,
+        // });
+        
+      }   
+      loadFonts();     
+
+    },[]);
+
+
     //#region TRON    
     // const [tronWeb_server, setTronWeb_server]   = useState();
     // const [tronWalletConnected, setTronWalletConnected]   = useState(false);
@@ -339,7 +379,10 @@ export default function App() {
   
   
     return (
-      
+      // <Provider>
+      <Provider store={store}>
+
+
       <GovProvider>
   
             <NavigationContainer>
@@ -398,7 +441,7 @@ export default function App() {
   
                   <BottomTab.Screen name="Account" component={AccountScreen} options={{
                     tabBarIcon: ({color, size}) => ( 
-                    <FontAwesome name="user-circle" size={24} color="black" />
+                    <FontAwesome name="user-circle" size={24} color={color} />
                     ),
                   }}
                   />
@@ -408,6 +451,8 @@ export default function App() {
   
         
       </GovProvider> 
+      </Provider>
+
   
     );
   }

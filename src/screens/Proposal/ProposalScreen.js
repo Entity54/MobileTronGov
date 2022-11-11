@@ -18,6 +18,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ScrollView, TouchableOpacity, View, Button, Header, Text, TextInput } from "react-native";
 import GovContext from '../../context/GovContext';
+import { useTranslation } from "react-i18next";
 
 
 import { default as ProductSpecGrid } from "../../components/Icon";
@@ -30,7 +31,7 @@ import { default as CardReport05 } from "../../components/Report05";
 import Icon from "../../components/Icon";
 import Tag from "../../components/Tag";
 
-// import { BaseColor, BaseStyle, useTheme } from "@config";
+import { useTheme } from "@config";
 import { BaseColor } from "../../config/theme";
 import { BaseStyle } from "../../config/styles";
 import { Images } from "../../config/images";
@@ -66,8 +67,8 @@ const colors = {
 
 
 const ProposalScreen = ({navigation}) => {
-    // const { t } = useTranslation();
-    // const { colors } = useTheme();
+    const { t } = useTranslation();
+    const { colors } = useTheme();
     // const navigation = useNavigation();
     // const route = useRoute();
     // const [members, setMembers] = useState(PProject[0].members);
@@ -137,193 +138,122 @@ const ProposalScreen = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
             >
                 <View>
-                    <View style={styles.backgroundStyle}>
-                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Title</Text>
+                    <View style={styles.title}>
+                        <Text>{t("Title")}</Text>
+
                     </View>
-                    <View style={styles.backgroundStyle}>
-                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder=''  style={styles.inputStyle} value={title} 
-                            onChangeText={(newValue) => setTitle(newValue)} 
+                    <View style={styles.container}>
+                        <TextInput
+                        style={styles.input}
+                        onChangeText={(newValue) => setTitle(newValue)}
+                        autoCorrect={false}
+                        placeholder="Title Of Your New Referendum"
+                        placeholderTextColor={BaseColor.grayColor}
+                        value={title}
+                        selectionColor={colors.primary}
                         />
                     </View>
-                    
-
-                    <View style={styles.backgroundStyle}>
-                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Treasury Address</Text>
+                    <View style={styles.title}>
+                        <Text>{t("Treasury Address")}</Text>
                     </View>
-                    <View style={styles.backgroundStyle}>
-                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be valid Treasury Address'  style={styles.inputStyle} value={treasuryAddress} 
-                            onChangeText={(newValue) => setTreasuryAddress(newValue)} 
-                        />
-                    </View>
-
-                    <View style={styles.backgroundStyle}>
-                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Requested Amount</Text>
-                    </View>
-                    <View style={styles.backgroundStyle}>
-                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be >= 100 TRX'  style={styles.inputStyle} value={requestAmount} 
-                            onChangeText={(newValue) => setRequestAmount(newValue)} 
-                        />
-                    </View>
-
-                    <View style={styles.backgroundStyle}>
-                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Start in Number Blocks</Text>
-                    </View>
-                    <View style={styles.backgroundStyle}>
-                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be <=20'  style={styles.inputStyle} value={startInNumBlocks} 
-                            onChangeText={(newValue) => setStartInNumBlocks(newValue)} 
+                    <View style={styles.container}>
+                        <TextInput
+                        style={styles.input}
+                        onChangeText={(newValue) => setTreasuryAddress(newValue)}
+                        autoCorrect={false}
+                        placeholder='Valid Treasury Address'
+                        placeholderTextColor={BaseColor.grayColor}
+                        value={treasuryAddress}
+                        selectionColor={colors.primary}
                         />
                     </View>
 
-
-                    <View style={styles.backgroundStyle}>
-                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Referendum duration</Text>
+                    <View style={styles.title}>
+                        <Text>{t("Requested Amount")}</Text>
                     </View>
-                    <View style={styles.backgroundStyle}>
-                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='>= 20 && <= 201600'  style={styles.inputStyle} value={duration} 
-                            onChangeText={(newValue) => setDuration(newValue)} 
-                        />
-                    </View>
-
-                    <View style={styles.backgroundStyle}>
-                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Scoring number of Blocks after expiration</Text>
-                    </View>
-                    <View style={styles.backgroundStyle}>
-                        <TextInput autoCapitalize='none'autoCorrect={false} placeholder='>0'  style={styles.inputStyle} value={scoringInNumBlocks} 
-                            onChangeText={(newValue) => setScoringInNumBlocks(newValue)} 
+                    <View style={styles.container}>
+                        <TextInput
+                        style={styles.input}
+                        onChangeText={(newValue) => setRequestAmount(newValue)} 
+                        autoCorrect={false}
+                        placeholder='=> 100 TRX'
+                        placeholderTextColor={BaseColor.grayColor}
+                        value={requestAmount}
+                        selectionColor={colors.primary}
                         />
                     </View>
 
-
-                    <View style={styles.backgroundStyle}>
-                        <Text style={styles.inputStyle} title3 numberOfLines={1}>Description</Text>
+                    <View style={styles.title}>
+                        <Text>{t("Number Of Blocks To Start")}</Text>
                     </View>
-                    <View style={styles.descriptionStyle}>
-                        <TextInput autoCapitalize='sentences' autoCorrect={true} placeholder="Describe what you are planning to do with the funds if the referednum passes \n. Treasury will score your performance based on actual versus expected performance as described here"
-                            style={styles.descriptionInputStyle} value={description} multiline={true}
-                            onChangeText={(newValue) => setDescription(newValue)} 
-                        />
-                    </View>
-
-                    <View>
-                        <Button style={styles.specifications}  title="SUBMIT" onPress={() => createNewReferedum() } />
-                    </View>
-                    <View></View>
-
-
-
-                    <View style={styles.specifications}>
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"0xFaCf…B63d8e"}
-                            description={"Creator"}
-                            
-                        />
-                            {/* // description={t("Creator")} */}
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"0x7369…000000"}
-                            description={"Owner"}
-                            
+                    <View style={styles.container}>
+                        <TextInput
+                        style={styles.input}
+                        onChangeText={(newValue) => setStartInNumBlocks(newValue)}  
+                        autoCorrect={false}
+                        placeholder='=< 20 Blocks'
+                        placeholderTextColor={BaseColor.grayColor}
+                        value={startInNumBlocks}
+                        selectionColor={colors.primary}
                         />
                     </View>
-                    {/* <View style={styles.specifications}>
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"129"}
-                            description={"Referenda #"}
-                        />
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={
-                                <Tag
-                                    light
-                                    style={{
-                                        backgroundColor: BaseColor.grayColor,
-                                        borderRadius: 5,
-                                        paddingHorizontal: 5,
-                                    }}
-                                    textStyle={{ color: BaseColor.whiteColor }}
-                                >
-                                    On Going
-                                </Tag>
-                            }
-                            description={"status"}
-                        />
-                    </View> */}
-                </View>
 
-                {/* <Text
-                    headline
-                    style={{
-                        paddingTop: 20,
-                        paddingBottom: 5,
-                    }}
-                >
-                    {"Referenda Details"}
-                </Text> */}
-
-                <View style={{ flexDirection: "row", marginTop: 5 }}>
-                    <View style={{ flex: 1, paddingRight: 7 }}>
-                        <CardReport03
-                            style={{ marginTop: 7 }}
-                            icon="chart-line"
-                            title="Remaining"
-                            price="3 Days 45mins"
-                            time="Time"
-                            blocks="Blocks"
-                            percent="21,827"
-                            onPress={() => navigation.navigate("FCryptol02")}
-                        />
-                        <CardReport03
-                            style={{ marginTop: 7 }}
-                            icon="chart-line"
-                            title="Activate"
-                            price="4 Days 1hr"
-                            time="Time"
-                            blocks="Block"
-                            percent="#2,923,500"
-                            onPress={() => navigation.navigate("FCryptol02")}
-                        />
-                        {/* <CardReport05
-                            style={{ marginTop: 7 }}
-                            title = "Turnout"
-                            price = "2.3%"
-                            icon = "user-friends"
-                            onPress={() => navigation.navigate("FCryptol02")}
-                        /> */}
-
+                    <View style={styles.title}>
+                        <Text>{t("Referendum Duration")}</Text>
                     </View>
-                    {/* <View style={{ flex: 1, paddingLeft: 7 }}>
-                        <CardReport04
-                            contentStyle={{ paddingBottom: 35, marginBottom: 20, marginTop: 7 }}
-                            icon="credit-card"
-                            title="Status"
-                            title2="Support"
-                            price="412"
-                            aye="Aye"
-                            ayeamount="20 DEV"
-                            nayamount="5 DEV"
-                            percent1="80%"
-                            nay="Nay"
-                            percent2="20%"
-                            percent="80"
-                            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-                            onPress={() => navigation.navigate("Dashboard4")}
+                    <View style={styles.container}>
+                        <TextInput
+                        style={styles.input}
+                        onChangeText={(newValue) => setDuration(newValue)}  
+                        autoCorrect={false}
+                        placeholder='Between 20 and 201600 Blocks'
+                        placeholderTextColor={BaseColor.grayColor}
+                        value={duration}
+                        selectionColor={colors.primary}
                         />
-                    </View> */}
-                </View>
-                {/* <View style={{ flex: 1, paddingLeft: 7 }}>
-                    <Button
-                        title="VOTE"
-                        style={{ backgroundColor: colors.primaryLight }}
-                        onPress={() => {
-                        navigation.goBack();
-                        }}
+                    </View>
+
+                    <View style={styles.title}>
+                        <Text>{t("Blocks After Completion To Score Project")}</Text>
+                    </View>
+                    <View style={styles.container}>
+                        <TextInput
+                        style={styles.input}
+                        onChangeText={(newValue) => setScoringInNumBlocks(newValue)}   
+                        autoCorrect={false}
+                        placeholder='> 0 Blocks'
+                        placeholderTextColor={BaseColor.grayColor}
+                        value={scoringInNumBlocks}
+                        selectionColor={colors.primary}
+                        />
+                    </View>
+
+                    <View style={styles.title}>
+                        <Text>{t("Description")}</Text>
+                    </View>
+                    <View style={styles.container}>
+                        <TextInput
+                        style={styles.inputDesc}
+                        onChangeText={(newValue) => setDescription(newValue)}   
+                        autoCorrect={true}
+                        autoCapitalize='sentences'
+                        placeholder="Describe what you are planning to do with the funds if the referednum passes. Treasury will score your performance based on actual versus expected performance as described here."
+                        placeholderTextColor={BaseColor.grayColor}
+                        value={description}
+                        multiline={true}
+                        selectionColor={colors.primary}
+                        />
+                    </View>
+
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => createNewReferedum() }
+
                     >
-                        {"VOTE1"}
-
-                    </Button>
-                </View> */}
+                        <Text style={styles.buttonText}>SUBMIT</Text>
+                    </TouchableOpacity>
+                    
+                </View>
 
                 <View style={{ flex: 1, paddingLeft: 7,  marginTop: 7 }}>
                 </View>

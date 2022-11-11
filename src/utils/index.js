@@ -6,7 +6,7 @@ import {
   Dimensions,
   I18nManager,
 } from "react-native";
-// import { reloadAsync } from "expo-updates";
+import { reloadAsync } from "expo-updates";
 import { TRANSPARENCIES } from "./transparencies";
 
 const scaleValue = PixelRatio.get() / 2;
@@ -135,7 +135,7 @@ export const reloadLocale = (oldLanguage, newLanguage) => {
   const newStyle = isLanguageRTL(newLanguage);
   if (oldStyle != newStyle) {
     I18nManager.forceRTL(newStyle);
-    // reloadAsync();
+    reloadAsync();
   }
 };
 

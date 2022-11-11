@@ -144,18 +144,9 @@ const HistoryScreen = ({
                         <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
                             <View style={{ flex: 1 }}>
                                 <View style={{ flexDirection: "row", alignItems: "center", fontWeight:"bold" }}>
-                                    <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
                                         <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>
                                             {`Referendum:${item.referendum_Index}`}
                                         </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        hitSlop={{ top: 10, right: 10, top: 10, left: 10 }}
-                                        style={{ paddingLeft: 16 }}
-                                        onPress={onOption}
-                                    >
-                                        <Icon name="ellipsis-h" size={14} color={colors.text}></Icon>
-                                    </TouchableOpacity>
                                 </View>
                                 <View
                                     style={{
@@ -172,11 +163,16 @@ const HistoryScreen = ({
                                         style={{
                                             backgroundColor: `${item.referendum_TagColor}`,
                                             paddingHorizontal: 10,
+                                            marginRight: 10,
                                             minWidth: 80,
                                         }}
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
+                                    <Text style={{fontWeight:"bold"}}>
+                                        {` Amount Requested: ${item.referendum_Amount}`}
+                                    </Text>
+
                                 </View>
                              
                                
@@ -187,7 +183,7 @@ const HistoryScreen = ({
                                 </View>
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
                                     <Text overline style={{fontSize: 14, fontWeight:'bold', color:"blue" }}>
-                                        {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout} State:${item.referendum_Passed}`}
+                                        {("Vote Result - ")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout}  State: ${item.referendum_Passed}`}
                                     </Text>
                                 </View>
                                 <ProgressBar style={{ flex: 1, paddingRight: 20 }} color={BaseColor.accentColor} percent={`${item.referendum_ProgressBarPercent}`} />

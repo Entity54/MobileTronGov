@@ -26,6 +26,7 @@ export default StyleSheet.create({
     header: {
         flexDirection: "row",
         alignItems: "center",
+        justifyContent:"center",
     },
     viewIcon: {
         borderRadius: 15,

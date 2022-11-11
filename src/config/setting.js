@@ -26,9 +26,9 @@ export const BaseSetting = {
     "ku",
   ],
   resourcesLanguage: {
-    // en: {
-    //   translation: require("../lang/en.json"),
-    // },
+    en: {
+      translation: require("../lang/en.json"),
+    },
     // vi: {
     //   translation: require("../lang/vi.json"),
     // },
@@ -124,5 +124,6 @@ export const BaseSetting = {
 		// "ProximaNova-Regular": require("app/assets/fonts/Proxima-Nova-Regular.ttf"),
 		// "ProximaNova-Bold": require("app/assets/fonts/Proxima-Nova-Bold.ttf"),
 		// "ProximaNova-Semibold": require("app/assets/fonts/Proxima-Nova-Semibold.ttf"),
+		"ProximaNova-Regular": require("../assets/fonts/Proxima-Nova-Regular.ttf"),
   }
 };

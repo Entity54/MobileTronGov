@@ -128,11 +128,35 @@ const AccountScreen = ({navigation}) => {
   return (
     <View style={styles.container} >
 
-        <Text headline style={{ paddingTop: 20,  paddingBottom: 5, marginTop: -50 }} >
+        {/* <Text headline style={{ paddingTop: 20,  paddingBottom: 5, marginTop: -50 }} >
           {accountUpdated? `balance: ${accountDetails.balance} frozenBalance: ${accountDetails.frozenBalance} creationTime: ${accountDetails.balance} accountState: ${accountDetails.balance}`: "Please create an account"}
-        </Text>
+        </Text> */}
+        <View>
+          <Text style={styles.text} >Balance: </Text>
+          <Text style={styles.text} >{accountDetails.balance}</Text>
+        </View>
+        <View>
+          <TouchableOpacity 
+                  style={styles.button} 
+                  onPress={() => createNewAccount() }
 
-        <TouchableOpacity style={styles.input} onPress={() => createNewAccount() } >
+              >
+                  <Text style={styles.buttonText}>Create Treasury A/c</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+        <TouchableOpacity 
+                  style={styles.button} 
+                  onPress={() => unlockVoteTokens() }
+
+              >
+                  <Text style={styles.buttonText}>Unlock Vote Tokens</Text>
+          </TouchableOpacity>
+        </View>
+
+
+
+        {/* <TouchableOpacity style={styles.input} onPress={() => createNewAccount() } >
           <Text style={styles.text} >Create New Account</Text>
         </TouchableOpacity>
 
@@ -147,7 +171,7 @@ const AccountScreen = ({navigation}) => {
 
         <TouchableOpacity style={styles.input} onPress={() => unlockVoteTokens() } >
           <Text style={styles.text} >Unlock Vote Tokens</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
 
         {/* <TouchableOpacity style={styles.input} onPress={() => registerForNotifications() } >
@@ -164,8 +188,8 @@ const AccountScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   text: {
     fontSize: 24,
-    color: "white",
-    // alignContent
+    color: "black",
+    textAlign:"center"
     
 
   },
@@ -185,6 +209,26 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: "center"
   },
+   button: {
+        alignItems: "center",
+        width: "auto",
+        height: "auto",
+        // marginLeft: "auto",
+        borderRadius: 10,
+        backgroundColor: "#ff0000",
+        padding: 15,
+        marginBottom:10,
+        marginTop:20,
+        marginHorizontal: 20
+  },
+  buttonText: {
+      fontSize: 18,
+      color: "#fff",
+      fontWeight: "bold",
+      alignSelf: "center",
+      textTransform: "uppercase"
+  },
+
 });
 
 export default AccountScreen;

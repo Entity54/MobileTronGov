@@ -755,11 +755,16 @@ const ReferendaScreen = ({ navigation,
                                         style={{
                                             backgroundColor: `${item.referendum_TagColor}`,
                                             paddingHorizontal: 10,
+                                            marginRight: 10,
                                             minWidth: 80,
                                         }}
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
+                                    <Text style={{fontWeight:"bold"}}>
+                                        {`Amount Requested: ${item.referendum_Amount}`}
+                                    </Text>
+
                                 </View>
                            
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >

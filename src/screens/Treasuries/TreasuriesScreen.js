@@ -5,7 +5,10 @@ import GovContext from '../../context/GovContext';
 import Icon from "../../components/Icon";
 import Tag from "../../components/Tag";
 import { BaseColor } from "../../config/theme";
+import { BaseStyle } from "@config";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+import { default as CardReport99 } from "../../components/Report99";
 
 import styles from "./styles";
 
@@ -20,7 +23,6 @@ const colors = {
     border: "#c7c7cc",
 };
    
-
 
 const TreasursScreen = ({ navigation,
     style,
@@ -37,7 +39,8 @@ const TreasursScreen = ({ navigation,
     // completedTickets = 0,
     // status = "Moonbase",
 }) => {
-
+    
+    const { t } = useTranslation();
     const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
     const [treasurArray, setTreasurArray]  = useState([]);
     const [depositTokens, setDepositTokens] = useState();
@@ -98,88 +101,63 @@ const TreasursScreen = ({ navigation,
 
     return (
         <>
-        <View style={newStyles.createTrsbackgroundStyle}>
-            {/* <TouchableOpacity  onPress={() => navigation.navigate("CreateTreasury", { 
-                             refPassed: "item.referendum_Passed",
-                             description: `Referendum with ID  \nwill end at blockand the scoring block is.`,
 
-                         }
-                        )} > */}
-            {/* <TouchableOpacity  onPress={() => createTreasury()} > */}
-            {/* </TouchableOpacity>  */}
-            <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>Creacte New Treasury with </Text>
+        {/* <View style={{ flex: 1 }}> */}
+        <View style={styles.container}>
+            <TextInput
+            style={styles.input}
+            onChangeText={(newValue) => setDepositTokens(newValue)}
+            autoCorrect={false}
+            placeholder={t("> 1100 TRX")}
+            placeholderTextColor={BaseColor.grayColor}
+            value={depositTokens}
+            selectionColor={colors.primary}
+            />
+        {/* </View>
+        <View style={styles.container}> */}
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={() => navigation.navigate("Create New Referendum")}
+
+            >
+                <Text style={styles.buttonText}>Create Treasury</Text>
+            </TouchableOpacity>
+        </View>
+
+
+
+        {/* <View style={newStyles.createTrsbackgroundStyle}>
             <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Must be > 1100TRX'  style={newStyles.inputStyle} value={depositTokens} onChangeText={(newValue) => setDepositTokens(newValue)} />
         </View>
         <View>
             <Button style={newStyles.createNewTrsr}  title="SUBMIT" onPress={() => createTreasury() } />
-        </View>
+        </View> */}
 
 
         <View>
          {
             treasurArray.length===0 ?
             <Text style={styles.textStyle}>Loading1000 </Text> :
+            
             <FlatList 
+            
                     keyExtractor={(item) => item.address}
                     data={treasurArray} 
                     renderItem={({item, index}) => {
                         return  (
-                        <TouchableOpacity  onPress={() => navigation.navigate("Treasury Details", { 
-                             treasuryAddress: item.address, 
-                        }
-                        )} >
-
                         <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
                             <View style={{ flex: 1 }}>
-                                <View style={{ flexDirection: "row", alignItems: "center", fontWeight:"bold" }}>
-                                    <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
-                                        <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>
-                                            {`Treasury Address:${item.address}`}
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        hitSlop={{ top: 10, right: 10, top: 10, left: 10 }}
-                                        style={{ paddingLeft: 16 }}
-                                        onPress={onOption}
-                                    >
-                                        <Icon name="ellipsis-h" size={14} color={colors.text}></Icon>
-                                    </TouchableOpacity>
-                                </View>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        paddingTop: 5,
-                                        paddingBottom: 0,
-                                    }}
-                                >
-                                    <Tag
-                                        light
-                                        textStyle={{
-                                            color: BaseColor.whiteColor,
-                                        }}
-                                        style={{
-                                            backgroundColor: `${item.balance}`,
-                                            paddingHorizontal: 10,
-                                            minWidth: 80,
-                                        }}
-                                    >
-                                        {`Established: item.establishtedTSstirng}`}
-                                    </Tag>
-                                </View>
-                             
-                               
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
-                                    <Text caption2 light>
-                                        {`Balnce: ${item.balance} TRX`}
-                                    </Text>
-                                </View>
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
-                                    <Text overline style={{fontSize: 14, fontWeight:'bold', color:"blue" }}>
-                                    </Text>
-                                </View>
-                            </View>
+                            <CardReport99 style={{ marginTop: 7, paddingTop:10 }} 
+                            title = "Treasury Address"
+                            price =  {item.address} 
+                            price2 = {`Balance: ${item.balance}`}
+                            onPress={() => navigation.navigate("Treasury Details", { 
+                                treasuryAddress: item.address, 
+                           }
+                           )}
+                            />
+                            </View> 
                         </View>
-                       </TouchableOpacity>
 
                         )
                     }}

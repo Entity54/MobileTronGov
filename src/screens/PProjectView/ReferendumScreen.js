@@ -4,9 +4,14 @@ import { default as ProductSpecGrid } from "@components/Icon";
 // import { default as CardReport03 } from "../../components/Report03";
 // import { default as CardReport04 } from "../../components/Report04";
 import { default as CardReport04 } from "@components/Report04";
+import { EFilterColors, EFilterSizes } from "@data";
+import { ProductSize } from "@components";
+
 
 // import { default as CardReport05 } from "../../components/Report05";
 import { default as CardReport05 } from "@components/Report05";
+import { useTranslation } from "react-i18next";
+
 
 // import Icon from "../../components/Icon";
 import Tag from "../../components/Tag";
@@ -245,6 +250,9 @@ const TAGS = [
 
 const PProjectView = ({navigation}) => {
 
+    const { t } = useTranslation();
+    const [eSizes, setESizes] = useState(EFilterSizes);
+    const [sizeChoosed, setSizeChoosed] = useState(EFilterSizes[0]);
     const [refIndex, setRefIndex] = useState("");
     const [refTitle, setRefTitle] = useState("");
     const [refBody, setRefBody] = useState("");
@@ -398,76 +406,76 @@ const PProjectView = ({navigation}) => {
 
                     {/* {t("Referenda Details")} */}
                 <View style={{ flexDirection: "row", marginTop: 0}}>
-                    <View style={{ flex: 1, paddingRight: 7 }}>
-                        {/* <CardReport03 style={{ marginTop: 7 }}  icon="chart-line" title="Remaining" price="3 Days 45mins" time="Time" blocks="Blocks" percent="21,827" onPress={() => navigation.navigate("FCryptol02")}/> */}
-                        {/* <CardReport03 style={{ marginTop: 7 }} icon="chart-line" title="Activate" price="4 Days 1hr" time="Time" blocks="Block" percent="#2,923,500" onPress={() => navigation.navigate("FCryptol02")} /> */}
-                        {/* <CardReport05 style={{ marginTop: 7 }} title = "Turnout" price = "2.3%" icon = "user-friends" onPress={() => navigation.navigate("FCryptol02")}/> */}
-
-                        <CardReport05 style={{ marginTop: 7 }} title="Finish Countdown" price={`${currentBlockNumber? refEndBlock - currentBlockNumber : refEndBlock}`} icon = "clock" onPress={() => navigation.navigate("FCryptol02")}/>
-                        <CardReport05 style={{ marginTop: 10 }} title="Scoring Countdown" price={`${currentBlockNumber? refScoreBlock - currentBlockNumber : refScoreBlock}`} icon = "clock" onPress={() => navigation.navigate("FCryptol02")} />
-                        <CardReport05 style={{ marginTop: 10, paddingBottom: 5, height:"auto" }} title = "Turnout" price ={refTurnout} icon = "user-friends" onPress={() => navigation.navigate("FCryptol02")}/>
+                    <View style={{ flex: 1, paddingRight: 7, marginTop:10 }}>
+                        <CardReport05 style={{ marginTop: 7}} title="Finish Countdown" price={`${currentBlockNumber? refEndBlock - currentBlockNumber : refEndBlock}`} onPress={() => navigation.navigate("FCryptol02")}/>
+                        <CardReport05 style={{ marginTop: 10}} title="Scoring Countdown" price={`${currentBlockNumber? refScoreBlock - currentBlockNumber : refScoreBlock}`} onPress={() => navigation.navigate("FCryptol02")} />
+                        <CardReport05 style={{ marginTop: 10}} title = "Turnout" price ={refTurnout} onPress={() => navigation.navigate("FCryptol02")}/>
                     </View>
                     <View style={{ flex: 1, paddingLeft: 7 }}>
-                        {/* <CardReport04 contentStyle={{ paddingBottom: 35, marginBottom: 20, marginTop: 7 }}
-                            icon="credit-card" title="Status" title2="Support" price="412" aye="Aye"
-                            ayeamount= {`${refAye} TRX`} nayamount=  {`${refNay} TRX`}
-                            percent1= "80%" nay="Nay" percent2= "20%" percent= "80"
-                            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-                            onPress={() => navigation.navigate("Dashboard4")}
-                        /> */}
                         <CardReport04 contentStyle={{ paddingBottom: 15, marginBottom: 7, marginTop: 7 }}
-                            icon="credit-card" title="Status" title2="Aye Dominance" price="412" aye="AYE - "
-                            ayeamount= {`${refAye} TRX`} nayamount=  {`${refNay} TRX`}
-                            // percent1= "80%" nay="Nay" percent2= "20%" percent= "80"
-                            percent1= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100 : 0}`} nay="Nay" percent2= {`${(refAye + refNay)>0?(refNay / (refAye + refNay))*100:0}`} percent= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100:0}`}
-                            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-                            // onPress={() => navigation.navigate("Dashboard4")}
+                            title="Status" 
+                            title2="AYE Dominance" 
+                            price="412" 
+                            aye="AYE - "
+                            nay="NAY - " 
+                            ayeamount= {`${refAye} TRX`} 
+                            nayamount=  {`${refNay} TRX`}
+                            percent1= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100 : 0}`} 
+                            percent2= {`${(refAye + refNay)>0?(refNay / (refAye + refNay))*100:0}`} 
+                            percent= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100:0}`}
                         />
                     </View>
                 </View>
 
-                <View style={newStyles.backgroundStyle}>
-                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Nummber of TRX'  style={newStyles.inputStyle} value={voteTokens} onChangeText={(newValue) => setVoteTokens(newValue)} />
-                    <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Conviction (0 to 3)'  style={newStyles.inputStyle} value={conviction} onChangeText={(newValue) => setConviction(newValue)} />
+                <View style={styles.contain}>
+                    <View>
+                        <View style={{ flexDirection: "row", marginBottom: 8, marginTop: 0, marginLeft:39}}>
+                            <Text body1>{t("Conviction").toUpperCase()}</Text>
+                            <Text
+                                headline
+                                style={{
+                                }}
+                            >
+                                {` ${sizeChoosed.name}`.toUpperCase()}
+                            </Text>
+                        </View>
+                        <View>
+                            <ProductSize
+                                sizeChoosed={sizeChoosed}
+                                sizes={eSizes}
+                                onPress={(size) => setSizeChoosed(size)}
+                            />
+                        </View>
+                    </View>
+                    <View>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={(newValue) => setVoteTokens(newValue)}
+                            autoCorrect={false}
+                            placeholder={t("Number Of TRX")}
+                            placeholderTextColor={BaseColor.grayColor}
+                            value={voteTokens}
+                            selectionColor={colors.primary}
+                        />
+                    </View>
+                </View>
+                <View style={styles.contain}>
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => voteReferendum(refIndex, true, voteTokens, conviction) } >
+                        <Text style={styles.buttonText}>VOTE AYE</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => voteReferendum(refIndex, false, voteTokens, conviction ) }>    
+                        <Text style={styles.buttonText}>VOTE NAY</Text>
+                    </TouchableOpacity>
+
                 </View>
 
 
 
-                <View style={newStyles.votingbackgroundStyle}>
-                    <Button style={newStyles.voteButtonStyleAye}     title="Vote Aye" onPress={() => voteReferendum(refIndex, true, voteTokens, conviction) } />
-                    {/* <Button style={newStyles.voteButtonStyleUnvote}  title="Unvote"   onPress={() => removeVote(refIndex) } /> */}
-                    <Button style={newStyles.voteButtonStyleNay}     title="Vote Nay" onPress={() => voteReferendum(refIndex, false, voteTokens, conviction ) } />
 
-
-                    {/* <Button
-                        title="VOTE"
-                        style={{ backgroundColor: colors.primaryLight }}
-                        onPress={() => {
-                        navigation.goBack();
-                        }}
-                    >
-                        {"VOTE1"}
-
-                    </Button>
-                         */}
-                </View>
-
-                <View style={{ flex: 1, paddingLeft: 7,  marginTop: 7 }}>
-                </View>
-
-                {/* <View style={{ flex: 1, paddingLeft: 7 }}>
-                    <Button
-                        title="UNVOTE"
-                        style={{ marginTop: 7 }}
-                        onPress={() => {
-                        navigation.goBack();
-                        }}
-                    >
-                        {"UNVOTE1"}
-
-                    </Button>
-                       
-                </View> */}
             </ScrollView>
         </SafeAreaView>
     );

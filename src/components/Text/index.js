@@ -1,8 +1,4 @@
-// import { BaseColor, FontWeight, Typography, useFont, useTheme } from "@config";
-import { Typography, FontWeight } from "../../config/typography";
-import { BaseColor} from "../../config/theme";
-
-
+import { BaseColor, FontWeight, Typography, useFont, useTheme } from "@config";
 import PropTypes from "prop-types";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
@@ -107,8 +103,8 @@ export default function Index(props) {
     children,
   } = props;
 
-  // const { colors } = useTheme();
-  // const font = useFont();
+  const { colors } = useTheme();
+  const font = useFont();
 
   let textStyle = StyleSheet.flatten([
     header && Typography.header,

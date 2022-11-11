@@ -78,7 +78,7 @@ const CardReport04 = ({
                 ]}
             >
                 <View style={[styles.header]}>
-                    <Text headline style={{ textAlign: "center", width: "100%"}}>
+                    <Text headline style={{ textAlign: "center", fontWeight:"bold"}}>
                         {title}
                     </Text>
                 </View >
@@ -116,7 +116,7 @@ const CardReport04 = ({
                         width: `${percent2}%`,
                     }}
                 />
-                <Text headline style={{ marginTop: 20, textAlign: "center", width: "100%"}}>
+                <Text headline style={{ marginTop: 20, textAlign: "center", fontWeight:"bold"}}>
                     {title2}
                 </Text>
                 <View style={styles.viewProgress}>

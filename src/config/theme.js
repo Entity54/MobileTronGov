@@ -1,4 +1,4 @@
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useColorScheme } from 'react-native';
 
 /**
@@ -14,8 +14,6 @@ export const BaseColor = {
   kashmir: "#5D6D7E",
   orangeColor: "#E5634D",
   blueColor: "#5DADE2",
-  blueLightColor: "#7272FF",
-  blueDarkColor: "#0000B9",
   pinkColor: "#A569BD",
   greenColor: "#58D68D",
   pinkLightColor: "#FF5E80",
@@ -221,29 +219,29 @@ export const DefaultFont = "ProximaNova";
  * export theme and colors for application
  * @returns theme,colors
  */
-// export const useTheme = () => {
-//   const isDarkMode = useColorScheme() === "dark";
-//   const forceDark = useSelector((state) => state.application.force_dark);
-//   const themeStorage = useSelector((state) => state.application.theme);
-//   const listTheme = ThemeSupport.filter((item) => item.theme == themeStorage);
-//   const theme = listTheme.length > 0 ? listTheme[0] : DefaultTheme;
+export const useTheme = () => {
+  const isDarkMode = useColorScheme() === "dark";
+  const forceDark = useSelector((state) => state.application.force_dark);
+  const themeStorage = useSelector((state) => state.application.theme);
+  const listTheme = ThemeSupport.filter((item) => item.theme == themeStorage);
+  const theme = listTheme.length > 0 ? listTheme[0] : DefaultTheme;
 
-//   if (forceDark) {
-//     return { theme: theme.dark, colors: theme.dark.colors };
-//   }
-//   if (forceDark == false) {
-//     return { theme: theme.light, colors: theme.light.colors };
-//   }
-//   return isDarkMode
-//     ? { theme: theme.dark, colors: theme.dark.colors }
-//     : { theme: theme.light, colors: theme.light.colors };
-// };
+  if (forceDark) {
+    return { theme: theme.dark, colors: theme.dark.colors };
+  }
+  if (forceDark == false) {
+    return { theme: theme.light, colors: theme.light.colors };
+  }
+  return isDarkMode
+    ? { theme: theme.dark, colors: theme.dark.colors }
+    : { theme: theme.light, colors: theme.light.colors };
+};
 
 /**
  * export font for application
  * @returns font
  */
-// export const useFont = () => {
-//   const font = useSelector((state) => state.application.font);
-//   return font ?? DefaultFont;
-// };
+export const useFont = () => {
+  const font = useSelector((state) => state.application.font);
+  return font ?? DefaultFont;
+};

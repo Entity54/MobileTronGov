@@ -12,6 +12,8 @@ import Tag from "../../components/Tag";
 import { BaseColor } from "../../config/theme";
 import { BaseStyle } from "../../config/styles";
 import { Images } from "../../config/images";
+import { default as CardReport100 } from "../../components/Report100";
+
 
 import styles from "./styles";
 
@@ -116,56 +118,34 @@ const TreasuryScreen = ({navigation}) => {
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
             >
-                <View>
+                {/* <View>
                     <Text selectable={true} title3>{treasuryAddress? `Treasury Address: ${treasuryAddress}`: "Loading"}</Text>
                     <Text selectable={true} title3>{treasuryAdmin? `Treasury Administrator: ${treasuryAdmin}`: "Loading"}</Text>
                     <Text title3>{accountDetails? `Treasury  Balance: ${accountDetails.balance}`: "Loading"}</Text>
           
-                    <View style={styles.specifications}>
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"0xFaCf…B63d8e"}
-                            description={"Creator"}
-                            
-                        />
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"0x7369…000000"}
-                            description={"Owner"}
-                            
-                        />
-                    </View>
-                    <View style={styles.specifications}>
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={"129"}
-                            description={"Referenda #"}
-                            
-                        />
-                        <ProductSpecGrid
-                            style={{ flex: 1 }}
-                            title={
-                                <Tag
-                                    light
-                                    style={{
-                                        backgroundColor: BaseColor.grayColor,
-                                        borderRadius: 5,
-                                        paddingHorizontal: 5,
-                                    }}
-                                    textStyle={{ color: BaseColor.whiteColor }}
-                                >
-                                    On Going
-                                </Tag>
-                            }
-                            description={"status"}
-                            
-                        />
-                    </View>
             
-                </View>
+                </View> */}
+
+                <View>
+                    <View style={{ flexDirection: "row", marginTop: 5 }}>
+
+                        {/* <View style={styles.contain}> */}
+                            {/* <View style={{ flex: 1 }}> */}
+                                <CardReport100 style={{ marginTop: 7, paddingTop:10 }} 
+                                title = "Treasury Address"
+                                treasuryadd =  {treasuryAddress} 
+                                title2 = "Treasury Admin Address"
+                                treasuryadm =  {treasuryAdmin} 
+                                title3 = "Balance"
+                                balance = {accountDetails.balance}
+                                />
+                            {/* </View>  */}
+                        {/* </View> */}
+                    </View>
+
 
            
-                <View style={{ flexDirection: "row", marginTop: 5 }}>
+                {/* <View style={{ flexDirection: "row", marginTop: 5 }}>
                     <View style={{ flex: 1, paddingRight: 7 }}>
                         <CardReport03
                             style={{ marginTop: 7 }}
@@ -189,12 +169,32 @@ const TreasuryScreen = ({navigation}) => {
                         />
 
                     </View>
+                </View> */}
+                <View style={styles.contain}>
+
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => deposit(depositTokens) }
+
+                    >
+                        <Text style={styles.buttonText}>Deposit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => withdraw() } 
+
+                    >
+                        <Text style={styles.buttonText}>Withdraw</Text>
+                    </TouchableOpacity>
                 </View>
 
-                <View style={newStyles.backgroundStyle}>
+                </View>
+
+
+                {/* <View style={newStyles.backgroundStyle}>
                     <TextInput autoCapitalize='none'autoCorrect={false} placeholder='Nummber of TRX'  style={newStyles.inputStyle} value={depositTokens} onChangeText={(newValue) => setDepositTokens(newValue)} />
                     <Button style={newStyles.voteButtonStyleAye}     title="Deposit" onPress={() => deposit(depositTokens) } />
-                </View>
+                </View> */}
 
                 <View style={newStyles.votingbackgroundStyle}>
                     <Button style={newStyles.voteButtonStyleNay}     title="Withdraw" onPress={() => withdraw() } />

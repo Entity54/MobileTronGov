@@ -25,7 +25,6 @@ const colors = {
     border: "#c7c7cc",
 };
 
-
 const ProposalsScreen = ({ navigation,
     style,
     // onPress,
@@ -126,18 +125,14 @@ const ProposalsScreen = ({ navigation,
 
     return (
         <>
-        <View>
-            <TouchableOpacity style={{backgroundColor:"blue", }} onPress={() => navigation.navigate("Create New Referendum", { 
-                            //  refPassed: "item.referendum_Passed",
-                            //  description: `Referendum with ID  \nwill end at blockand the scoring block is.`,
-                         }
-                        )} 
-            >
-                <Text style={{fontWeight:"bold", backgroundColor:"blue", color:"white", fontSize:18, alignSelf:"center"}} title3 numberOfLines={1}>
-                                            {`CREATE NEW PROPOSAL`}
-                </Text>
+        <View style={styles.container}>
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={() => navigation.navigate("Create New Referendum")}
 
-            </TouchableOpacity> 
+            >
+                <Text style={styles.buttonText}>Create Referendum</Text>
+            </TouchableOpacity>
         </View>
 
         <View>
@@ -157,13 +152,6 @@ const ProposalsScreen = ({ navigation,
                                             {`Referendum:${item.referendum_Index}`}
                                         </Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity
-                                        hitSlop={{ top: 10, right: 10, top: 10, left: 10 }}
-                                        style={{ paddingLeft: 16 }}
-                                         
-                                    >
-                                        <Icon name="ellipsis-h" size={14} color={colors.text}></Icon>
-                                    </TouchableOpacity>
                                 </View>
                                 <View
                                     style={{
@@ -180,33 +168,39 @@ const ProposalsScreen = ({ navigation,
                                         style={{
                                             backgroundColor: `${item.referendum_TagColor}`,
                                             paddingHorizontal: 10,
+                                            marginRight:10,
                                             minWidth: 80,
                                         }}
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
+                                    <Text style={{fontWeight:"bold"}}>
+                                        {`Amount Requested: ${item.referendum_Amount}`}
+                                    </Text>
+
                                 </View>
                              
                                
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
-                                    <Text caption2 light>
-                                        {`Title: ${"Promoting Tron ecosystem to the Europe"}`}
-                                    </Text>
-                                </View>
 
-                                <View style={{ flexDirection: "row", marginTop: 0}}>
-                                    <View style={{ flex: 1, paddingRight: 7 }}>
-                                        <CardReport05 style={{ marginTop: 7 }} title = "Description" 
+                                <View style={{ flexDirection: "row"}}>
+                                    <View style={{ flex: 1}}>
+                                        <CardReport05 style={{ marginTop: 10}} 
+                                            title = {"Promoting Tron ecosystem to Europe"} 
                                             price = 
-                                                {`Hello We are askign these funds so we can proote Tron ecosystme in Europe. Organise Conferences with food and live broadcasting \n
-Hello We are askign these funds so we can proote Tron ecosystme in Europe. Organise Conferences with food and live broadcasting `}
+                                                {`Hello We are askign these funds so we can promote Tron ecosystme in Europe. Organise Conferences with food and live broadcasting`}
 
-                                            icon = "user-friends"
                                         />
 
-                                        <CardReport03 style={{ marginTop: 7 }}  icon="chart-line" title="Beneficiary" price={`${item.referendum_Beneficiary}`} time="Address" blocks="" percent="" />
-                                        <CardReport03 style={{ marginTop: 7 }}  icon="chart-line" title="Treasury" price={`${item.referendum_Treasury}`} time="Address" blocks="" percent="" />
-                                        <CardReport03 style={{ marginTop: 7 }}  icon="chart-line" title="Specifications" price={`${item.referendum_Amount}`} time="Amount" blocks="Starts at Block" percent={`${item.referendum_startBlock}`} />
+                                        <CardReport05 style={{ marginTop: 7}}  
+                                            title="Beneficiary Address" 
+                                            price={`${item.referendum_Beneficiary}`} />
+                                        <CardReport05 style={{ marginTop: 7}}  
+                                            title="Treasury Address" 
+                                            price={`${item.referendum_Treasury}`} />
+                                        <CardReport05 style={{ marginTop: 7}} 
+                                            title="Starting Block" 
+                                            // price={`${item.referendum_Amount}`} 
+                                            price={`${item.referendum_startBlock}`} />
                                     </View>
                                 </View>
 
