@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 import { default as CardReport03 } from "../../components/Report03";
 import { default as CardReport05 } from "../../components/Report05";
 
-
 import styles from "./styles";
 
 
@@ -31,7 +30,7 @@ const ProposalsScreen = ({ navigation,
     // onOption,
 }) => {
 
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter } = useContext(GovContext);
     const [preparedReferendaArray, setPreparedReferendaArray]  = useState([]);
 
     //#region getPreparedRefrenda
@@ -41,7 +40,7 @@ const ProposalsScreen = ({ navigation,
         if (tronGovernanceSC && band3 && band2 ) {
             const prepearedReferendaIDarrayUint  = await tronGovernanceSC.getPreparedReferenda().call();
             const preparedReferendaIDarray = prepearedReferendaIDarrayUint.map(itm => `${itm}`);
-            console.log(`preparedReferendaIDarray: `,preparedReferendaIDarray);
+            // console.log(`preparedReferendaIDarray: `,preparedReferendaIDarray);
             let preparedreferendarray=[];
 
             for (let i=0; i<preparedReferendaIDarray.length; i++)
@@ -83,30 +82,42 @@ const ProposalsScreen = ({ navigation,
                 // } 
                 // else if (currentBlockNumber > endBlock) progressBarPercent=100;
                 // else if (currentBlockNumber < startBlock) progressBarPercent=0;
-                
-                preparedreferendarray.push({
-                    referendum_Index      : `${referendumDetails[0]}`,
-                    referendum_Beneficiary: `${tronWeb.address.fromHex(referendumDetails[1])}`,
-                    referendum_Treasury   : `${tronWeb.address.fromHex(referendumDetails[2])}`,
-                    referendum_Amount     : tronWeb.fromSun(refAmountSun),
-                    referendum_CID        : `${referendumDetails[4]}`,
-                    referendum_startBlock : startBlock,
-                    referendum_endBlock   : endBlock,
-                    referendum_scoreBlock : `${referendumDetails[7]}`,
-                    referendum_Ayes       : `${tronWeb.fromSun(referendumDetails[8])}`,
-                    referendum_Nays       : `${tronWeb.fromSun(referendumDetails[9])}`,
-                    referendum_Turnout    : `${referendumDetails[10]}`,
-                    referendum_Passed     : "Not Started Yet", //Number(`${referendumDetails[8]}`) > Number(`${referendumDetails[9]}`)? "Passing" : "Not Passing",
-                    referendum_TagColor   : tagColor,
-                    referendum_TagText    : tagText,
-                    referendum_ProgressBarPercent : 0, //progressBarPercent
-                })
-                //  referendum_Passed     : `${referendumDetails[11]}`,
 
+                let res, titel="A Title", descrpt="A Description";
+                const referendumCID = `${referendumDetails[4]}`;
+                    try {
+                        res = JSON.parse(await retrieveContentfromIPFS( referendumCID ));
+                        // console.log(`|||||>>>> PROPOSAL SCREEN res: `,res);
+                        titel = res.title;
+                        descrpt = res.description;
+                    } catch (e) 
+                    {
+                        console.log(`Error in retireving IPFS data`);
+                    }
+
+                    preparedreferendarray.push({
+                        referendum_Index      : `${referendumDetails[0]}`,
+                        referendum_Beneficiary: `${tronWeb.address.fromHex(referendumDetails[1])}`,
+                        referendum_Treasury   : `${tronWeb.address.fromHex(referendumDetails[2])}`,
+                        referendum_Amount     : tronWeb.fromSun(refAmountSun),
+                        referendum_CID        : referendumCID,
+                        referendum_startBlock : startBlock,
+                        referendum_endBlock   : endBlock,
+                        referendum_scoreBlock : `${referendumDetails[7]}`,
+                        referendum_Ayes       : `${tronWeb.fromSun(referendumDetails[8])}`,
+                        referendum_Nays       : `${tronWeb.fromSun(referendumDetails[9])}`,
+                        referendum_Turnout    : `${referendumDetails[10]}`,
+                        referendum_Passed     : "Not Started Yet", //Number(`${referendumDetails[8]}`) > Number(`${referendumDetails[9]}`)? "Passing" : "Not Passing",
+                        referendum_TagColor   : tagColor,
+                        referendum_TagText    : tagText,
+                        referendum_ProgressBarPercent : 0, //progressBarPercent
+                        referendum_Title          : titel,
+                        referendum_Description    : descrpt,
+                    })
 
           }
 
-          console.log(`preparedreferendarray: `,preparedreferendarray);
+        //   console.log(`preparedreferendarray: `,preparedreferendarray);
           setPreparedReferendaArray(preparedreferendarray);
         }
 
@@ -117,10 +128,10 @@ const ProposalsScreen = ({ navigation,
     useEffect(() => {
         if (tronGovernanceSC && band3 && band2) 
         {
-            console.log(`Proposals Screen tronGovernanceSC band3 and band2 are set. Calling getPreparedRefrenda`);
+            console.log(`Proposals Screen refreshCounter: ${refreshCounter} tronGovernanceSC band3 and band2 are set. Calling getPreparedRefrenda`);
             getPreparedRefrenda();
         }
-    },[tronGovernanceSC,band3,band2]);
+    },[tronGovernanceSC,band3,band2, refreshCounter]);
 
 
     return (
@@ -181,13 +192,20 @@ const ProposalsScreen = ({ navigation,
                                 </View>
                              
                                
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
+                                    <Text caption2 light>
+                                        {/* {`Title: ${"Promoting Tron ecosystem to the Europe"}`} */}
+                                        {`Title: ${item.referendum_Title}`}
 
-                                <View style={{ flexDirection: "row"}}>
-                                    <View style={{ flex: 1}}>
-                                        <CardReport05 style={{ marginTop: 10}} 
-                                            title = {"Promoting Tron ecosystem to Europe"} 
-                                            price = 
-                                                {`Hello We are askign these funds so we can promote Tron ecosystme in Europe. Organise Conferences with food and live broadcasting`}
+                                    </Text>
+                                </View>
+
+                                <View style={{ flexDirection: "row", marginTop: 0}}>
+                                    <View style={{ flex: 1, paddingRight: 7 }}>
+                                        <CardReport05 style={{ marginTop: 7 }} title = "Description" 
+                                            price = {item.referendum_Description}
+//                                                 {`Hello We are askign these funds so we can proote Tron ecosystme in Europe. Organise Conferences with food and live broadcasting \n
+// Hello We are askign these funds so we can proote Tron ecosystme in Europe. Organise Conferences with food and live broadcasting `}
 
                                         />
 

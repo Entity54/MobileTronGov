@@ -1,26 +1,28 @@
-import TronWeb from 'tronweb/dist/TronWeb.js';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import TronWeb from 'tronweb/dist/TronWeb.js';
 
 
 import TronGovernance_raw from '../Abis/tronGovernance.json';     
 const tronGovernance_ABI = TronGovernance_raw.abi;
+
 // ****************************************************************************
 const tronGovernanceContractAddress = "TBHLsbmX2mhSyWjXdh1fciCmHNbXHca8Yy";
 // ****************************************************************************
 
 
-const TronGridApiKey = "2a285484-2e03-4082-af1a-389b53879ec3";
+//IPFS Key
+const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyZTMzMzA0My0xZmZjLTQxNGQtYjFmMC0yZGQ2MThjZjlhY2QiLCJlbWFpbCI6ImFuZ2RpYW1kMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZTI3ZmMyMDI0NjVmNDM3MTJiM2EiLCJzY29wZWRLZXlTZWNyZXQiOiI4NmVhMWFkMWNhZWMwYTI4NWRhMzY2ZmY4YzI0ODgwODU2NGY4ZTcwNmM0YWNkMmVlNGFmMmFmOWZmYWU1NDM2IiwiaWF0IjoxNjY2MjcwNTU1fQ.RN7MVo1NdUxcVEgwl5g0ZUChERr2iyzmA0-Eb4V7oLQ";
+//TRONGov
+// const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyZTMzMzA0My0xZmZjLTQxNGQtYjFmMC0yZGQ2MThjZjlhY2QiLCJlbWFpbCI6ImFuZ2RpYW1kMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYmYzZGJlN2I0YTkwYzRkZTgwNTgiLCJzY29wZWRLZXlTZWNyZXQiOiJhN2FmZTc4YjI4OTI2NzM2YzAzNzA1MDY4MWUyYmZiMjRlNzVmYTEwMTlhNTA3N2Y3MTc3MTRmYjA1ZjAwNmZhIiwiaWF0IjoxNjY4MTExMzI4fQ.CQchH2ytw1_3pHTFgWcb-rFkL4mfP4DuFsS_-pt6grs";
+
+// const inittialCounterValue = 1;
+let counter = 0;
 
 const GovContext = React.createContext();
 
 export const GovProvider = ({children}) => {
-
-    // const [name, setName] = useState();
-    // const [wallet, setWallet] = useState();
-    // const [scComs, setScComs] = useState();
-    // const [scGov, setScGov] = useState();
-    // const [scChannels, setScChannels] = useState();
 
     const [tronWeb, setTronWeb] = useState();
     const [tronGovernanceSC, setTronGovernanceSC] = useState();
@@ -32,59 +34,52 @@ export const GovProvider = ({children}) => {
     const [band2, setBand2] = useState(0);
     const [band3, setBand3] = useState(0);
 
-    const [refreshCounter, setRefreshCounter] = useState(0);
+    const [refreshCounter, setRefreshCounter] = useState();
+    // const [refreshCount, setRefreshCount] = useState();
+
 
 
     let intevalId;
     const refreshValues = () => {
-        if(intevalId) {
-            console.log(`Clearing last interval and launching a first one`);
-            clearInterval(intevalId);
-            setRefreshCounter(0);
-        }
+        // if(intevalId) {
+        //     console.log(`Clearing last interval and launching a first one`);
+        //     clearInterval(intevalId);
+        //     setRefreshCounter(0);
+        // }
+
+        // intevalId = setInterval( () => {
+        //     console.log(`Context refreshCounter: ${refreshCounter}`);
+        //     setRefreshCounter(refreshCounter+1)
+        // },30000);
 
         intevalId = setInterval( () => {
-            console.log(`refreshCounter: ${refreshCounter}`);
-            //WRITE TRON WEB LOGIC HERE
-            //ACCOUNT BALANCE
-            //ACTIVE REFERENDA
-            //PREPARED REFERENDA
-            //EXPIRED REFRENDA
-            //TREASURY ACCOUNTS
-            setRefreshCounter(refreshCounter+1)
+            counter +=1;
+            console.log(`Context counter: ${counter} refreshCounter: ${refreshCounter}`);
+            setRefreshCounter(counter)
         },30000);
     }
 
    
-    //#region readAccount
     const readAccount= async () => {
         console.log(`****** Read Stored account *******`);
         let storedAccount;
         try {
-          // const value = await AsyncStorage.getItem('@storage_Key')
           const accountJSON = await AsyncStorage.getItem('@account');
           storedAccount = JSON.parse(accountJSON);
           console.log(`RETRIEVED account : `,JSON.stringify(storedAccount,null,"\t"));
           return storedAccount;
-  
-                //   if(storedAccount !== null) {
-                //     console.log(`Setting New Account`);
-                //     // address: {
-                //     //             base58: "TPbBpRXnt6ztse8XkCLiJstZyqQZvxW2sx", 
-                //     //             hex: "4195679F3AAF5211991781D49B30525DDDFE9A18DE"
-                //     //           }
-                //     //  privateKey: "08089C24EC3BAEB34254DDF5297CF8FBB8E031496FF67B4EFACA738FF9EBD455"
-                //     //  publicKey:  "04EE63599802B5D31A29C95CC7DF04F427E8F0A124BED9333F3A80404ACFC3127659C540D0162DEDB81AC5F74B2DEB4962656EFE112B252E54AC3BA1207CD1FB10"
-                //     setAccount(storedAccount.address.base58);
-                //     return storedAccount;
-                //   }
+            // address: {
+            //             base58: "TPbBpRXnt6ztse8XkCLiJstZyqQZvxW2sx", 
+            //             hex: "4195679F3AAF5211991781D49B30525DDDFE9A18DE"
+            //           }
+            //  privateKey: "08089C24EC3BAEB34254DDF5297CF8FBB8E031496FF67B4EFACA738FF9EBD455"
+            //  publicKey:  "04EE63599802B5D31A29C95CC7DF04F427E8F0A124BED9333F3A80404ACFC3127659C540D0162DEDB81AC5F74B2DEB4962656EFE112B252E54AC3BA1207CD1FB10"
         } catch(e) {
           console.log(`GovContext Error in reading AsyncStorage storedAccount. Perhaps you have not set up an account yet`);
           return null;
         }
         
     }
-    //#endregion
 
 
 
@@ -111,26 +106,27 @@ export const GovProvider = ({children}) => {
     }
     
 
-    //#region performTronWebActions
     useEffect(() => {
         const performTronWebActions = async () => {
-          console.log(`GovContext Setting up tronGovernanceContract`); 
-          // const tronGovernanceContract = await tronWeb_server.contract().at(tronGovernanceContractAddress);
-          const tronGovernanceContract = await tronWeb.contract(tronGovernance_ABI, tronGovernanceContractAddress);
-          
-          console.log(`GovContext Initiating Values`);
-          const band_1  = await tronGovernanceContract.band1().call();
-          const band_2  = await tronGovernanceContract.band2().call();
-          const band_3  = await tronGovernanceContract.band3().call();
-          console.log(`GovContext band1: ${band_1} band2: ${band_2} band3: ${band_3}`);
-          setBand1(band_1); setBand2(band_2); setBand3(band_3);
-          setTronGovernanceSC(tronGovernanceContract);
-          //   refreshValues();
+            console.log(`GovContext Setting up tronGovernanceContract`); 
+            // const tronGovernanceContract = await tronWeb_server.contract().at(tronGovernanceContractAddress);
+            const tronGovernanceContract = await tronWeb.contract(tronGovernance_ABI, tronGovernanceContractAddress);
+            
+            console.log(`GovContext Initiating Values`);
+            const band_1  = await tronGovernanceContract.band1().call();
+            const band_2  = await tronGovernanceContract.band2().call();
+            const band_3  = await tronGovernanceContract.band3().call();
+            console.log(`GovContext band1: ${band_1} band2: ${band_2} band3: ${band_3}`);
+            setBand1(band_1); setBand2(band_2); setBand3(band_3);
+            setTronGovernanceSC(tronGovernanceContract);
 
-                // console.log(`****** performTronWebActions Create New account ******* 2 n`);
-                //  const newAccount = await tronWeb.createAccount();
-                // console.log(`****** performTronWebActions Create New account ******* 2 newAccount: `,newAccount);
-
+            if(intevalId) {
+                console.log(`Clearing last interval and launching a new one`);
+                clearInterval(intevalId);
+                counter = 0;
+                // setRefreshCounter(0);
+            }
+            refreshValues();
         }
     
         if (tronWeb) {
@@ -138,25 +134,10 @@ export const GovProvider = ({children}) => {
           performTronWebActions();
         }
     },[tronWeb]);
-    //#endregion
 
 
     //#region updateTronWeb
-    //    const updateTronWeb = async (_tronWebd) => {
     const updateTronWeb = async () => {
-        // setTronWeb(_tronWebd);
-        // console.log(` ||||||>>>>****** performTronWebActions Create New account ******* 2 n`);
-        // const newAccount = await 
-        // _tronWebd.createAccount()
-        // .then(res => {
-        //     console.log(`Reesult: `,res);
-        // })
-        // .catch(er => {
-        //     console.log(`Error in creating New Account Error: `,er);
-        // });
-        // console.log(` ||||||>>>>****** performTronWebActions Create New account ******* 2 newAccount: `,newAccount);
-
-        
         console.log(`GovContext updateTronWeb updateTronWeb  Setting Up HttpProvider`);
         const HttpProvider = TronWeb.providers.HttpProvider;
         const fullNode = new HttpProvider("https://api.nileex.io");
@@ -164,14 +145,14 @@ export const GovProvider = ({children}) => {
         const eventServer = new HttpProvider("https://api.nileex.io");
 
         console.log(`GovContext updateTronWeb Getting stored Account`);
-        const accont = await readAccount();
+        const {_W: accont} = await readAccount();
         console.log(`GovContext  updateTronWeb Account: ${accont}`);
 
 
         if (accont && Object.keys(accont).includes("address"))
+        // if (accont)
         {
             console.log(`GovContext updateTronWeb  Account Found : `,JSON.stringify(accont,null,"\t"));
-            // setAccountPublicAddress(account.address.base58);
             console.log(`GovContext updateTronWeb  Setting Up fullHost for account ${accont.address.base58}`);
             setAccount(accont.address.base58);
             setTronWeb(new TronWeb(fullNode,solidityNode,eventServer,accont.privateKey));
@@ -190,43 +171,88 @@ export const GovProvider = ({children}) => {
     }
     //#endregion
 
+
+    //#region IPFS PINNING
+    //#region ***** Uploading and Pinning JSON **********
+    const pinJSONToIPFS = async (title, treasuryAddress, requestedAmount, startInNumBlocks, durationNumBlocks, scoringNumberOfBlocks, description) => {
+        //IPFS Key
+        const adminJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyZTMzMzA0My0xZmZjLTQxNGQtYjFmMC0yZGQ2MThjZjlhY2QiLCJlbWFpbCI6ImFuZ2RpYW1kMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZTI3ZmMyMDI0NjVmNDM3MTJiM2EiLCJzY29wZWRLZXlTZWNyZXQiOiI4NmVhMWFkMWNhZWMwYTI4NWRhMzY2ZmY4YzI0ODgwODU2NGY4ZTcwNmM0YWNkMmVlNGFmMmFmOWZmYWU1NDM2IiwiaWF0IjoxNjY2MjcwNTU1fQ.RN7MVo1NdUxcVEgwl5g0ZUChERr2iyzmA0-Eb4V7oLQ";
+
+        const metadataJSON = JSON.stringify({name: title});
+        const myData = { title, treasuryAddress, requestedAmount, startInNumBlocks, durationNumBlocks, scoringNumberOfBlocks, description, };
+        const jsonToStore = JSON.stringify(myData);
+        
+        const data = JSON.stringify({
+                "pinataOptions": {
+                    "cidVersion": 1
+                },
+                "pinataMetadata": metadataJSON,
+                "pinataContent" : jsonToStore
+        });
+
+        const config = {
+            method: 'post',
+            url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${adminJWT}`,
+            },
+            data : data
+        };
+
+        const result = await axios(config);
+        console.log("We have successfully PINNED a JSON",result.data);
+        // We have successfully PINNED a JSON Object {
+        //     "IpfsHash": "bafkreiesv6qdwmo4qqbtjsjsm2k2ygxy2jgb6qrpsffoqle3gyejp7xa6q",
+        //     "PinSize": 889,
+        //     "Timestamp": "2022-11-09T17:11:28.552Z",
+        //     "isDuplicate": true,
+        // }
+        return result.data;
+    }
+
+    // const descript = `We want to promote Tron Ecosystem in Europe. Physical conferences will be held in major cities like Berlin, London, Paris, Stockholm,
+    // Brussels, Madrid, Rome. These conference will be broadcasted. We will bring key speakers to explain the huge advantages of the Tron Blockchain.
+    // There will also be a second stage for Ecosystem Projects to Pitch their projects.
+    // Furthermore we will organise a mini hackathon both physical and virtual to promote buildign on Tron.
+    // Marketing material will be prepared and distributed both in social media such as twitter but also leaflets in central points of the aforementioned cities
+    // `;
+    // pinJSONToIPFS("Promoting Tron in Europe", "TP41sdljfhsldfssdfsdfjsdfjsldf", "12345", "20", "69000", "25000", descript);
+    //#endregion ***** Uploading and Pinning JSON **********
+
+
+    //#region ***** Retrieving Content from IPFS **********
+    const retrieveContentfromIPFS = async (CID) => {
+        const config = {
+            method: 'get',
+            url: `https://gateway.pinata.cloud/ipfs/${CID}`,
+        };
+
+        const result = await axios(config);
+        console.log(` ************************************ `);
+        console.log(`retrieveContent for CID: ${CID} : `,result.data);
+        console.log(` ************************************ `);
+        // retrieveContent for CID: bafkreiesv6qdwmo4qqbtjsjsm2k2ygxy2jgb6qrpsffoqle3gyejp7xa6q :  
+        // {"title":"Promoting Tron in Europe","treasuryAddress":"TP41sdljfhsldfssdfsdfjsdfjsldf","requestedAmount":"12345","startInNumBlocks":"20","durationNumBlocks":"69000","scoringNumberOfBlocks":"25000","description":"We want to promote Tron Ecosystem in Europe. Physical conferences will be held in major cities like Berlin, London, Paris, Stockholm,\n    Brussels, Madrid, Rome. These conference will be broadcasted. We will bring key speakers to explain the huge advantages of the Tron Blockchain.\n    There will also be a second stage for Ecosystem Projects to Pitch their projects.\n    Furthermore we will organise a mini hackathon both physical and virtual to promote buildign on Tron.\n    Marketing material will be prepared and distributed both in social media such as twitter but also leaflets in central points of the aforementioned cities\n    "}
+        return result.data;
+    }
+
+    // const CID_ = "bafkreiesv6qdwmo4qqbtjsjsm2k2ygxy2jgb6qrpsffoqle3gyejp7xa6q";
+    // retrieveContentfromIPFS(CID_);
+    //#endregion ***** Retrieving Content from IPFS **********
+    //#endregion IPFS PINNING
     
 
             
     useEffect(() => {
-        console.log(`GovContext Create TronWeb on load 1`);
+        console.log(`GovContext Create TronWeb on load`);
         updateTronWeb()
-
-        // console.log(" ****************** ");
-        // const newAccount = TronWeb.createAccount();
-        // console.log(`createNewAccount=> newAccount: `,newAccount);
-        // const newAccountJSON = JSON.stringify(newAccount);
-        // console.log(`createNewAccount=> newAccountJSON: `,newAccountJSON);
-        // console.log(" ****************** ");
-
     },[]);
 
 
-
-    // const updateTronGovSC = (_tronGovernanceSC) => {
-    //     setTronGovernanceSC(_tronGovernanceSC);
-    // }
-
-    // const updateSignerElements = (_wallet, _scComs, _scGov, _scChannels) => {
-    //     setWallet(_wallet);
-    //     setScComs(_scComs);
-    //     setScGov(_scGov);
-    //     setScChannels(_scChannels)
-    // }
-
-
-    // return <GovContext.Provider value={{wallet, scComs, scGov, updateSignerElements, scChannels, tronWeb, updateTronWeb, tronGovernanceSC, updateTronGovSC  }} >
-    return <GovContext.Provider value={{ tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3,  updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter }} >
+    return <GovContext.Provider value={{ tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3,  updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter }} >
         {children}
     </GovContext.Provider>;
 };
 
 export default GovContext;
-
-
-

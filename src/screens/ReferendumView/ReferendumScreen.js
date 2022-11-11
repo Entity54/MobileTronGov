@@ -22,9 +22,6 @@ import styles from "./styles";
 
 import React, { useEffect, useState, useContext } from "react";
 import { ScrollView, TouchableOpacity, View, Button, Header, Text, TextInput, StyleSheet } from "react-native";
-
-// import { ethers } from 'ethers';  
-// import WalletConnectExperience from "../../../WalletConnectExperience";
 import GovContext from '../../context/GovContext';
 
 
@@ -52,192 +49,6 @@ const colors = {
     border: "#c7c7cc",
   };
 
-//#region PProject array
-// const PProject = [
-//     {
-//         id: 2,
-//         title: "assetManager.registerLocalAsset",
-//         description:
-//             "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets ",
-//         tasks: 105,
-//         tickets: 100,
-//         completedTickets: 90,
-//         comments: 200,
-//         status: "Moonbase",
-//         statusName: "Moonbase",
-//         members: [
-//             {
-//                 id: 1,
-//                 name: "Stevie Grarrett",
-//                 total: "@steave.grarrent",
-//                 image: Images.avata1,
-//             },
-//             {
-//                 id: 2,
-//                 name: "Kondo leyasu",
-//                 total: "@kondo.leyasu",
-//                 image: Images.avata2,
-//             },
-//             {
-//                 id: 3,
-//                 name: "Quinten Kortum",
-//                 total: "@quinten.kortum",
-//                 image: Images.avata3,
-//             },
-//             {
-//                 id: 4,
-//                 name: "Monica Ribeiro",
-//                 total: "@monica.ribeiro",
-//                 image: Images.avata4,
-//             },
-//             {
-//                 id: 5,
-//                 name: "Steve Kute",
-//                 total: "@steve.kute",
-//                 image: Images.profile1,
-//             }
-//         ],
-//     },
-//     {
-//         id: 1,
-//         title: "assetManager.registerLocalAsset",
-//         description:
-//             "Register a new local asset No information is stored in this pallet about the local asset The reason is that we dont need to hold a mapping between the multilocation and the local asset, as this conversion is deterministic Further, we dont allow xcm fee payment in local assets",
-//         tasks: 102,
-//         tickets: 124,
-//         completedTickets: 98,
-//         comments: 300,
-//         status: "Moonriver",
-//         statusName: "Moonriver",
-//         members: [
-//             {
-//                 id: 4,
-//                 name: "Monica Ribeiro",
-//                 total: "@monica.ribeiro",
-//                 image: Images.avata4,
-//             },
-//             {
-//                 id: 5,
-//                 name: "Steve Kute",
-//                 total: "@steve.kute",
-//                 image: Images.profile1,
-//             },
-//             {
-//                 id: 6,
-//                 name: "Lakshmana Dongerkerry",
-//                 total: "@lakshmana.dongerkerry",
-//                 image: Images.profile2,
-//             },
-//             {
-//                 id: 1,
-//                 name: "Steve Grarrett",
-//                 total: "@steave.grarrent",
-//                 image: Images.avata1,
-//             },
-//             {
-//                 id: 2,
-//                 name: "Kondo leyasu",
-//                 total: "@kondo.leyasu",
-//                 image: Images.avata2,
-//             },
-//             {
-//                 id: 3,
-//                 name: "Quinten Kortum",
-//                 total: "@quinten.kortum",
-//                 image: Images.avata3,
-//             },
-//         ],
-//     },
-//     {
-//         id: 3,
-//         title: "system.remark",
-//         description: "Make some on-chain remark.",
-//         tasks: 102,
-//         tickets: 100,
-//         completedTickets: 100,
-//         comments: 300,
-//         status: "Moonbase",
-//         statusName: "Moonbase",
-//         members: [
-//             {
-//                 id: 6,
-//                 name: "Lakshmana Dongerkerry",
-//                 total: "@lakshmana.dongerkerry",
-//                 image: Images.profile2,
-//             },
-//             {
-//                 id: 7,
-//                 name: "Chioke Okonkwo",
-//                 total: "@chioke.okonkwo",
-//                 image: Images.profile3,
-//             },
-//             {
-//                 id: 8,
-//                 name: "Lacara Jones",
-//                 total: "@lacara.jones",
-//                 image: Images.profile4,
-//             },
-//             {
-//                 id: 1,
-//                 name: "Steve Grarrett",
-//                 total: "@steave.grarrent",
-//                 image: Images.avata1,
-//             },
-//             {
-//                 id: 2,
-//                 name: "Kondo leyasu",
-//                 total: "@kondo.leyasu",
-//                 image: Images.avata2,
-//             },
-//         ],
-//     },
-//     {
-//         id: 4,
-//         title: "system.remark",
-//         description:
-//             "Make some on-chain remark.",
-//         tasks: 50,
-//         tickets: 90,
-//         completedTickets: 40,
-//         comments: 200,
-//         status: "Moonbase",
-//         statusName: "Moonbase",
-//         members: [
-//             {
-//                 id: 8,
-//                 name: "Lacara Jones",
-//                 total: "@lacara.jones",
-//                 image: Images.profile4,
-//             },
-//             {
-//                 id: 1,
-//                 name: "Steve Grarrett",
-//                 total: "@steave.grarrent",
-//                 image: Images.avata1,
-//             },
-//             {
-//                 id: 6,
-//                 name: "Lakshmana Dongerkerry",
-//                 total: "@lakshmana.dongerkerry",
-//                 image: Images.profile2,
-//             },
-//             {
-//                 id: 7,
-//                 name: "Chioke Okonkwo",
-//                 total: "@chioke.okonkwo",
-//                 image: Images.profile3,
-//             },
-//             {
-//                 id: 2,
-//                 name: "Kondo leyasu",
-//                 total: "@kondo.leyasu",
-//                 image: Images.avata2,
-//             },
-//         ],
-//     },
-// ];
-//#endregion
-
 
 
 
@@ -248,7 +59,7 @@ const TAGS = [
     { id: "4", icon: "bus", name: "Jquery" },
 ];
 
-const PProjectView = ({navigation}) => {
+const ReferendumView = ({navigation}) => {
 
     const { t } = useTranslation();
     const [eSizes, setESizes] = useState(EFilterSizes);
@@ -271,21 +82,18 @@ const PProjectView = ({navigation}) => {
     const [refTurnout, setRefTurnout] = useState("");
     const [refPassed, setRefPassed] = useState("");
 
-
-    // const [refHash, setRefHash] = useState("");
     const [percentOne, setPercentOne] = useState("80");
     const [percentTwo, setPercentTwo] = useState("20");
     const [percent, setPercent] = useState("80");
     const [voteTokens, setVoteTokens] = useState("");
     const [conviction, setConviction] = useState("");
 
-    // const {wallet, scComs, scGov, updateSignerElements} = useContext(GovContext);
     const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter  } = useContext(GovContext);
 
     const voteReferendum = async (refIndex, isAye, amount, convictionNum = 0 ) => {
         if (tronGovernanceSC && tronWeb)
         {
-            const amountSUN =  tronWeb.toSun(amount)  //123456789; //ethers.utils.parseUnits(amount,18);
+            const amountSUN =  tronWeb.toSun(amount);  
             console.log(`voteReferendum=> amountSUN: ${amountSUN}`);
             let result = await tronGovernanceSC.voteReferendum(refIndex, isAye, convictionNum).send({
                 feeLimit:100000000,
@@ -293,28 +101,9 @@ const PProjectView = ({navigation}) => {
                 shouldPollResponse:true
             });
             console.log(`voteReferendum=> result: `,JSON.stringify(result));
-
-        //   const tx = await scGov.voteReferendum(refIndex, isAye, amountWEI, convictionNum) ;
-        //   tx.wait().then( async reslveMsg => {
-        //     console.log(`tx to voteReferendum a proposal is mined resolveMsg : `,reslveMsg);
-        //   });
-    
         }
         else console.log(`****** voteReferendum is run but tronGovernanceSC does not exist *******`);
     }
-
-    // const removeVote = async (refIndex) => {
-    //     if (scGov)
-    //     {
-    //       const tx = await scGov.removeVote(refIndex);
-    //       tx.wait().then( async reslveMsg => {
-    //         console.log(`tx to removeVote from a referenum is mined resolveMsg : `,reslveMsg);
-    //       });
-  
-    //     }
-    //     else console.log(`****** removeVote is run but scGov does not exist *******`);
-    // }
-
 
 
     useEffect(() => {
@@ -322,8 +111,8 @@ const PProjectView = ({navigation}) => {
         if(passedParamsObject)
         {
             setRefIndex(passedParamsObject.refIndex);
-            setRefTitle(`Referendum ${passedParamsObject.refIndex}`);
-            setRefBody(`${passedParamsObject.description}`);
+            setRefTitle(passedParamsObject.refTitle);
+            setRefBody(passedParamsObject.description);
 
             setRefBeneficiary(passedParamsObject.refBeneficiary);
             setRefTreasury(passedParamsObject.refTreasury);
@@ -348,25 +137,14 @@ const PProjectView = ({navigation}) => {
                 setPercentTwo(`${100-ayePercent}%`);   
                 setPercent(`${ayePercent}`); 
             }
-
             
-            // setRefHash(passedParamsObject.refrendumProposalHash);
-            // const aye = "112233"; //`${ethers.utils.formatUnits(passedParamsObject.refrendumTallyAye)}`;
-            // const nay = "001133"; //`${ethers.utils.formatUnits(passedParamsObject.refrendumTallyNay)}`;
-            // setRefAye(aye);
-            // setRefNay(nay);
         }
     }, [navigation]);
 
 
-    // useEffect(() => {
-    //     console.log(`refreshCounter for Referendum Screen ${refreshCounter}`);
-    //     // getActiveRefrenda();
-    // },[refreshCounter])
 
     return (
         <SafeAreaView  style={[BaseStyle.safeAreaView, { flex: 1 }]}  edges={["right", "top", "left"]} >
-         {/* <WalletConnectExperience /> */}
 
             <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
                 <View>
@@ -649,4 +427,4 @@ const newStyles = StyleSheet.create({
 
 // })
 
-export default PProjectView;
+export default ReferendumView;

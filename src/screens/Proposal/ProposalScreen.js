@@ -87,7 +87,7 @@ const ProposalScreen = ({navigation}) => {
     // }, [route?.params?.item]);
 
 
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter, retrieveContentfromIPFS, pinJSONToIPFS  } = useContext(GovContext);
     const [treasuryAddress, setTreasuryAddress] = useState("");
     const [requestAmount, setRequestAmount] = useState("");
     const [startInNumBlocks, setStartInNumBlocks] = useState("");
@@ -104,8 +104,14 @@ const ProposalScreen = ({navigation}) => {
             && startInNumBlocks<=20 && duration>=20 && duration<=201600 && scoringInNumBlocks>0 
             && title!=="" && description!="")
         {
-          const amountSUN =  tronWeb.toSun(requestAmount);   
-          const CID = "Hello IPFS World";
+          const amountSUN =  tronWeb.toSun(requestAmount); 
+
+          const res = await pinJSONToIPFS(title, treasuryAddress, amountSUN, startInNumBlocks, scoringInNumBlocks, duration, description);
+          const CID = res.IpfsHash;
+          const CIDtimestamp = res.Timestamp;
+          console.log(`ProposalScreen CID: ${CID} CIDtimestamp: ${CIDtimestamp}`);
+          // const CID = "Hello IPFS World";
+
           const referendumFee = tronWeb.toSun(10);   
 
           let result = await tronGovernanceSC.createNewReferendum(treasuryAddress, amountSUN, CID, startInNumBlocks, duration, scoringInNumBlocks ).send({
@@ -121,7 +127,7 @@ const ProposalScreen = ({navigation}) => {
     useEffect(() => {
         if (tronGovernanceSC) 
         {
-            console.log(`Proposal Screeb tronGovernanceSC is set.`);
+            console.log(`Proposal Screen tronGovernanceSC is set.`);
         }
     },[tronGovernanceSC]);
 
