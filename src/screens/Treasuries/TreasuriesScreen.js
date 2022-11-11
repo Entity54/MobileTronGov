@@ -24,20 +24,34 @@ const colors = {
 };
    
 
-
-const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
-
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter } = useContext(GovContext);
+const TreasursScreen = ({ navigation,
+    style,
+    onPress,
+    // title = "assetManage This is a Test",
+    // description =
+    // `Some sort of description for the referendum Some sort of description for the referendum Some sort of description for the referendum`,
+    onOption,
+    // members = ["alpha","beta"],
+    // limit = 3,
+    // tasks = 100,
+    // comments = 0,
+    // tickets = 0,
+    // completedTickets = 0,
+    // status = "Moonbase",
+}) => {
+    
+    const { t } = useTranslation();
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
     const [treasurArray, setTreasurArray]  = useState([]);
     const [depositTokens, setDepositTokens] = useState();
 
     //#region getTreasuries
     const getTreasuries = async () => {
-        console.log("Treasuries Screen Getting ready to retrieve Treasuries");
+        console.log("Treasurs Screen Getting ready to retrieve Treasuries");
 
         if (tronGovernanceSC && band3 && band2 ) {
             const registeredTreasuriesAddresses  = await tronGovernanceSC.getTreasurers().call();
-            // console.log(`registeredTreasuriesAddresses: `,registeredTreasuriesAddresses);
+            console.log(`registeredTreasuriesAddresses: `,registeredTreasuriesAddresses);
             let treasuriesArray=[];
 
             for (let i=0; i<registeredTreasuriesAddresses.length; i++)
@@ -52,7 +66,7 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
                 });
             }
 
-            // console.log(`treasuriesArray: `,treasuriesArray);
+            console.log(`treasuriesArray: `,treasuriesArray);
             setTreasurArray(treasuriesArray);
         }
 
@@ -80,10 +94,10 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
     useEffect(() => {
         if (tronGovernanceSC) 
         {
-            console.log(`TreasursScreen refreshCounter: ${refreshCounter} tronGovernanceSC is set. Calling getTreasuries`);
+            console.log(`TreasursScreen tronGovernanceSC is set. Calling getTreasuries`);
             getTreasuries();
         }
-    },[tronGovernanceSC, refreshCounter]);
+    },[tronGovernanceSC]);
 
     return (
         <>

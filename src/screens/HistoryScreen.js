@@ -22,9 +22,24 @@ const colors = {
 
 
 
-const HistoryScreen = ({ style, onPress, onOption, }) => {
+const HistoryScreen = ({ 
+    // navigation,
+    style,
+    onPress,
+    // title = "assetManage This is a Test",
+    // description =
+    // `Some sort of description for the referendum Some sort of description for the referendum Some sort of description for the referendum`,
+    onOption,
+    // members = ["alpha","beta"],
+    // limit = 3,
+    // tasks = 100,
+    // comments = 0,
+    // tickets = 0,
+    // completedTickets = 0,
+    // status = "Moonbase",
+}) => {
 
-    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter  } = useContext(GovContext);
+    const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
     const [expiredReferendaArray, setExpiredReferendaArray]  = useState([]);
 
 
@@ -35,7 +50,7 @@ const HistoryScreen = ({ style, onPress, onOption, }) => {
         if (tronGovernanceSC && band3 && band2 ) {
             const prepearedReferendaIDarrayUint  = await tronGovernanceSC.getExpiredReferenda().call();
             const expiredReferendaIDarray = prepearedReferendaIDarrayUint.map(itm => `${itm}`);
-            // console.log(`expiredReferendaIDarray: `,expiredReferendaIDarray);
+            console.log(`expiredReferendaIDarray: `,expiredReferendaIDarray);
             let expiredreferendarray=[];
 
             for (let i=0; i<expiredReferendaIDarray.length; i++)
@@ -77,25 +92,13 @@ const HistoryScreen = ({ style, onPress, onOption, }) => {
                 } 
                 else if (currentBlockNumber > endBlock) progressBarPercent=100;
                 else if (currentBlockNumber < startBlock) progressBarPercent=0;
-
-                let res, titel="A Title", descrpt="A Description";
-                const referendumCID = `${referendumDetails[4]}`;
-                try {
-                    res = JSON.parse(await retrieveContentfromIPFS( referendumCID ));
-                    titel = res.title;
-                    descrpt = res.description;
-                } catch (e) 
-                {
-                    console.log(`Error in retireving IPFS data`);
-                }
-
                 
                 expiredreferendarray.push({
                     referendum_Index      : `${referendumDetails[0]}`,
                     referendum_Beneficiary: `${referendumDetails[1]}`,
                     referendum_Treasury   : `${referendumDetails[2]}`,
                     referendum_Amount     : refAmountSun,
-                    referendum_CID        : referendumCID,
+                    referendum_CID        : `${referendumDetails[4]}`,
                     referendum_startBlock : startBlock,
                     referendum_endBlock   : endBlock,
                     referendum_scoreBlock : `${referendumDetails[7]}`,
@@ -105,14 +108,12 @@ const HistoryScreen = ({ style, onPress, onOption, }) => {
                     referendum_Passed     : Number(`${referendumDetails[8]}`) > Number(`${referendumDetails[9]}`)? "Passed" : "Not Passed",
                     referendum_TagColor   : tagColor,
                     referendum_TagText    : tagText,
-                    referendum_ProgressBarPercent : progressBarPercent,
-                    referendum_Title          : titel,
-                    referendum_Description    : descrpt,
+                    referendum_ProgressBarPercent : progressBarPercent
                 })
 
           }
 
-          // console.log(`expiredreferendarray: `,expiredreferendarray);
+          console.log(`expiredreferendarray: `,expiredreferendarray);
           setExpiredReferendaArray(expiredreferendarray);
         }
 
@@ -123,10 +124,10 @@ const HistoryScreen = ({ style, onPress, onOption, }) => {
     useEffect(() => {
         if (tronGovernanceSC && band3 && band2) 
         {
-            console.log(`HistoryScreen refreshCounter: ${refreshCounter} tronGovernanceSC band3 and band2 are set. Calling getExpiredRefrenda`);
+            console.log(`HistoryScreen tronGovernanceSC ban3 and band2 are set. Calling getExpiredRefrenda`);
             getExpiredRefrenda();
         }
-    },[tronGovernanceSC,band3,band2, refreshCounter]);
+    },[tronGovernanceSC,band3,band2]);
 
 
     return (
@@ -177,8 +178,7 @@ const HistoryScreen = ({ style, onPress, onOption, }) => {
                                
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
                                     <Text caption2 light>
-                                        {/* {`${"Funding for promoting Tron ecosystem to the European market"}`} */}
-                                        {`Title: ${item.referendum_Title}`}
+                                        {`${"Funding for promoting Tron ecosystem to the European market"}`}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >

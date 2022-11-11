@@ -1,19 +1,52 @@
+import TronWeb from 'tronweb/dist/TronWeb.js';
 // import TronWeb from 'tronweb/dist/TronWeb.js';
+// import createKeccakHash from 'keccak';
+// import TronWeb from 'tronweb';
+
 import React, { useMemo, useEffect, useContext, useState, Children } from "react";
 import { Text, FlatList, StyleSheet, View, Button, TouchableOpacity, StatusBar, TextInput, ScrollView,  Alert, Platform } from 'react-native';
-import GovContext from '../../context/GovContext';
-
 import * as Notifications from 'expo-notifications';
 
-import Icon from "../../components/Icon";
-import ProgressBar from "../../components/Progress/Bar";
-import Tag from "../../components/Tag";
-import { BaseColor } from "../../config/theme";
-import PropTypes from "prop-types";
+// import WalletConnectExperience from "../../../WalletConnectExperience";
+import GovContext from '../../context/GovContext';
+// import { ethers } from 'ethers';  
+import axios from 'axios';
 
+// import {query_LatestReferendaandProposals} from '../../Queries';    
+
+
+
+    // import Avatars from "@components/Avatars";
+    // import Icon from "@components/Icon";
+import Icon from "../../components/Icon";
+    // import ProgressBar from "@components/Progress/Bar";
+import ProgressBar from "../../components/Progress/Bar";
+    // import Tag from "@components/Tag";
+import Tag from "../../components/Tag";
+    // import Text from "@components/Text";
+    // import { BaseColor, useTheme } from "@config";
+import { BaseColor } from "../../config/theme";
+
+import PropTypes from "prop-types";
+// import { useTranslation } from "react-i18next";
+// import { TouchableOpacity, View, Text } from "react-native";
 import styles from "./styles";
  
 
+//ntt54
+//dark blue theme
+// const  colors = {
+//     primary: "#5DADE2",
+//     primaryDark: "#1281ac",
+//     primaryLight: "#68c9ef",
+//     accent: "#FF8A65",
+//     background: "#010101",
+//     card: "#121212",
+//     text: "#e5e5e7",
+//     border: "#272729",
+// }
+
+//light blue theme
 const colors = {
     primary: "#5DADE2",
     primaryDark: "#1281ac",
@@ -129,16 +162,49 @@ const requestPermissionsAsync = async () => {
       },
     });
 };
+//#endregion // END: NEWLY ADDED FUNCTIONS ////
+  
+
 //#endregion
 
 
 
 
+// const Project01 = ({
 const ReferendaScreen = ({ navigation,
     style,
     onPress,
+    title = "assetManage This is a Test",
+    description =
+    `Some sort of description for the referendum Some sort of description for the referendum Some sort of description for the referendum`,
     onOption,
+    members = ["alpha","beta"],
+    limit = 3,
+    tasks = 100,
+    comments = 0,
+    tickets = 0,
+    completedTickets = 0,
+    status = "Moonbase",
 }) => {
+    
+    // const [scNumber, setScNumber] = useState();
+    // const [proposalTokens, setProposalTokens] = useState();
+    // const [lowestUnbaked, setLowestUnbaked] = useState();
+    // const [numOfProposals, setNumOfProposals] = useState();
+
+    // const [propIndexToSecond, setPropIndexToSecond]  = useState();
+    // const [refIndex, setRefIndex]  = useState();
+    // const [voteAmount, setVoteAmount]  = useState();
+    // const [convictionIndex, setConvictionIndex]  = useState();
+
+    // const [proposalHash, setProposalHash]  = useState();
+    // const [proposalAmount, setProposalAmount]  = useState();
+    // const [encodedProposal, setEncodedProposal]  = useState();
+    // const [representativeAddress, setRepresentativeAddress]  = useState();
+    // const [unlockTargetAddress, setUnlockTargetAddress]  = useState();
+    // // const {wallet, scComs, scGov, updateSignerElements} = useContext(GovContext);
+    // const scComs = null;
+    // const scGov = null;
     
 
     const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter } = useContext(GovContext);
@@ -151,6 +217,11 @@ const ReferendaScreen = ({ navigation,
         console.log("Referenda Screen Getting ready to retrieve Active refrenda");
 
         if (tronGovernanceSC && band3 && band2 ) {
+            // const band1  = await tronGovernanceSC.band1().call();
+            // const band2  = await tronGovernanceSC.band2().call();
+            // const band3  = await tronGovernanceSC.band3().call();
+            // console.log(`band1: ${band1} band2: ${band2} band3: ${band3}`);
+
             const activeReferendaIDarrayUint  = await tronGovernanceSC.getActiveReferenda().call();
             const activeReferendaIDarray = activeReferendaIDarrayUint.map(itm => `${itm}`);
             console.log(`activeReferendaIDarray: `,activeReferendaIDarray);
@@ -699,6 +770,8 @@ const ReferendaScreen = ({ navigation,
 
     return (
         <View>
+         {/* <WalletConnectExperience /> */}
+
          {
             referendaArray.length===0 ?
             <Text style={styles.textStyle}>Loading123 </Text> :
@@ -707,6 +780,8 @@ const ReferendaScreen = ({ navigation,
                     data={referendaArray} 
                     renderItem={({item, index}) => {
                         return  (
+                        // <Text style={styles.textStyle}>#{item.referendumIndex} </Text>
+
                         <TouchableOpacity  onPress={() => navigation.navigate("Referendum", { 
                              refIndex: item.referendum_Index, 
                              refBeneficiary: item.referendum_Beneficiary,
@@ -721,6 +796,9 @@ const ReferendaScreen = ({ navigation,
                              refTrunout: item.referendum_Turnout,
                              refPassed: item.referendum_Passed,
                              description: `Referendum with ID  ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock} and the scoring block is ${ item.referendum_scoreBlock}.`,
+
+                            //  delay: "item.refrendumDelay", refrendumEndBlock: "item.referendum_endBlock", refrendumProposalHash: "item.refrendumProposalHash", refrendumTallyAye: "item.refrendumTally.ayes", 
+                            //  refrendumTallyNay: "item.refrendumTally.nays", refrendumTallyTurnout: "item.refrendumTally.turnout",
                         }
                         )} >
 
@@ -755,24 +833,53 @@ const ReferendaScreen = ({ navigation,
                                         style={{
                                             backgroundColor: `${item.referendum_TagColor}`,
                                             paddingHorizontal: 10,
-                                            marginRight: 10,
                                             minWidth: 80,
                                         }}
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
-                                    <Text style={{fontWeight:"bold"}}>
-                                        {`Amount Requested: ${item.referendum_Amount}`}
-                                    </Text>
-
                                 </View>
-                           
+                                {/* <View
+                                    style={{ flexDirection: "row",  alignItems: "center", paddingBottom: 20, }} >
+                                    <Icon name="tasks" size={14} color={colors.text} />
+                                    <Text caption1 style={{  paddingLeft: 5, paddingRight: 20, }} >
+                                        {tasks} {"tasks"}
+                                    </Text>
+                
+                                    <Icon solid name="comment" size={14} color={colors.text} />
+                                    <Text caption1 style={{ paddingHorizontal: 5, }} >
+                                        {comments} {"comments"}
+                                    </Text>
+                                </View> */}
+                                {/* <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                    <Text caption2 light>
+                                        {`Referendum with ID ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock}  and the scoring block is ${ item.referendum_scoreBlock}.`}
+                                    </Text>
+                                </View>
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                    <Text caption2 light>
+                                        {`Referendum with IPFS CID ${item.referendum_CID} \n has the following TITLE: and DESCRIPTION \n`}
+                                    </Text>
+                                </View> */}
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
                                     <Text caption2 light>
                                         {`${"Funding for promoting Tron ecosystem to the European market"}`}
                                     </Text>
                                 </View>
-                          
+                                {/* <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                    <Text caption2 light>
+                                        {`Description:  ${"Wtih this referendum we apply requesting 1000000 to promote the Tron ecosystem to the UK market \nMore precisely we will organise a conference in London, Edinburgh, Glasgow, Manchester with promotional material and speeches of startups in the ecosystem explaining the differences of Tron and advantages compare to toehr blockchains"}`}
+                                    </Text>
+                                </View>
+
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 20, }} >
+                                </View> */}
+
+                                {/* <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
+                                        <Text overline>
+                                            {("Vote Progress")} {`Beneficiary: ${item.referendum_Beneficiary} Treasury: ${item.referendum_Treasury} Amount: ${item.referendum_Amount}`}
+                                        </Text>
+                                </View> */}
                                 <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
                                     <Text overline style={{fontSize: 14, fontWeight:'bold', color:"blue" }}>
                                         {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout} State:${item.referendum_Passed}`}
@@ -786,6 +893,9 @@ const ReferendaScreen = ({ navigation,
                     }}
             /> 
         }
+                   
+       
+
                   
         </View>
     );
@@ -801,4 +911,6 @@ ReferendaScreen.propTypes = {
     onOption: PropTypes.func,
 };
 
+// export default Project01;
 export default ReferendaScreen;
+
