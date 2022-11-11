@@ -280,12 +280,12 @@ const newStyles = StyleSheet.create({
         margin: 15,
         padding: 15,
         flex: 0,    
-        fontSize: 15,  //default is 14
+        fontSize: 15,  
         backgroundColor: '#ffffff',
         width: 150,
         height: 50,
         borderRadius: 15,
-        alignSelf: 'auto',    //center the element
+        alignSelf: 'auto',    
         justifyContent: 'center' ,
 
     },
