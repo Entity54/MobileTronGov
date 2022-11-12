@@ -49,7 +49,9 @@ export default StyleSheet.create({
         borderWidth: 1,
         backgroundColor:"white",
         padding: 10,
-        borderRadius: 5
+        borderRadius: 5,
+
+        textAlignVertical: "top"
     },
 
     button: {

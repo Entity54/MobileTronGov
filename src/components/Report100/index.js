@@ -95,7 +95,7 @@ const CardReport100 = ({
                     </Text>
                 </View >
 
-                <Text headline style={{ textAlign: "center", width: "100%", marginTop: 5 }}>
+                <Text selectable={true} headline style={{ textAlign: "center", width: "100%", marginTop: 5 }}>
                     {treasuryadd}
                 </Text>
                 {/* <View style={[styles.header]}> */}

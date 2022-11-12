@@ -49,5 +49,11 @@ export default StyleSheet.create({
         alignSelf: "center",
         textTransform: "uppercase"
     },
+    contain2: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+    },
 
 });

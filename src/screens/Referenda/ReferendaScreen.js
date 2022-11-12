@@ -95,7 +95,7 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                     referendum_Index      : `${referendumDetails[0]}`,
                     referendum_Beneficiary: `${tronWeb.address.fromHex(referendumDetails[1])}`,
                     referendum_Treasury   : `${tronWeb.address.fromHex(referendumDetails[2])}`,
-                    referendum_Amount     : refAmountSun,
+                    referendum_Amount     : tronWeb.fromSun(refAmountSun),
                     referendum_CID        : referendumCID,
                     referendum_startBlock : startBlock,
                     referendum_endBlock   : endBlock,
@@ -142,7 +142,7 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                             refIndex: item.referendum_Index, 
                             refBeneficiary: item.referendum_Beneficiary,
                             refTreasury: item.referendum_Treasury,
-                            refAmount: tronWeb.fromSun(item.referendum_Amount),
+                            refAmount: item.referendum_Amount,
                             refCID: item.referendum_CID,
                             refStartBlock: item.referendum_startBlock,
                             refEndBlock: item.referendum_endBlock,
@@ -153,6 +153,9 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                             refPassed: item.referendum_Passed,
                             refTitle : item.referendum_Title,
                             description      : item.referendum_Description,
+                            refTag : item.referendum_TagColor,
+                            refTagText : item.referendum_TagText,
+
 
                             //  description: `Referendum with ID  ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock} and the scoring block is ${ item.referendum_scoreBlock}.`,
                         }

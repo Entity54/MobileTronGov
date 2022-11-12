@@ -15,6 +15,7 @@ import styles from "./styles";
 
 import GovContext from '../../context/GovContext';
 
+import Icon from "../../components/Icon";
 
 const colors = {
     primary: "#5DADE2",
@@ -30,7 +31,7 @@ const colors = {
 
 
 
-const ReferendumView = ({navigation}) => {
+const ReferendumView = ({navigation, style}) => {
 
     const { t } = useTranslation();
     const [eSizes, setESizes] = useState(EFilterSizes);
@@ -54,6 +55,10 @@ const ReferendumView = ({navigation}) => {
     const [percent, setPercent] = useState("80");
     const [voteTokens, setVoteTokens] = useState("");
     const [conviction, setConviction] = useState("");
+    const [refTag, setRefTag] = useState("");
+    const [refTagText, setRefTagText] = useState("");
+
+
 
     const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, refreshCounter  } = useContext(GovContext);
 
@@ -85,6 +90,10 @@ const ReferendumView = ({navigation}) => {
             setRefIndex(passedParamsObject.refIndex);
             setRefTitle(passedParamsObject.refTitle);
             setRefBody(passedParamsObject.description);
+            setRefTag(passedParamsObject.refTag);
+            setRefTagText(passedParamsObject.refTagText);
+
+
 
             setRefBeneficiary(passedParamsObject.refBeneficiary);
             setRefTreasury(passedParamsObject.refTreasury);
@@ -118,7 +127,110 @@ const ReferendumView = ({navigation}) => {
         <SafeAreaView  style={[BaseStyle.safeAreaView, { flex: 1 }]}  edges={["right", "top", "left"]} >
 
             <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
-                <View>
+               
+               
+                <View style={[styles.contain2, style, { backgroundColor: colors.card }]}>
+                    <View style={{ flex: 1 }}>
+                                <View style={{ flexDirection: "row", alignItems: "center", fontWeight:"bold" }}>
+                                    <TouchableOpacity onPress={"onPress"} style={{ flex: 1 }}>
+                                        <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>
+                                            {`Referendum:${refIndex}`}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        hitSlop={{ top: 10, right: 10, top: 10, left: 10 }}
+                                        style={{ paddingLeft: 16 }}
+                                        onPress={"onOption"}
+                                    >
+                                        <Icon name="ellipsis-h" size={14} color={colors.text}></Icon>
+                                    </TouchableOpacity>
+                                </View>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        paddingTop: 5,
+                                        paddingBottom: 0,
+                                    }}
+                                >
+                                    <Tag
+                                        light
+                                        textStyle={{
+                                            color: BaseColor.whiteColor,
+                                        }}
+                                        style={{
+                                            backgroundColor: `${refTag}`,
+                                            paddingHorizontal: 10,
+                                            marginRight: 10,
+                                            minWidth: 80,
+                                        }}
+                                    >
+                                        {refTagText}
+                                    </Tag>
+                                    <Text style={{fontWeight:"bold"}}>
+                                        {`Amount Requested: ${refAmount}`}
+                                    </Text>
+
+                                </View>
+                           
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
+                                    <Text caption2 light>
+                                        {refTitle}
+                                    </Text>
+                                </View>
+                          
+                                {/* <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
+                                    <Text overline style={{fontSize: 14, fontWeight:'bold', color:"blue" }}>
+                                        {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout} State:${item.referendum_Passed}`}
+                                    </Text>
+                                </View>
+                                <ProgressBar style={{ flex: 1, paddingRight: 20 }} color={BaseColor.accentColor} percent={`${item.referendum_ProgressBarPercent}`} />
+                                 */}
+
+
+
+
+                                <View>
+                                    {/* <Text title3>{refTitle}</Text> */}
+                                    <Text body2 light style={{ paddingVertical: 10 }}>
+                                        {refBody}
+                                    </Text>
+                                    <View style={styles.specifications}>
+                                        <ProductSpecGrid style={{ flex: 1 }} title={"0xFaCf…B63d8e"} description={"Creator"} />
+                                        <ProductSpecGrid style={{ flex: 1 }} title={"0x7369…000000"} description={"Owner"} />
+                                    </View>
+                                    <View style={styles.specifications}>
+                                        <ProductSpecGrid
+                                            style={{ flex: 1 }} title={"129"} description={"Referenda #"}
+                                        />
+                                        <ProductSpecGrid style={{ flex: 1 }}
+                                            title={
+                                                <Tag  light  style={{ backgroundColor: BaseColor.grayColor,  borderRadius: 5, paddingHorizontal: 5, }} textStyle={{ color: BaseColor.whiteColor }} >
+                                                    On Going
+                                                </Tag>
+                                            }
+                                            description={"status"}
+                                        />
+                                    </View>
+                                </View>
+
+                                <Text headline style={{ paddingTop: 20,  paddingBottom: 5, marginTop: -50 }} >
+                                    {`Beneficiary: ${refBeneficiary}`}
+                                </Text>
+                                <Text>
+                                    {`Treasury: ${refTreasury}`}
+                                </Text>
+
+                    </View>
+                </View>
+
+
+
+
+
+
+
+               {/* OLD PREVOUS PUSH */}
+                {/* <View>
                     <Text title3>{refTitle}</Text>
                     <Text body2 light style={{ paddingVertical: 10 }}>
                         {refBody}
@@ -147,7 +259,8 @@ const ReferendumView = ({navigation}) => {
                 </Text>
                 <Text>
                     {`Treasury: ${refTreasury}`}
-                </Text>
+                </Text> */}
+
 
                 <View style={{ flexDirection: "row", marginTop: 0}}>
                     <View style={{ flex: 1, paddingRight: 7, marginTop:10 }}>
