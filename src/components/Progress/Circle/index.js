@@ -6,7 +6,6 @@ import CircularProgress from "./CircularProgress";
 import { BaseColor } from "../../../config/theme";
 
 
-//ntt54
 //dark blue theme
 // const  colors = {
 //     primary: "#5DADE2",

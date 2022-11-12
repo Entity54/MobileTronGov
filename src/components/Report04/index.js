@@ -14,7 +14,6 @@ import ProgressCircle from "../Progress/Circle";
 
 
 
-//ntt54
 //dark blue theme
 // const  colors = {
 //     primary: "#5DADE2",

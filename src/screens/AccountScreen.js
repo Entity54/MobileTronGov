@@ -75,11 +75,11 @@ const AccountScreen = ({navigation}) => {
     <View style={styles.container} >
         <View>
           <Text style={styles.text} >Address: </Text>
-          <Text style={styles.text} >{accountDetails.address}</Text>
+          <Text style={styles.addresstext} >{accountDetails.address}</Text>
         </View>
         <View>
           <Text style={styles.text} >Balance: </Text>
-          <Text style={styles.text} >{accountDetails.balance}</Text>
+          <Text style={styles.addresstext} >{accountDetails.balance}</Text>
         </View>
         <View>
           <TouchableOpacity 
@@ -103,12 +103,16 @@ const AccountScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  addresstext: {
+    fontSize: 17,
+    color: "blue",
+    textAlign:"center"
+  },
+
   text: {
     fontSize: 24,
     color: "black",
     textAlign:"center"
-    
-
   },
   input: {
     margin: 15,
