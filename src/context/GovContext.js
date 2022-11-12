@@ -105,7 +105,26 @@ export const GovProvider = ({children}) => {
         const eventServer = new HttpProvider("https://api.nileex.io");
 
         console.log(`GovContext updateTronWeb Getting stored Account`);
-        const {_W: accont} = await readAccount();
+
+        const accountRead = await readAccount();
+        console.log(`accountRead: `,JSON.stringify(accountRead));
+        let accont;
+        if (accountRead && Object.keys(accountRead).length>0)
+        {
+            const sveKeys = Object.keys(accountRead);
+            // console.log(`sveKeys: `,JSON.stringify(sveKeys));
+            for (let i=0; i<sveKeys.length; i++)
+            {
+                // console.log(`===> ${sveKeys[i]} `,JSON.stringify(accountRead[`${sveKeys[i]}`]));
+                if (sveKeys[i] && accountRead[sveKeys[i]] && Object.keys(accountRead[sveKeys[i]]).includes("privateKey"))
+                {
+                    // console.log(`accountRead[$sveKeys[i]]: `,JSON.stringify(accountRead[`${sveKeys[i]}`]));
+                    accont = accountRead[`${sveKeys[i]}`];
+                } 
+            }
+            // console.log(`accont: `,JSON.stringify(accont));
+        }
+
         console.log(`GovContext  updateTronWeb Account: ${accont}`);
 
 
