@@ -39,8 +39,8 @@ const ReferendumView = ({navigation, style}) => {
     const [refIndex, setRefIndex] = useState("");
     const [refTitle, setRefTitle] = useState("");
     const [refBody, setRefBody] = useState("");
-    const [refAye, setRefAye] = useState("80");
-    const [refNay, setRefNay] = useState("20");
+    const [refAye, setRefAye] = useState("");
+    const [refNay, setRefNay] = useState("");
     const [refBeneficiary, setRefBeneficiary] = useState("");
     const [refTreasury, setRefTreasury] = useState("");
     const [refAmount, setRefAmount] = useState("");
@@ -93,8 +93,6 @@ const ReferendumView = ({navigation, style}) => {
             setRefTag(passedParamsObject.refTag);
             setRefTagText(passedParamsObject.refTagText);
 
-
-
             setRefBeneficiary(passedParamsObject.refBeneficiary);
             setRefTreasury(passedParamsObject.refTreasury);
             setRefAmount(passedParamsObject.refAmount);
@@ -102,8 +100,8 @@ const ReferendumView = ({navigation, style}) => {
             setRefStartBlock(passedParamsObject.refStartBlock);
             setRefEndBlock(passedParamsObject.refEndBlock);
             setRefScoreBlock(passedParamsObject.refScoreBlock);
-            setRefAye(passedParamsObject.refAyes);
-            setRefNay(passedParamsObject.refNays);
+            setRefAye(Number(passedParamsObject.refAyes));
+            setRefNay(Number(passedParamsObject.refNays));
 
             setRefTurnout(passedParamsObject.refTrunout);
             setRefPassed(passedParamsObject.refPassed);
@@ -277,7 +275,7 @@ const ReferendumView = ({navigation, style}) => {
                             nay="NAY - " 
                             ayeamount= {`${refAye} TRX`} 
                             nayamount=  {`${refNay} TRX`}
-                            percent1= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100 : 0}`} 
+                            percent1= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100:0}`} 
                             percent2= {`${(refAye + refNay)>0?(refNay / (refAye + refNay))*100:0}`} 
                             percent= {`${(refAye + refNay)>0?(refAye / (refAye + refNay))*100:0}`}
                         />
