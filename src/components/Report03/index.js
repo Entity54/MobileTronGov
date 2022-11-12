@@ -15,7 +15,6 @@ import { parseHexTransparency } from "../../utils";
 
 
 
-//ntt54
 //dark blue theme
 // const  colors = {
 //     primary: "#5DADE2",

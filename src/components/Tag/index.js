@@ -6,7 +6,6 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import styles from "./styles";
 
 
-//ntt54
 const  colors = {
   primary: "#5DADE2",
   primaryDark: "#1281ac",

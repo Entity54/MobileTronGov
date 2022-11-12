@@ -5,7 +5,6 @@ import React from "react";
 import { View, Text } from "react-native";
 
 
-//ntt54
 //dark blue theme
 // const  colors = {
 //     primary: "#5DADE2",

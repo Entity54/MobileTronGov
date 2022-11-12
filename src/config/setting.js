@@ -2,8 +2,8 @@
  * Basic Setting Variables Define
  */
 export const BaseSetting = {
-  name: "DemocraDot",
-  displayName: "DemocraDot",
+  name: "TronVote",
+  displayName: "TronVote",
   appVersion: "0.0.1",
   defaultLanguage: "en",
   languageSupport: [
