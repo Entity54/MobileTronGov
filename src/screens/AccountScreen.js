@@ -72,10 +72,10 @@ const AccountScreen = ({navigation}) => {
 
 
   return (
-    <View style={styles.container} >
+    <View style={styles.container} > 
         <View>
-          <Text style={styles.text} >Address: </Text>
-          <Text style={styles.addresstext} >{accountDetails.address}</Text>
+          <Text selectable={true} style={styles.text} >Address: </Text>
+          <Text selectable={true} style={styles.addresstext} >{accountDetails.address}</Text>
         </View>
         <View>
           <Text style={styles.text} >Balance: </Text>
