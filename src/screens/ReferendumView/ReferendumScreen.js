@@ -146,6 +146,7 @@ const ReferendumView = ({navigation, style}) => {
                                 <View
                                     style={{
                                         flexDirection: "row",
+                                        alignItems:"center",
                                         paddingTop: 5,
                                         paddingBottom: 0,
                                     }}
@@ -164,9 +165,18 @@ const ReferendumView = ({navigation, style}) => {
                                     >
                                         {refTagText}
                                     </Tag>
-                                    <Text style={{fontWeight:"bold"}}>
-                                        {`Amount Requested: ${refAmount}`}
-                                    </Text>
+                                    <View style={{flexDirection:"column", fontWeight:"bold"}}>
+                                         <View>
+                                            <Text style={{fontWeight:"bold"}}>
+                                                {` Treasury Name: ${"item.treasury_Name"}`}  
+                                            </Text>
+                                        </View>
+                                        <View> 
+                                            <Text style={{fontWeight:"bold"}}>
+                                                {` Requested: ${refAmount}`}
+                                            </Text>
+                                        </View>
+                                    </View>
 
                                 </View>
                            

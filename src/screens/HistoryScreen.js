@@ -146,6 +146,7 @@ const HistoryScreen = ({ style }) => {
                                 <View
                                     style={{
                                         flexDirection: "row",
+                                        alignItems: "center",
                                         paddingTop: 5,
                                         paddingBottom: 0,
                                     }}
@@ -164,13 +165,21 @@ const HistoryScreen = ({ style }) => {
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
-                                    <Text style={{fontWeight:"bold"}}>
-                                        {` Amount Requested: ${item.referendum_Amount}`}
-                                    </Text>
-
+                                    <View style={{flexDirection:"column", fontWeight:"bold"}}>
+                                         <View>
+                                            <Text style={{fontWeight:"bold"}}>
+                                                {` Treasury Name: ${"item.treasury_Name"}`}  
+                                            </Text>
+                                        </View>
+                                        <View> 
+                                            <Text style={{fontWeight:"bold"}}>
+                                                {` Requested: ${item.referendum_Amount}`}
+                                            </Text>
+                                        </View>
+                                    </View>
                                 </View>
                                
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10, }} >
+                                <View style={{paddingTop: 10, }} >
                                     <Text caption2 light>
                                         {item.referendum_Title}
                                     </Text>

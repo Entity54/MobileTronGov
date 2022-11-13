@@ -151,6 +151,7 @@ const ProposalsScreen = ({ navigation, style, }) => {
                                 <View
                                     style={{
                                         flexDirection: "row",
+                                        alignItems:"center",
                                         paddingTop: 5,
                                         paddingBottom: 0,
                                     }}
@@ -169,9 +170,18 @@ const ProposalsScreen = ({ navigation, style, }) => {
                                     >
                                         {`${item.referendum_TagText}`}
                                     </Tag>
-                                    <Text style={{fontWeight:"bold"}}>
-                                        {`Amount Requested: ${item.referendum_Amount}`}
-                                    </Text>
+                                    <View style={{flexDirection:"column", fontWeight:"bold"}}>
+                                         <View>
+                                            <Text style={{fontWeight:"bold"}}>
+                                                {` Treasury Name: ${"item.treasury_Name"}`}  
+                                            </Text>
+                                        </View>
+                                        <View> 
+                                            <Text style={{fontWeight:"bold"}}>
+                                                {` Requested: ${item.referendum_Amount}`}
+                                            </Text>
+                                        </View>
+                                    </View>
 
                                 </View>
                              

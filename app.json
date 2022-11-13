@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-starter-1",
-    "slug": "rn-starter-1",
+    "name": "TronVote",
+    "slug": "TronVote",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
