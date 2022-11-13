@@ -28,7 +28,7 @@ const ProposalScreen = ({navigation}) => {
     const createNewReferedum = async () => {
         console.log(`createNewReferedum has been tapped`)
         if (tronGovernanceSC && tronWeb && requestAmount>=100 
-            && startInNumBlocks<=20 && duration>=20 && duration<=201600 && scoringInNumBlocks>0 
+            && startInNumBlocks>0 && duration>0 && duration<=2016000 && scoringInNumBlocks>0 
             && title!=="" && description!="")
         {
           const amountSUN =  tronWeb.toSun(requestAmount); 
