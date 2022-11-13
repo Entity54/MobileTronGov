@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect, useContext, useState, Children } from "react";
 import { Text, FlatList, StyleSheet, View, Button, TouchableOpacity, StatusBar, TextInput, ScrollView,  Alert, Platform } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 import GovContext from '../../context/GovContext';
 
 import Icon from "../../components/Icon";
@@ -124,102 +125,104 @@ const ProposalsScreen = ({ navigation, style, }) => {
 
 
     return (
-        <>
-        <View style={styles.container}>
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={() => navigation.navigate("Create New Referendum")}
-            >
-                <Text style={styles.buttonText}>Create Referendum</Text>
-            </TouchableOpacity>
-        </View>
+        <SafeAreaView  style={{height: "90%"}} >
 
-        <View>
-         {
-            preparedReferendaArray.length===0 ?
-            <Text style={styles.textStyle}>Loading Prepared Referenda </Text> :
-            <FlatList 
-                    keyExtractor={(item) => item.referendum_Index}
-                    data={preparedReferendaArray} 
-                    renderItem={({item, index}) => {
-                        return  (
-                        <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
-                            <View style={{ flex: 1 }}>
-                                <View style={{ flexDirection: "row", alignItems: "center", fontWeight:"bold" }}>
-                                    <TouchableOpacity style={{ flex: 1 }}>
-                                        <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>
-                                            {`Referendum:${item.referendum_Index}`}
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems:"center",
-                                        paddingTop: 5,
-                                        paddingBottom: 0,
-                                    }}
-                                >
-                                    <Tag
-                                        light
-                                        textStyle={{
-                                            color: BaseColor.whiteColor,
-                                        }}
+            <View style={styles.container}>
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={() => navigation.navigate("Create New Referendum")}
+                >
+                    <Text style={styles.buttonText}>Create Referendum</Text>
+                </TouchableOpacity>
+            </View>
+
+
+            <View>
+            {
+                preparedReferendaArray.length===0 ?
+                <Text style={styles.textStyle}>Loading Prepared Referenda </Text> :
+                <FlatList 
+                        keyExtractor={(item) => item.referendum_Index}
+                        data={preparedReferendaArray} 
+                        renderItem={({item, index}) => {
+                            return  (
+                            <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
+                                <View style={{ flex: 1 }}>
+                                    <View style={{ flexDirection: "row", alignItems: "center", fontWeight:"bold" }}>
+                                        <TouchableOpacity style={{ flex: 1 }}>
+                                            <Text style={{fontWeight:"bold"}} title3 numberOfLines={1}>
+                                                {`Referendum:${item.referendum_Index}`}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View
                                         style={{
-                                            backgroundColor: `${item.referendum_TagColor}`,
-                                            paddingHorizontal: 10,
-                                            marginRight:10,
-                                            minWidth: 80,
+                                            flexDirection: "row",
+                                            alignItems:"center",
+                                            paddingTop: 5,
+                                            paddingBottom: 0,
                                         }}
                                     >
-                                        {`${item.referendum_TagText}`}
-                                    </Tag>
-                                    <View style={{flexDirection:"column", fontWeight:"bold"}}>
-                                         <View>
-                                            <Text style={{fontWeight:"bold"}}>
-                                                {` Treasury Name: ${item.referendum_TreasurerName}`}  
-                                            </Text>
+                                        <Tag
+                                            light
+                                            textStyle={{
+                                                color: BaseColor.whiteColor,
+                                            }}
+                                            style={{
+                                                backgroundColor: `${item.referendum_TagColor}`,
+                                                paddingHorizontal: 10,
+                                                marginRight:10,
+                                                minWidth: 80,
+                                            }}
+                                        >
+                                            {`${item.referendum_TagText}`}
+                                        </Tag>
+                                        <View style={{flexDirection:"column", fontWeight:"bold"}}>
+                                            <View>
+                                                <Text style={{fontWeight:"bold"}}>
+                                                    {` Treasury Name: ${item.referendum_TreasurerName}`}  
+                                                </Text>
+                                            </View>
+                                            <View> 
+                                                <Text style={{fontWeight:"bold"}}>
+                                                    {` Amount Requested: ${item.referendum_Amount}`}
+                                                </Text>
+                                            </View>
                                         </View>
-                                        <View> 
-                                            <Text style={{fontWeight:"bold"}}>
-                                                {` Amount Requested: ${item.referendum_Amount}`}
-                                            </Text>
+
+                                    </View>
+                                
+                                    <View style={{ flexDirection: "row"}}>
+                                        <View style={{ flex: 1}}>
+                                            <CardReport05 style={{ marginTop: 10}} 
+                                                title = {item.referendum_Title} 
+                                                price = {item.referendum_Description}
+                                            />
+
+                                            <CardReport05 style={{ marginTop: 7}}  
+                                                title="Beneficiary Address" 
+                                                price={`${item.referendum_Beneficiary}`} />
+                                            <CardReport05 style={{ marginTop: 7}}  
+                                                title="Treasury Address" 
+                                                price={`${item.referendum_Treasury}`} />
+                                            <CardReport05 style={{ marginTop: 7}} 
+                                                title="Starting Block" 
+                                                // price={`${item.referendum_Amount}`} 
+                                                price={`${item.referendum_startBlock}`} />
                                         </View>
                                     </View>
 
                                 </View>
-                             
-                                <View style={{ flexDirection: "row"}}>
-                                    <View style={{ flex: 1}}>
-                                        <CardReport05 style={{ marginTop: 10}} 
-                                            title = {item.referendum_Title} 
-                                            price = {item.referendum_Description}
-                                        />
-
-                                        <CardReport05 style={{ marginTop: 7}}  
-                                            title="Beneficiary Address" 
-                                            price={`${item.referendum_Beneficiary}`} />
-                                        <CardReport05 style={{ marginTop: 7}}  
-                                            title="Treasury Address" 
-                                            price={`${item.referendum_Treasury}`} />
-                                        <CardReport05 style={{ marginTop: 7}} 
-                                            title="Starting Block" 
-                                            // price={`${item.referendum_Amount}`} 
-                                            price={`${item.referendum_startBlock}`} />
-                                    </View>
-                                </View>
-
                             </View>
-                        </View>
 
-                        )
-                    }}
-            /> 
-        }
-                  
-        </View>
+                            )
+                        }}
+                /> 
+            }
+                    
+            </View>
 
-        </>
+        </SafeAreaView>
     );
 };
 
