@@ -39,6 +39,7 @@ const colors = {
 
 
 const CardReport100 = ({
+    title0 = "",
     title = "",
     treasuryadd = "",
     title2 = "",
@@ -49,7 +50,7 @@ const CardReport100 = ({
     style = {},
     onPress = () => {},
     disabled = false,
-    treasuryName
+    treasurynm = ""
 }) => {
     // const { colors } = useTheme();
 
@@ -92,17 +93,17 @@ const CardReport100 = ({
 
                 <View style={[styles.header]}>
                     <Text headline style={{ textAlign: "center", fontWeight:"bold" }}>
-                        {"Treasury Name"}
+                        {title0}
                     </Text>
                 </View >
 
                 <Text selectable={true} headline style={{ textAlign: "center", width: "100%", marginTop: 5 }}>
-                    {treasuryName}
+                    {treasurynm}
                 </Text>
 
 
                 <View style={[styles.header]}>
-                    <Text headline style={{ textAlign: "center", fontWeight:"bold" }}>
+                    <Text headline style={{ textAlign: "center", fontWeight:"bold", marginTop: 15 }}>
                         {title}
                     </Text>
                 </View >
@@ -135,9 +136,11 @@ const CardReport100 = ({
 CardReport100.propTypes = {
     // onPress: PropTypes.func,
     style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    title0: PropTypes.string,
     title: PropTypes.string,
     title2: PropTypes.string,
     title3: PropTypes.string,
+    treasurynm: PropTypes.string,
     treasuryadd: PropTypes.string,
     treasuryadm: PropTypes.string,
     balance: PropTypes.string,

@@ -39,6 +39,7 @@ const colors = {
 
 
 const CardReport99 = ({
+    name = "",
     title = "",
     price = "",
     price2 = "",
@@ -86,6 +87,11 @@ const CardReport99 = ({
                     </View>
                 </View> */}
                 <View style={[styles.header]}>
+                    <Text headline style={{ textAlign: "center", fontWeight:"bold", marginBottom:10 }}>
+                        {name}
+                    </Text>
+                </View >
+                <View style={[styles.header]}>
                     <Text headline style={{ textAlign: "center", fontWeight:"bold" }}>
                         {title}
                     </Text>
@@ -105,6 +111,7 @@ const CardReport99 = ({
 CardReport99.propTypes = {
     onPress: PropTypes.func,
     style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    name: PropTypes.string,
     title: PropTypes.string,
     price: PropTypes.string,
     price2: PropTypes.string,

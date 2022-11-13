@@ -132,8 +132,8 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
                         return  (
                         <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
                             <View style={{ flex: 1 }}>
-                                    <Text >{`Treasury Name: ${item.name}`}</Text>
                             <CardReport99 style={{ marginTop: 7, paddingTop:10 }} 
+                            name = {`Treasury Name: ${item.name}`}
                             title = "Treasury Address"
                             price =  {item.address} 
                             price2 = {`Balance: ${item.balance}`}

@@ -99,13 +99,14 @@ const TreasuryScreen = ({navigation}) => {
                     <View style={{ flexDirection: "row", marginTop: 5 }}>
 
                                 <CardReport100 style={{ marginTop: 7, paddingTop:10 }} 
+                                title0 = "Treasury Name"
+                                treasurynm = {treasuryName}
                                 title = "Treasury Address"
                                 treasuryadd =  {treasuryAddress} 
                                 title2 = "Treasury Admin Address"
                                 treasuryadm =  {treasuryAdmin} 
                                 title3 = "Balance"
                                 balance = {accountDetails.balance}
-                                treasuryName = {treasuryName}
                                 />
                     </View>
 
