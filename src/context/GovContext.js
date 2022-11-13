@@ -8,7 +8,7 @@ import TronGovernance_raw from '../Abis/tronGovernance.json';
 const tronGovernance_ABI = TronGovernance_raw.abi;
 
 // ****************************************************************************
-const tronGovernanceContractAddress = "TBHLsbmX2mhSyWjXdh1fciCmHNbXHca8Yy";
+const tronGovernanceContractAddress = "TCs9fv7rnzj4aNgSnT2WzV27xUDbFvqbYS";
 // ****************************************************************************
 
 
@@ -49,11 +49,11 @@ export const GovProvider = ({children}) => {
           console.log(`RETRIEVED account : `,JSON.stringify(storedAccount,null,"\t"));
           return storedAccount;
             // address: {
-            //             base58: "TPbBpRXnt6ztse8XkCLiJstZyqQZvxW2sx", 
-            //             hex: "4195679F3AAF5211991781D49B30525DDDFE9A18DE"
+            //             base58: "", 
+            //             hex: ""
             //           }
-            //  privateKey: "08089C24EC3BAEB34254DDF5297CF8FBB8E031496FF67B4EFACA738FF9EBD455"
-            //  publicKey:  "04EE63599802B5D31A29C95CC7DF04F427E8F0A124BED9333F3A80404ACFC3127659C540D0162DEDB81AC5F74B2DEB4962656EFE112B252E54AC3BA1207CD1FB10"
+            //  privateKey: ""
+            //  publicKey:  ""
         } catch(e) {
           console.log(`GovContext Error in reading AsyncStorage storedAccount. Perhaps you have not set up an account yet`);
           return null;
@@ -138,8 +138,8 @@ export const GovProvider = ({children}) => {
         }
         else {
             console.log("GovContext updateTronWeb  Account Not found");
-            const defaultPublickey = "TCWNqQsbojjsey8jTEJgsC2RiPGyRzA5GA";
-            const defaultPrivateKey = "bb4a09b98dfa5e263011c4023a2075c16c0a0ef961d32e7f28bd1eb1d4ad377b";
+            const defaultPublickey = "TY8EoJkBnU4ALBFLSzxYcMXFp55GF2i7ft";
+            const defaultPrivateKey = "652f567b0a9152aaed12abb55beee15efbc1794795ecc7dfa1d47a2f3a76484c";
             console.log(`GovContext updateTronWeb  Please set up your onw account`);
             const tempTronWeb = new TronWeb(fullNode,solidityNode,eventServer,defaultPrivateKey);
             setAccount(defaultPublickey);

@@ -28,6 +28,8 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
     const {tronWeb, updateTronWeb, tronGovernanceSC, band1, band2, band3, updateCurrentBlockNumber, currentBlockNumber, accountUpdated, account, readAccount, retrieveContentfromIPFS, pinJSONToIPFS, refreshCounter } = useContext(GovContext);
     const [treasurArray, setTreasurArray]  = useState([]);
     const [depositTokens, setDepositTokens] = useState();
+    const [newTreasuryName, setNewTreasuryName] = useState("");
+
 
     //#region getTreasuries
     const getTreasuries = async () => {
@@ -35,6 +37,8 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
 
         if (tronGovernanceSC && band3 && band2 ) {
             const registeredTreasuriesAddresses  = await tronGovernanceSC.getTreasurers().call();
+            const registeredTreasuriesNames  = await tronGovernanceSC.getTreasurersNames().call();
+
             // console.log(`registeredTreasuriesAddresses: `,registeredTreasuriesAddresses);
             let treasuriesArray=[];
 
@@ -47,6 +51,7 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
                 treasuriesArray.push({
                     address: tronWeb.address.fromHex(treasuryAddress), 
                     balance: `${tronWeb.fromSun(result.balance)}`,
+                    name: registeredTreasuriesNames[i]
                 });
             }
 
@@ -63,7 +68,7 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
         {
           const amountSUN =  tronWeb.toSun(depositTokens)   
 
-          let result = await tronGovernanceSC.launchNewTreasury().send({
+          let result = await tronGovernanceSC.launchNewTreasury(newTreasuryName).send({
             feeLimit:2100000000,
             callValue: amountSUN,
             shouldPollResponse:true
@@ -87,11 +92,11 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
         <View style={styles.container}>
             <TextInput
             style={styles.inputTitle}
-            // onChangeText={(newValue) => setDepositTokens(newValue)}
+            onChangeText={(newValue) => setNewTreasuryName(newValue)}
             autoCorrect={false}
             placeholder={t("New Treasury Name")}
             placeholderTextColor={BaseColor.grayColor}
-            // value={"item.treasury_Name"}
+            value={newTreasuryName}
             selectionColor={colors.primary}
             />
             <TextInput
@@ -127,12 +132,14 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
                         return  (
                         <View style={[styles.contain, style, { backgroundColor: colors.card }]}>
                             <View style={{ flex: 1 }}>
+                                    <Text >{`Treasury Name: ${item.name}`}</Text>
                             <CardReport99 style={{ marginTop: 7, paddingTop:10 }} 
                             title = "Treasury Address"
                             price =  {item.address} 
                             price2 = {`Balance: ${item.balance}`}
                             onPress={() => navigation.navigate("Treasury Details", { 
                                 treasuryAddress: item.address, 
+                                treasuryName: item.name, 
                            }
                            )}
                             />

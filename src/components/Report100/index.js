@@ -48,7 +48,8 @@ const CardReport100 = ({
     icon = "",
     style = {},
     onPress = () => {},
-    disabled = false
+    disabled = false,
+    treasuryName
 }) => {
     // const { colors } = useTheme();
 
@@ -88,6 +89,18 @@ const CardReport100 = ({
                         />
                     </View>
                 </View> */}
+
+                <View style={[styles.header]}>
+                    <Text headline style={{ textAlign: "center", fontWeight:"bold" }}>
+                        {"Treasury Name"}
+                    </Text>
+                </View >
+
+                <Text selectable={true} headline style={{ textAlign: "center", width: "100%", marginTop: 5 }}>
+                    {treasuryName}
+                </Text>
+
+
                 <View style={[styles.header]}>
                     <Text headline style={{ textAlign: "center", fontWeight:"bold" }}>
                         {title}

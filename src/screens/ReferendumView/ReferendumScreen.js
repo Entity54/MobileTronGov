@@ -57,6 +57,7 @@ const ReferendumView = ({navigation, style}) => {
     const [conviction, setConviction] = useState("");
     const [refTag, setRefTag] = useState("");
     const [refTagText, setRefTagText] = useState("");
+    const [refTreasurerName, setRefTreasurerName] = useState("");
 
 
 
@@ -92,6 +93,7 @@ const ReferendumView = ({navigation, style}) => {
             setRefBody(passedParamsObject.description);
             setRefTag(passedParamsObject.refTag);
             setRefTagText(passedParamsObject.refTagText);
+            setRefTreasurerName(passedParamsObject.refTreasurerName);
 
             setRefBeneficiary(passedParamsObject.refBeneficiary);
             setRefTreasury(passedParamsObject.refTreasury);
@@ -168,7 +170,7 @@ const ReferendumView = ({navigation, style}) => {
                                     <View style={{flexDirection:"column", fontWeight:"bold"}}>
                                          <View>
                                             <Text style={{fontWeight:"bold"}}>
-                                                {` Treasury Name: ${"item.treasury_Name"}`}  
+                                                {` Treasury Name: ${refTreasurerName}`}   
                                             </Text>
                                         </View>
                                         <View> 

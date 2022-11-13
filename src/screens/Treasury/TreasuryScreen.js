@@ -19,6 +19,7 @@ const TreasuryScreen = ({navigation}) => {
     const [treasurySC, setTreasurySC] = useState();
     const [treasuryAdmin, setTreasuryAdmin] = useState();
     const [depositTokens, setDepositTokens] = useState();
+    const [treasuryName, setTreasuryName] = useState();
 
 
     const getAccountDetails = async () => {
@@ -71,6 +72,7 @@ const TreasuryScreen = ({navigation}) => {
             const passedParamsObject = navigation.getState().routes[1].params;
             setTreasuryAddress(passedParamsObject.treasuryAddress);
             setupTreasurySC(passedParamsObject.treasuryAddress);
+            setTreasuryName(passedParamsObject.treasuryName);
         }
     },[tronWeb])
 
@@ -103,6 +105,7 @@ const TreasuryScreen = ({navigation}) => {
                                 treasuryadm =  {treasuryAdmin} 
                                 title3 = "Balance"
                                 balance = {accountDetails.balance}
+                                treasuryName = {treasuryName}
                                 />
                     </View>
 
