@@ -80,6 +80,9 @@ const ProposalsScreen = ({ navigation, style, }) => {
                         console.log(`Error in retireving IPFS data`);
                     }
 
+                    const treasurerName  = await tronGovernanceSC.treasurerName( tronWeb.address.fromHex(referendumDetails[2]) ).call();
+
+
                     preparedreferendarray.push({
                         referendum_Index      : `${referendumDetails[0]}`,
                         referendum_Beneficiary: `${tronWeb.address.fromHex(referendumDetails[1])}`,
@@ -98,12 +101,13 @@ const ProposalsScreen = ({ navigation, style, }) => {
                         referendum_ProgressBarPercent : 0, 
                         referendum_Title          : titel,
                         referendum_Description    : descrpt,
+                        referendum_TreasurerName : treasurerName
                     })
 
-          }
+            }
 
-        //   console.log(`preparedreferendarray: `,preparedreferendarray);
-          setPreparedReferendaArray(preparedreferendarray);
+            //   console.log(`preparedreferendarray: `,preparedreferendarray);
+            setPreparedReferendaArray(preparedreferendarray);
         }
 
     }
@@ -174,7 +178,7 @@ const ProposalsScreen = ({ navigation, style, }) => {
                                     <View style={{flexDirection:"column", fontWeight:"bold"}}>
                                          <View>
                                             <Text style={{fontWeight:"bold"}}>
-                                                {` Treasury Name: ${"item.treasury_Name"}`}  
+                                                {` Treasury Name: ${item.referendum_TreasurerName}`}  
                                             </Text>
                                         </View>
                                         <View> 

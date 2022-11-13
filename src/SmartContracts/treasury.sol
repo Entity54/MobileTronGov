@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 contract Treasury {
     address public admin;
     address public govAdmin;
+    string public name;
 
     modifier onlyAdmin() {
         require(msg.sender == admin, "action only for admin");
@@ -17,9 +18,10 @@ contract Treasury {
 
     event Received(address, uint256);
 
-    constructor(address _admin) {
+    constructor(address _admin, string memory _name) {
         admin = _admin;
         govAdmin = msg.sender;
+        name = _name;
     }
 
     function sendTransfer(address receiver, uint256 amount)

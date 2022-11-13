@@ -90,6 +90,8 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                     console.log(`Error in retireving IPFS data`);
                 }
 
+                const treasurerName  = await tronGovernanceSC.treasurerName( tronWeb.address.fromHex(referendumDetails[2]) ).call();
+
                 
                 activereferendarray.push({
                     referendum_Index      : `${referendumDetails[0]}`,
@@ -109,12 +111,14 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                     referendum_ProgressBarPercent : progressBarPercent,
                     referendum_Title          : titel,
                     referendum_Description    : descrpt,
+                    referendum_TreasurerName : treasurerName
+
                 })
+                    
+            }
 
-        }
-
-        //   console.log(`activereferendarray: `,activereferendarray);
-        setReferendaArray(activereferendarray);
+            //   console.log(`activereferendarray: `,activereferendarray);
+            setReferendaArray(activereferendarray);
         }
     }
     //#endregion
@@ -155,9 +159,7 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                             description      : item.referendum_Description,
                             refTag : item.referendum_TagColor,
                             refTagText : item.referendum_TagText,
-
-
-                            //  description: `Referendum with ID  ${item.referendum_Index} \nwill end at block ${item.referendum_endBlock} and the scoring block is ${ item.referendum_scoreBlock}.`,
+                            refTreasurerName: item.referendum_TreasurerName
                         }
                         )} >
 
@@ -202,7 +204,7 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                                     <View style={{flexDirection:"column", fontWeight:"bold"}}>
                                          <View>
                                             <Text style={{fontWeight:"bold"}}>
-                                                {` Treasury Name: ${"item.treasury_Name"}`}  
+                                                {` Treasury Name: ${item.referendum_TreasurerName}`}   
                                             </Text>
                                         </View>
                                         <View> 
