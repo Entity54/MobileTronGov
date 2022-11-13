@@ -53,11 +53,11 @@ const CardReport100 = ({
     // const { colors } = useTheme();
 
     return (
-        <TouchableOpacity
-            disabled={disabled}
-            style={styles.container}
-            // onPress={onPress}
-        >
+        // <TouchableOpacity
+        //     disabled={disabled}
+        //     style={styles.container}
+        //     onPress={onPress}
+        // >
             <View
                 style={[
                     styles.content,
@@ -115,7 +115,7 @@ const CardReport100 = ({
                 </Text>
 
             </View>
-        </TouchableOpacity>
+        // </TouchableOpacity>
     );
 };
 

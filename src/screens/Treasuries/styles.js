@@ -11,14 +11,26 @@ export default StyleSheet.create({
         flexDirection: "row",
         marginHorizontal: 40,
         paddingHorizontal: 10,
+        marginTop:20,
         alignItems: "center",
 
     },
     input: {
         height: 40,
-        width: "40%",
-        margin: 12,
-        marginLeft: "auto",
+        width: "33%",
+        margin: 0,
+        // marginLeft: "auto",
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor:"white"
+    },
+    inputTitle: {
+        height: 40,
+        width: "60%",
+        margin: 0,
+        // marginLeft: "auto",
+        marginRight:20,
         borderWidth: 1,
         padding: 10,
         borderRadius: 5,
@@ -30,7 +42,9 @@ export default StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "#ff0000",
         padding: 10,
-        marginBottom:0
+        margin:10,
+        marginHorizontal: 80,
+
     },
     buttonText: {
         fontSize: 14,

@@ -86,15 +86,25 @@ const TreasursScreen = ({ navigation, style,  onPress, onOption, }) => {
         <>
         <View style={styles.container}>
             <TextInput
+            style={styles.inputTitle}
+            // onChangeText={(newValue) => setDepositTokens(newValue)}
+            autoCorrect={false}
+            placeholder={t("New Treasury Name")}
+            placeholderTextColor={BaseColor.grayColor}
+            // value={"item.treasury_Name"}
+            selectionColor={colors.primary}
+            />
+            <TextInput
             style={styles.input}
             onChangeText={(newValue) => setDepositTokens(newValue)}
             autoCorrect={false}
-            placeholder={t("> 1100 TRX")}
+            placeholder={t(">1100 TRX")}
             placeholderTextColor={BaseColor.grayColor}
             value={depositTokens}
             selectionColor={colors.primary}
             />
-
+        </View>
+        <View>
             <TouchableOpacity 
                 style={styles.button} 
                 onPress={() => createTreasury()}
