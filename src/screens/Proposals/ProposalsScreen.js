@@ -133,7 +133,6 @@ const ProposalsScreen = ({ navigation, style, }) => {
                 <Text style={styles.buttonText}>Create Referendum</Text>
             </TouchableOpacity>
         </View>
-        <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
 
         <View>
          {
@@ -219,7 +218,6 @@ const ProposalsScreen = ({ navigation, style, }) => {
         }
                   
         </View>
-        </ScrollView>
 
         </>
     );
