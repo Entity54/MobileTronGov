@@ -56,7 +56,7 @@ const CardReport100 = ({
         <TouchableOpacity
             disabled={disabled}
             style={styles.container}
-            onPress={onPress}
+            // onPress={onPress}
         >
             <View
                 style={[
@@ -120,7 +120,7 @@ const CardReport100 = ({
 };
 
 CardReport100.propTypes = {
-    onPress: PropTypes.func,
+    // onPress: PropTypes.func,
     style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     title: PropTypes.string,
     title2: PropTypes.string,
