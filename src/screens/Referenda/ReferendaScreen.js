@@ -222,11 +222,17 @@ const ReferendaScreen = ({ navigation, style, onPress, onOption }) => {
                                     </Text>
                                 </View>
                           
-                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 0, justifyContent: "space-between", }} >
                                     <Text overline style={{fontSize: 14, fontWeight:'bold', color:"blue" }}>
-                                        {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout} State:${item.referendum_Passed}`}
+                                        {("Vote Progress")} {`AYES: ${item.referendum_Ayes} NAYS: ${item.referendum_Nays} TURNOUT: ${item.referendum_Turnout}`}
                                     </Text>
                                 </View>
+                                <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 0, paddingBottom: 5, justifyContent: "space-between", }} >
+                                    <Text overline style={{fontSize: 14, fontWeight:'bold', color:"blue" }}>
+                                        {`State:${item.referendum_Passed}`}
+                                    </Text>
+                                </View>
+
                                 <ProgressBar style={{ flex: 1, paddingRight: 20 }} color={BaseColor.accentColor} percent={`${item.referendum_ProgressBarPercent}`} />
                             </View>
                         </View>
