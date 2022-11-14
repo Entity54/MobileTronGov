@@ -92,7 +92,7 @@ const HistoryScreen = ({ style }) => {
                     referendum_Index      : `${referendumDetails[0]}`,
                     referendum_Beneficiary: `${referendumDetails[1]}`,
                     referendum_Treasury   : `${tronWeb.address.fromHex(referendumDetails[2])}`,
-                    referendum_Amount     : refAmountSun,
+                    referendum_Amount     : tronWeb.fromSun(refAmountSun),
                     referendum_CID        : referendumCID,
                     referendum_startBlock : startBlock,
                     referendum_endBlock   : endBlock,
