@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "TronVote",
-    "slug": "TronVote",
+    "slug": "trongov",
+    "owner": "bracjy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon1.png",
@@ -25,29 +26,15 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon1.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.sokrates.rnstarter1"
+      }
     },
     "web": {
       "favicon": "./assets/favicon1.png"
     },
     "extra": {
       "eas": {
-        "projectId": "5e13a3b2-3ef1-468c-9edf-0c8a8827043b"
+        "projectId": "a747f94b-8e3b-46fa-b931-d55ff925e78b"
       }
-    },
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/icon1.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./assets/cantinaband3.wav",
-            "./assets/starwars3.wav"
-          ]
-        }
-      ]
-    ]
+    }
   }
 }
