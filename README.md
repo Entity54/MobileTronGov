@@ -74,7 +74,7 @@ The ability for any project, (e.g. TRON Project 1) to create a treasury account 
 <br>
 The project always has the ability to deposit or withdraw funds but to be an eligible treasury account it must always maintain a certain minimum balance.
 <br>
-![plot](./Screenshots/21.png)
+![plot](./Screenshots/11.png)
 <br>
 
 ## Beneficiaries and Referendum
