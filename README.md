@@ -5,20 +5,20 @@
 
 # **TronVote**
 
-### Demo Video & APK
+## Demo Video & APK
 
 ---
 
-<p> A demo video of the mobile DApp can be found <a href="https://youtu.be/yQklPZdsCng" target="_blank">here.</a>
+<p> A demo video of the mobile DApp can be found <a href="" target="_blank">here.</a>
 </p>
 
-<p> An APK of the mobile Dapp for side loading on Android devices can be found <a href="https://youtu.be/yQklPZdsCng" target="_blank">here.</a>
+<p> An APK of the mobile Dapp for side loading on Android devices can be found <a href="https://expo.dev/accounts/bracjy/projects/trongov/builds/3840fcb3-4afe-4e05-b7aa-b871821cca10" target="_blank">here.</a>
 </p>
 <br>
 
-## Project description
+# Project description
 
----
+
 
 For the Tron ecosystem to reach its full potential, a global democatic Treasury service is needed to allow projects to outsource their growth to their communities.
 
@@ -41,9 +41,10 @@ Here are some examples of how Alice might help:
 - Write additional external code for the project (dashboards / analytics / mobile apps
 - Create logos and promotional material
 
+<br>
 <p>
 
-## Basic Overview
+# Basic Overview
 To begin with, "TRON Project 1" uses the TRONVOTE DApp to setup and fund their own Treasury account.
 <p>
 <p>
@@ -58,22 +59,27 @@ After the completion of Alice's event, the community have the opportunity of sco
 Alice can build up a strong reputation within the community, with a proven track history of sucessful funding.
 
 "TRON Project 1" expands its community involvment exponentially.
+
+<br>
+<p>
+
+# Detailed Overview
+
+The critical parts of the project are:
 <br>
 
-## Detailed Overview
-
-The critical parts of our project are:
-<br>
-
-__The Treasury Account.__
+## The Treasury Account.
 
 The ability for any project, (e.g. TRON Project 1) to create a treasury account with a minimum funding. 
 <br>
 The project always has the ability to deposit or withdraw funds but to be an eligible treasury account it must always maintain a certain minimum balance.
+<br>
+![plot](./Screenshots/21.png)
+<br>
 
-__Beneficiary and Referendum__
+## Beneficiaries and Referendum
 
-Anyone can create a Referendum and apply for a certain amount of TRX tokens from a project Treasury account for a certain task which is described in detail and stored in an __IPFS file__.
+Anyone can create a Referendum and apply for a certain amount of TRX tokens from a project Treasury account for a certain task which is described in detail and stored in an ***IPFS file***.
 <br>
 
 When a beneficiary creates a new refendum they pass certain information such as:
@@ -90,8 +96,12 @@ Ideally the decription of what task the beneficiary will be performing will incu
 <br>
 Failing to provide analytical information, allowing too short duration for the refrendum to be thoroughly studied by the community and then votted on, too distant a period for scorring block number arrangement, will affect the mood of the community in favor or against the referendum and therefore the concluding passing / not passing result.
 <br>
+![plot](./Screenshots/10.png)
+![plot](./Screenshots/15.png)
+![plot](./Screenshots/14.png)
+<br>
 
-__Voting__
+## Voting
 
 Any account can vote once only for any referendum expressing whether it is in favor (AYE) or against (NAY) the proposed referendum.
 <br>
@@ -101,6 +111,8 @@ The conviction number is a way to multiply the "weight" of your vote, by locking
 
 The conviction number starts at 0 (indicating no multiplier and no lock up period) and can be as high as 3 (indicating a multipler of 4 and lock up period of 30 blocks) after the conclusion of the referendum.
 <br>
+![plot](./Screenshots/16.png)
+
 
 > Note: An example of the multiplier.
 > <br>
@@ -108,7 +120,7 @@ The conviction number starts at 0 (indicating no multiplier and no lock up perio
 
  <br>
 
-__Beneficiary Scoring__
+## Beneficiary Scoring
 
 Any request for funding should be rewarded or punished depending on the quality of the work carried out versus the expectations. This also creates traction, loyalty and continuous growth.
 <br>
@@ -127,12 +139,19 @@ The smart contract preserves a score rating (0 to 100 with 100 being best) for e
 <br>
 
 >Note: There can be further additions to the project such as instigating a cool off period for an applicant or reducing their scoring for referendums they submitted and were not passed to motivate and promote good actors.
-<br>
 
 <br>
 
-CONCLUSION
+## Historical Referenda
+
+All historical referenda data can be viewed on the DApp.
 <br>
+![plot](./Screenshots/13.png)
+
+<br>
+
+## CONCLUSION
+
 It is now easy for any Project to 
 - Create and manage a Treasury Account
 - Allow skillful applicants and enthusiasts to make Treasury fund requests to promote the project
@@ -168,7 +187,7 @@ $ expo start
 $ QR code is produced in the terminal
 ```
 
-### Mobile Dapp inside Expo Go Devleopment environment
+## Mobile Dapp inside Expo Go Devleopment environment
 
 ---
 
@@ -178,13 +197,14 @@ STEP 1 - Open the Expo Go App on your mobile phone.
 <br>
 STEP 2 - Scan QR code shown in the temrminal (use Expo Go or Camera to scan QR code).
 <br>
-
-<!-- ![plot](./MobileGovernanceAppPrintScreens/MobilePhone.png) -->
-
-<br>
 STEP 3 - The TronVote splash screen loads. 
 <br>
 STEP 4 - The App opens on the page displaying the current list of active referenda. 
+<br>
+![plot](./Screenshots/20.png)
+![plot](./Screenshots/21.png)
+![plot](./Screenshots/22.png)
+
 <br>
 
 ## Technical User Journey
